@@ -1,0 +1,16 @@
+{
+  "Objects": [
+    {
+      "name": "name1"
+    },
+    {
+      "name": "name2"
+    }
+  ],
+  "Resources": {
+    "..": {
+      "Url": "https://api.librus.pl/2.0/Root"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/Me"
+}

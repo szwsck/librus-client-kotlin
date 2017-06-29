@@ -21,6 +21,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
 }
 
 dependencies {
@@ -32,4 +36,13 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:25.4.0'
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    testCompile 'org.amshove.kluent:kluent:1.24'
+
+    compile 'joda-time:joda-time:2.9.9'
+
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.8'
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.8.8"
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.8'
+
 }

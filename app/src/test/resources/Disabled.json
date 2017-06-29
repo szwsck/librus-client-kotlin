@@ -1,0 +1,9 @@
+{
+  "Status": "Disabled",
+  "Resources": {
+    "..": {
+      "Url": "https:\/\/api.librus.pl\/2.0\/Grades"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0Grades/Averages"
+}
