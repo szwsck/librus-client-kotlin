@@ -1,0 +1,203 @@
+{
+  "Grades": [
+    {
+      "Id": 466344,
+      "Lesson": {
+        "Id": 2714330,
+        "Url": "https://api.librus.pl/2.0/Lessons/2714330"
+      },
+      "Subject": {
+        "Id": 44570,
+        "Url": "https://api.librus.pl/2.0/Subjects/44570"
+      },
+      "Student": {
+        "Id": 1402361,
+        "Url": "https://api.librus.pl/2.0/Users/1402361"
+      },
+      "Category": {
+        "Id": 669309,
+        "Url": "https://api.librus.pl/2.0/Grades/Categories/669309"
+      },
+      "AddedBy": {
+        "Id": 1235065,
+        "Url": "https://api.librus.pl/2.0/Users/1235065"
+      },
+      "Grade": "6",
+      "Date": "2016-09-14",
+      "AddDate": "2016-09-14 09:11:49",
+      "Semester": 1,
+      "IsConstituent": true,
+      "IsSemester": false,
+      "IsSemesterProposition": false,
+      "IsFinal": false,
+      "IsFinalProposition": false
+    },
+    {
+      "Id": 815228,
+      "Lesson": {
+        "Id": 2729409,
+        "Url": "https://api.librus.pl/2.0/Lessons/2729409"
+      },
+      "Subject": {
+        "Id": 44572,
+        "Url": "https://api.librus.pl/2.0/Subjects/44572"
+      },
+      "Student": {
+        "Id": 1402361,
+        "Url": "https://api.librus.pl/2.0/Users/1402361"
+      },
+      "Category": {
+        "Id": 164151,
+        "Url": "https://api.librus.pl/2.0/Grades/Categories/164151"
+      },
+      "AddedBy": {
+        "Id": 1406771,
+        "Url": "https://api.librus.pl/2.0/Users/1406771"
+      },
+      "Grade": "6",
+      "Date": "2016-09-16",
+      "AddDate": "2016-09-16 18:50:50",
+      "Semester": 1,
+      "IsConstituent": true,
+      "IsSemester": false,
+      "IsSemesterProposition": false,
+      "IsFinal": false,
+      "IsFinalProposition": false,
+      "Comments": [
+        {
+          "Id": 340006,
+          "Url": "https://api.librus.pl/2.0/Grades/Comments/340006"
+        }
+      ]
+    },
+    {
+      "Id": 1811988,
+      "Lesson": {
+        "Id": 2732545,
+        "Url": "https://api.librus.pl/2.0/Lessons/2732545"
+      },
+      "Subject": {
+        "Id": 44569,
+        "Url": "https://api.librus.pl/2.0/Subjects/44569"
+      },
+      "Student": {
+        "Id": 1402361,
+        "Url": "https://api.librus.pl/2.0/Users/1402361"
+      },
+      "Category": {
+        "Id": 164148,
+        "Url": "https://api.librus.pl/2.0/Grades/Categories/164148"
+      },
+      "AddedBy": {
+        "Id": 1235106,
+        "Url": "https://api.librus.pl/2.0/Users/1235106"
+      },
+      "Grade": "5",
+      "Date": "2016-09-22",
+      "AddDate": "2016-09-25 00:12:44",
+      "Semester": 1,
+      "IsConstituent": true,
+      "IsSemester": false,
+      "IsSemesterProposition": false,
+      "IsFinal": false,
+      "IsFinalProposition": false
+    },
+    {
+      "Id": 2539299,
+      "Lesson": {
+        "Id": 2732545,
+        "Url": "https://api.librus.pl/2.0/Lessons/2732545"
+      },
+      "Subject": {
+        "Id": 44569,
+        "Url": "https://api.librus.pl/2.0/Subjects/44569"
+      },
+      "Student": {
+        "Id": 1402361,
+        "Url": "https://api.librus.pl/2.0/Users/1402361"
+      },
+      "Category": {
+        "Id": 392450,
+        "Url": "https://api.librus.pl/2.0/Grades/Categories/392450"
+      },
+      "AddedBy": {
+        "Id": 1235106,
+        "Url": "https://api.librus.pl/2.0/Users/1235106"
+      },
+      "Grade": "np",
+      "Date": "2016-09-29",
+      "AddDate": "2016-09-29 08:30:41",
+      "Semester": 1,
+      "IsConstituent": true,
+      "IsSemester": false,
+      "IsSemesterProposition": false,
+      "IsFinal": false,
+      "IsFinalProposition": false,
+      "Comments": [
+        {
+          "Id": 834777,
+          "Url": "https://api.librus.pl/2.0/Grades/Comments/834777"
+        }
+      ]
+    },
+    {
+      "Id": 2834796,
+      "Lesson": {
+        "Id": 2714373,
+        "Url": "https://api.librus.pl/2.0/Lessons/2714373"
+      },
+      "Subject": {
+        "Id": 44556,
+        "Url": "https://api.librus.pl/2.0/Subjects/44556"
+      },
+      "Student": {
+        "Id": 1402361,
+        "Url": "https://api.librus.pl/2.0/Users/1402361"
+      },
+      "Category": {
+        "Id": 164150,
+        "Url": "https://api.librus.pl/2.0/Grades/Categories/164150"
+      },
+      "AddedBy": {
+        "Id": 1235072,
+        "Url": "https://api.librus.pl/2.0/Users/1235072"
+      },
+      "Grade": "5-",
+      "Date": "2016-09-30",
+      "AddDate": "2016-09-30 12:00:49",
+      "Semester": 1,
+      "IsConstituent": true,
+      "IsSemester": false,
+      "IsSemesterProposition": false,
+      "IsFinal": false,
+      "IsFinalProposition": false
+    }
+  ],
+  "Resources": {
+    "Grades\\Averages": {
+      "Url": "https://api.librus.pl/2.0/Grades/Averages"
+    },
+    "Grades\\StudentsAverages": {
+      "Url": "https://api.librus.pl/2.0/Grades/StudentsAverages"
+    },
+    "Grades\\CategoriesAverages": {
+      "Url": "https://api.librus.pl/2.0/Grades/CategoriesAverages"
+    },
+    "Grades\\Categories": {
+      "Url": "https://api.librus.pl/2.0/Grades/Categories"
+    },
+    "Grades\\Comments": {
+      "Url": "https://api.librus.pl/2.0/Grades/Comments"
+    },
+    "Grades\\Scales": {
+      "Url": "https://api.librus.pl/2.0/Grades/Scales"
+    },
+    "Grades\\Types": {
+      "Url": "https://api.librus.pl/2.0/Grades/Types"
+    },
+    "..": {
+      "Url": "https://api.librus.pl/2.0/Root"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/Grades"
+}

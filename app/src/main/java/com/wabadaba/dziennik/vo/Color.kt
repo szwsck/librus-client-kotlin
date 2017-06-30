@@ -2,17 +2,19 @@ package com.wabadaba.dziennik.vo
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import io.requery.*
+import io.requery.Entity
+import io.requery.Key
+import io.requery.Persistable
 
 @Entity
 @JsonDeserialize(`as` = ColorEntity::class)
 interface Color: Persistable {
     @get:Key
-    var id:String
+    val id: String
 
-    var name:String
+    val name: String
 
     @get:JsonProperty("RGB")
-    var rawColor:String
+    val rawColor: String
 
 }

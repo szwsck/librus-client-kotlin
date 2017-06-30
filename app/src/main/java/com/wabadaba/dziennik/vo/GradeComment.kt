@@ -3,18 +3,17 @@ package com.wabadaba.dziennik.vo
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import io.requery.*
 
-
 @Entity
-@JsonDeserialize(`as` = GradeCategoryEntity::class)
-interface GradeCategory : Persistable {
-
+@JsonDeserialize(`as` = GradeCommentEntity::class)
+interface GradeComment : Persistable {
     @get:Key
     val id: String
 
-    val name: String
-
-    val weight: Int?
+    val text: String
 
     @get:ManyToOne(cascade = arrayOf(CascadeAction.NONE))
-    val color: Color
+    val grade: Grade
+
+    @get:ManyToOne(cascade = arrayOf(CascadeAction.NONE))
+    val addedBy: Teacher
 }

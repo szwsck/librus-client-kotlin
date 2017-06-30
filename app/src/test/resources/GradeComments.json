@@ -1,0 +1,34 @@
+{
+  "Comments": [
+    {
+      "Id": 340006,
+      "AddedBy": {
+        "Id": 1406771,
+        "Url": "https://api.librus.pl/2.0/Users/1406771"
+      },
+      "Grade": {
+        "Id": 815228,
+        "Url": "https://api.librus.pl/2.0/Grades/815228"
+      },
+      "Text": "Analiza obrazu. Praca w grupach."
+    },
+    {
+      "Id": 834777,
+      "AddedBy": {
+        "Id": 1235106,
+        "Url": "https://api.librus.pl/2.0/Users/1235106"
+      },
+      "Grade": {
+        "Id": 1811988,
+        "Url": "https://api.librus.pl/2.0/Grades/1811988"
+      },
+      "Text": "Srodki artystycznego wyrazu"
+    }
+  ],
+  "Resources": {
+    "..": {
+      "Url": "https://api.librus.pl/2.0/Grades"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/Grades/Comments"
+}
