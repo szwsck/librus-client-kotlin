@@ -1,0 +1,328 @@
+{
+  "Categories": [
+    {
+      "Id": 164147,
+      "Color": {
+        "Id": 1,
+        "Url": "https://api.librus.pl/2.0/Colors/1"
+      },
+      "Name": "zadanie",
+      "AdultsExtramural": false,
+      "AdultsDaily": false,
+      "Standard": true,
+      "CountToTheAverage": true,
+      "Weight": 1,
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164148,
+      "Color": {
+        "Id": 16,
+        "Url": "https://api.librus.pl/2.0/Colors/16"
+      },
+      "Name": "kartkówka",
+      "AdultsExtramural": false,
+      "AdultsDaily": false,
+      "Standard": true,
+      "CountToTheAverage": true,
+      "Weight": 5,
+      "Short": "kart",
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164149,
+      "Color": {
+        "Id": 26,
+        "Url": "https://api.librus.pl/2.0/Colors/26"
+      },
+      "Name": "sprawdzian",
+      "AdultsExtramural": false,
+      "AdultsDaily": false,
+      "Standard": true,
+      "CountToTheAverage": true,
+      "Weight": 7,
+      "Short": "spr",
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164150,
+      "Color": {
+        "Id": 21,
+        "Url": "https://api.librus.pl/2.0/Colors/21"
+      },
+      "Name": "odpowiedź ustna",
+      "AdultsExtramural": false,
+      "AdultsDaily": false,
+      "Standard": true,
+      "CountToTheAverage": true,
+      "Weight": 3,
+      "Short": "odp 3",
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164151,
+      "Color": {
+        "Id": 9,
+        "Url": "https://api.librus.pl/2.0/Colors/9"
+      },
+      "Name": "aktywność",
+      "AdultsExtramural": false,
+      "AdultsDaily": false,
+      "Standard": true,
+      "CountToTheAverage": true,
+      "Weight": 3,
+      "Short": "akt",
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164152,
+      "Color": {
+        "Id": 1,
+        "Url": "https://api.librus.pl/2.0/Colors/1"
+      },
+      "Name": "inna",
+      "AdultsExtramural": false,
+      "AdultsDaily": false,
+      "Standard": true,
+      "CountToTheAverage": true,
+      "Weight": 1,
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164153,
+      "Color": {
+        "Id": 2,
+        "Url": "https://api.librus.pl/2.0/Colors/2"
+      },
+      "Name": "roczna",
+      "AdultsExtramural": false,
+      "AdultsDaily": false,
+      "Standard": false,
+      "CountToTheAverage": false,
+      "BlockAnyGrades": true,
+      "ObligationToPerform": false,
+      "IsFinal": true
+    },
+    {
+      "Id": 164154,
+      "Color": {
+        "Id": 3,
+        "Url": "https://api.librus.pl/2.0/Colors/3"
+      },
+      "Name": "śródroczna",
+      "AdultsExtramural": false,
+      "AdultsDaily": false,
+      "Standard": false,
+      "CountToTheAverage": false,
+      "BlockAnyGrades": true,
+      "ObligationToPerform": false,
+      "IsSemestral": true
+    },
+    {
+      "Id": 164155,
+      "Color": {
+        "Id": 3,
+        "Url": "https://api.librus.pl/2.0/Colors/3"
+      },
+      "Name": "przewidywana śródroczna",
+      "AdultsExtramural": false,
+      "AdultsDaily": false,
+      "Standard": false,
+      "CountToTheAverage": false,
+      "BlockAnyGrades": true,
+      "ObligationToPerform": false,
+      "IsSemestralProposition": true
+    },
+    {
+      "Id": 164156,
+      "Color": {
+        "Id": 2,
+        "Url": "https://api.librus.pl/2.0/Colors/2"
+      },
+      "Name": "przewidywana roczna",
+      "AdultsExtramural": false,
+      "AdultsDaily": false,
+      "Standard": false,
+      "CountToTheAverage": false,
+      "BlockAnyGrades": true,
+      "ObligationToPerform": false,
+      "IsFinalProposition": true
+    },
+    {
+      "Id": 164157,
+      "Color": {
+        "Id": 1,
+        "Url": "https://api.librus.pl/2.0/Colors/1"
+      },
+      "Name": "praca kontrolna",
+      "AdultsExtramural": true,
+      "AdultsDaily": true,
+      "Standard": false,
+      "CountToTheAverage": false,
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164158,
+      "Color": {
+        "Id": 1,
+        "Url": "https://api.librus.pl/2.0/Colors/1"
+      },
+      "Name": "pisemny egz. semestralny",
+      "AdultsExtramural": true,
+      "AdultsDaily": true,
+      "Standard": false,
+      "CountToTheAverage": false,
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164159,
+      "Color": {
+        "Id": 1,
+        "Url": "https://api.librus.pl/2.0/Colors/1"
+      },
+      "Name": "ustny egz. semestralny",
+      "AdultsExtramural": true,
+      "AdultsDaily": true,
+      "Standard": false,
+      "CountToTheAverage": false,
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164160,
+      "Color": {
+        "Id": 1,
+        "Url": "https://api.librus.pl/2.0/Colors/1"
+      },
+      "Name": "semestralna",
+      "AdultsExtramural": true,
+      "AdultsDaily": true,
+      "Standard": false,
+      "CountToTheAverage": false,
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164161,
+      "Color": {
+        "Id": 1,
+        "Url": "https://api.librus.pl/2.0/Colors/1"
+      },
+      "Name": "pisemny egz. poprawkowy",
+      "AdultsExtramural": true,
+      "AdultsDaily": true,
+      "Standard": false,
+      "CountToTheAverage": false,
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164162,
+      "Color": {
+        "Id": 1,
+        "Url": "https://api.librus.pl/2.0/Colors/1"
+      },
+      "Name": "ustny egz. poprawkowy",
+      "AdultsExtramural": true,
+      "AdultsDaily": true,
+      "Standard": false,
+      "CountToTheAverage": false,
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164163,
+      "Color": {
+        "Id": 1,
+        "Url": "https://api.librus.pl/2.0/Colors/1"
+      },
+      "Name": "pisemny egz. klasyfikacyjny",
+      "AdultsExtramural": true,
+      "AdultsDaily": false,
+      "Standard": false,
+      "CountToTheAverage": false,
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164164,
+      "Color": {
+        "Id": 1,
+        "Url": "https://api.librus.pl/2.0/Colors/1"
+      },
+      "Name": "ustny egz. klasyfikacyjny",
+      "AdultsExtramural": true,
+      "AdultsDaily": false,
+      "Standard": false,
+      "CountToTheAverage": false,
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164165,
+      "Color": {
+        "Id": 1,
+        "Url": "https://api.librus.pl/2.0/Colors/1"
+      },
+      "Name": "ostateczna egz. klasyfikacyjny",
+      "AdultsExtramural": true,
+      "AdultsDaily": false,
+      "Standard": false,
+      "CountToTheAverage": false,
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 164166,
+      "Color": {
+        "Id": 1,
+        "Url": "https://api.librus.pl/2.0/Colors/1"
+      },
+      "Name": "zaliczeniowa",
+      "AdultsExtramural": false,
+      "AdultsDaily": true,
+      "Standard": false,
+      "CountToTheAverage": false,
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    },
+    {
+      "Id": 184392,
+      "Teacher": {
+        "Id": 1235137,
+        "Url": "https://api.librus.pl/2.0/Users/1235137"
+      },
+      "Color": {
+        "Id": 16,
+        "Url": "https://api.librus.pl/2.0/Colors/16"
+      },
+      "Name": "poprawa kartkówki",
+      "AdultsExtramural": false,
+      "AdultsDaily": false,
+      "Standard": true,
+      "CountToTheAverage": true,
+      "Weight": 5,
+      "Short": "popkar",
+      "ParentCategory": {
+        "Id": 184391,
+        "Url": "https://api.librus.pl/2.0/Grades/Categories/184391"
+      },
+      "BlockAnyGrades": false,
+      "ObligationToPerform": false
+    }
+  ],
+  "Resources": {
+    "..": {
+      "Url": "https://api.librus.pl/2.0/Grades"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/Grades/Categories"
+}

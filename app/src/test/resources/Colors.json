@@ -1,0 +1,165 @@
+{
+  "Colors": [
+    {
+      "Id": 1,
+      "RGB": "F0E68C",
+      "Name": "khaki"
+    },
+    {
+      "Id": 2,
+      "RGB": "87CEFA",
+      "Name": "lightskyblue"
+    },
+    {
+      "Id": 3,
+      "RGB": "B0C4DE",
+      "Name": "lightsteelblue"
+    },
+    {
+      "Id": 4,
+      "RGB": "F0F8FF",
+      "Name": "aliceblue"
+    },
+    {
+      "Id": 5,
+      "RGB": "F0FFFF",
+      "Name": "azure"
+    },
+    {
+      "Id": 6,
+      "RGB": "F5F5DC",
+      "Name": "beige"
+    },
+    {
+      "Id": 7,
+      "RGB": "FFEBCD",
+      "Name": "blanchedalmond"
+    },
+    {
+      "Id": 8,
+      "RGB": "FFF8DC",
+      "Name": "cornsilk"
+    },
+    {
+      "Id": 9,
+      "RGB": "A9A9A9",
+      "Name": "darkgray"
+    },
+    {
+      "Id": 10,
+      "RGB": "BDB76B",
+      "Name": "darkkhaki"
+    },
+    {
+      "Id": 11,
+      "RGB": "8FBC8F",
+      "Name": "darkseagreen"
+    },
+    {
+      "Id": 12,
+      "RGB": "DCDCDC",
+      "Name": "gainsboro"
+    },
+    {
+      "Id": 13,
+      "RGB": "DAA520",
+      "Name": "goldenrod"
+    },
+    {
+      "Id": 14,
+      "RGB": "E6E6FA",
+      "Name": "lavender"
+    },
+    {
+      "Id": 15,
+      "RGB": "FFA07A",
+      "Name": "lightsalmon"
+    },
+    {
+      "Id": 16,
+      "RGB": "32CD32",
+      "Name": "limegreen"
+    },
+    {
+      "Id": 17,
+      "RGB": "66CDAA",
+      "Name": "mediummaquamarine"
+    },
+    {
+      "Id": 18,
+      "RGB": "66CDAA",
+      "Name": "mediummaquamarine"
+    },
+    {
+      "Id": 19,
+      "RGB": "C0C0C0",
+      "Name": "silver"
+    },
+    {
+      "Id": 20,
+      "RGB": "D2B48C",
+      "Name": "tan"
+    },
+    {
+      "Id": 21,
+      "RGB": "3333FF",
+      "Name": "blue"
+    },
+    {
+      "Id": 22,
+      "RGB": "7B68EE",
+      "Name": "mediumslateblue"
+    },
+    {
+      "Id": 23,
+      "RGB": "BA55D3",
+      "Name": "mediumorchid"
+    },
+    {
+      "Id": 24,
+      "RGB": "FFB6C1",
+      "Name": "lightpink"
+    },
+    {
+      "Id": 25,
+      "RGB": "FF1493",
+      "Name": "deeppink"
+    },
+    {
+      "Id": 26,
+      "RGB": "DC143C",
+      "Name": "crimson"
+    },
+    {
+      "Id": 27,
+      "RGB": "FF0000",
+      "Name": "red"
+    },
+    {
+      "Id": 28,
+      "RGB": "FF8C00",
+      "Name": "darkorange"
+    },
+    {
+      "Id": 29,
+      "RGB": "FFD700",
+      "Name": "gold"
+    },
+    {
+      "Id": 30,
+      "RGB": "ADFF2F",
+      "Name": "greenyellow"
+    },
+    {
+      "Id": 31,
+      "RGB": "7CFC00",
+      "Name": "lawngreen"
+    }
+  ],
+  "Resources": {
+    "..": {
+      "Url": "https://api.librus.pl/2.0/Root"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/Colors"
+}

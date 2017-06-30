@@ -1,14 +1,12 @@
 package com.wabadaba.dziennik
 
-import com.wabadaba.dziennik.api.EntityParser
 import com.wabadaba.dziennik.api.ParseException
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldEqualTo
 import org.junit.Test
-import kotlin.reflect.KClass
 
-class EntityParserTest {
+class EntityParserTest : BaseParseTest() {
 
     class TestSubject(var name: String)
 
@@ -21,10 +19,8 @@ class EntityParserTest {
 
     @Test
     fun shouldParseObjectList() {
-        //given
-        val file = readFile("/object-list.json")
         //when
-        val testList = EntityParser.parseList(file, TestSubject::class.java)
+        val testList = parseList("/object-list.json", TestSubject::class)
         //then
         testList!!.map { it.name } shouldEqual listOf("name1", "name2")
     }
@@ -41,9 +37,5 @@ class EntityParserTest {
         parse("/Malformed.json", TestSubject::class)
     }
 
-    private fun <T : Any> parse(filename: String, clazz: KClass<T>) = EntityParser.parseObject(readFile(filename), clazz.java)
 
-    private fun readFile(filename: String): String {
-        return this.javaClass.getResource(filename).readText()
-    }
 }
