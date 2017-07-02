@@ -6,14 +6,16 @@ import io.requery.*
 @Entity
 @JsonDeserialize(`as` = GradeCommentEntity::class)
 interface GradeComment : Persistable {
+
     @get:Key
     val id: String
 
-    val text: String
+    val text: String?
 
-    @get:ManyToOne(cascade = arrayOf(CascadeAction.NONE))
-    val grade: Grade
+    @get:ManyToOne
+    val grade: Grade?
 
-    @get:ManyToOne(cascade = arrayOf(CascadeAction.NONE))
-    val addedBy: Teacher
+    @get:ManyToOne
+    val addedBy: Teacher?
+
 }

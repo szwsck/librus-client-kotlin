@@ -30,7 +30,7 @@ class RelationalLinkTest : BaseDBTest() {
 
         val readCat = dataStore.findByKey(GradeCategory::class, cat.id)
 
-        readCat!!.color.rawColor shouldEqual "FF00FF"
+        readCat!!.color!!.rawColor shouldEqual "FF00FF"
     }
 
     @Test
@@ -97,7 +97,7 @@ class RelationalLinkTest : BaseDBTest() {
         val foundGrade = dataStore.findByKey(Grade::class, gradeId)
 
         foundGrade!!.comments.size shouldEqual 1
-        foundGrade.comments.first().addedBy.firstName shouldEqual teacherFirstName
+        foundGrade.comments.first().addedBy!!.firstName shouldEqual teacherFirstName
     }
 
     @Test

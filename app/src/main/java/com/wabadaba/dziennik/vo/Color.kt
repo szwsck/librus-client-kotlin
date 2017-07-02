@@ -9,12 +9,13 @@ import io.requery.Persistable
 @Entity
 @JsonDeserialize(`as` = ColorEntity::class)
 interface Color : Persistable {
+
     @get:Key
     val id: String
 
-    val name: String
+    val name: String?
 
     @get:JsonProperty("RGB")
-    val rawColor: String
+    val rawColor: String?
 
 }

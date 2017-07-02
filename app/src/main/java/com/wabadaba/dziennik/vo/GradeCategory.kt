@@ -11,10 +11,11 @@ interface GradeCategory : Persistable {
     @get:Key
     val id: String
 
-    val name: String
+    val name: String?
 
     val weight: Int?
 
-    @get:ManyToOne(cascade = arrayOf(CascadeAction.NONE))
-    val color: Color
+    @get:ManyToOne
+    val color: Color?
+
 }

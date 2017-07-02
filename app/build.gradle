@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'jacoco-android'
+apply from: rootProject.file("gradle/codeQuality.gradle")
 
 android {
     compileSdkVersion 25
@@ -27,6 +29,13 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
+    }
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
     }
 }
 
@@ -59,4 +68,3 @@ dependencies {
 
     kapt 'io.requery:requery-processor:1.3.2'
 }
-

@@ -8,22 +8,24 @@ import org.joda.time.LocalDate
 @Entity
 @JsonDeserialize(`as` = GradeEntity::class)
 interface Grade : Persistable {
+
     @get:Key
     val id: String
 
-    @get:ManyToOne(cascade = arrayOf(CascadeAction.NONE))
-    val category: GradeCategory
+    @get:ManyToOne
+    val category: GradeCategory?
 
-    @get:OneToMany(mappedBy = "grade")
+    @get:OneToMany
     val comments: Set<GradeComment>
 
-    val grade: String
+    val grade: String?
 
-    @get:ManyToOne(cascade = arrayOf(CascadeAction.NONE))
+    @get:ManyToOne
     val addedBy: Teacher?
 
-    val date: LocalDate
+    val date: LocalDate?
 
     @get:JsonProperty("IsConstituent")
-    val isConstituent: Boolean
+    val isConstituent: Boolean?
+
 }
