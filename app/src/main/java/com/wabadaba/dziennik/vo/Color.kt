@@ -8,7 +8,7 @@ import io.requery.Persistable
 
 @Entity
 @JsonDeserialize(`as` = ColorEntity::class)
-interface Color: Persistable {
+interface Color : Persistable {
     @get:Key
     val id: String
 

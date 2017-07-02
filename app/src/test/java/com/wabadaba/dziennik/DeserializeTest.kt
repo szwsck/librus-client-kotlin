@@ -6,10 +6,10 @@ import org.amshove.kluent.shouldEqual
 import org.joda.time.LocalDate
 import org.junit.Test
 
-class DeserializeTest :BaseParseTest(){
+class DeserializeTest : BaseParseTest() {
     @Test
-    fun shouldDeserializeColors(){
-        val colors = parseList("/Colors.json",Color::class)
+    fun shouldDeserializeColors() {
+        val colors = parseList("/Colors.json", Color::class)
         val expected = ColorEntity()
         expected.setRawColor("FF1493")
         expected.setId("25")
@@ -18,7 +18,7 @@ class DeserializeTest :BaseParseTest(){
     }
 
     @Test
-    fun shouldDeserializeCategories(){
+    fun shouldDeserializeCategories() {
         val categories = parseList("/GradeCategories.json", GradeCategory::class)
 
         val category = GradeCategoryEntity()

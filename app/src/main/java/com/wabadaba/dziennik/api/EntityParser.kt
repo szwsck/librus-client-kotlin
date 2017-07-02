@@ -15,7 +15,6 @@ object EntityParser {
             .registerModule(JodaModule())
             .registerModule(KotlinModule())
 
-
     fun <T> parseList(unescapedInput: String, type: Class<T>): List<T>? {
         val javaType = mapper.typeFactory.constructParametricType(List::class.java, type)
         return parseObject(unescapedInput, javaType)
@@ -25,7 +24,6 @@ object EntityParser {
         val javaType = mapper.typeFactory.constructType(type)
         return parseObject(unescapedInput, javaType)
     }
-
 
     private fun <T> parseObject(unescapedInput: String, type: JavaType): T? {
         val input = unescapedInput.replace("\\\\\\", "\\")
@@ -43,7 +41,6 @@ object EntityParser {
         } catch (e: IOException) {
             throw ParseException(input, e)
         }
-
     }
 
     private fun JsonNode.containsStandardFields(): Boolean {
