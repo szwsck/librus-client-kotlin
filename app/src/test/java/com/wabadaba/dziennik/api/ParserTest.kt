@@ -1,12 +1,12 @@
-package com.wabadaba.dziennik
+package com.wabadaba.dziennik.api
 
-import com.wabadaba.dziennik.api.ParseException
+import com.wabadaba.dziennik.BaseParseTest
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldEqualTo
 import org.junit.Test
 
-class EntityParserTest : BaseParseTest() {
+class ParserTest : BaseParseTest() {
 
     class TestSubject(var name: String)
 
@@ -34,7 +34,7 @@ class EntityParserTest : BaseParseTest() {
     @Test(expected = ParseException::class)
     fun shouldFailOnMalformed() {
         //when
-        parse("/Malformed.json", TestSubject::class)
+        parse("/Malformed.txt", TestSubject::class)
     }
 
 

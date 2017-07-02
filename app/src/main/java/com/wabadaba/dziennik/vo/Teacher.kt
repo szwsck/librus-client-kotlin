@@ -5,6 +5,7 @@ import io.requery.Entity
 import io.requery.Key
 import io.requery.Persistable
 
+@LibrusEntity("Users")
 @Entity
 @JsonDeserialize(`as` = TeacherEntity::class)
 interface Teacher: Persistable {

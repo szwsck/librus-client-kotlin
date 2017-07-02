@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import io.requery.*
 import org.joda.time.LocalDate
 
+@LibrusEntity("Grades")
 @Entity
 @JsonDeserialize(`as` = GradeEntity::class)
 interface Grade : Persistable {

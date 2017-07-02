@@ -1,6 +1,6 @@
-package com.wabadaba.dziennik
+package com.wabadaba.dziennik.vo
 
-import com.wabadaba.dziennik.vo.*
+import com.wabadaba.dziennik.BaseParseTest
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldEqual
 import org.joda.time.LocalDate

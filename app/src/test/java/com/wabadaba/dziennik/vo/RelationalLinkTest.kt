@@ -1,6 +1,6 @@
-package com.wabadaba.dziennik
+package com.wabadaba.dziennik.vo
 
-import com.wabadaba.dziennik.vo.*
+import com.wabadaba.dziennik.BaseDBTest
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotEqual
 import org.junit.Test

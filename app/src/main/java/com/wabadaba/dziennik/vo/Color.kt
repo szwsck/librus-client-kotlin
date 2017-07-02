@@ -6,6 +6,7 @@ import io.requery.Entity
 import io.requery.Key
 import io.requery.Persistable
 
+@LibrusEntity("Colors")
 @Entity
 @JsonDeserialize(`as` = ColorEntity::class)
 interface Color : Persistable {

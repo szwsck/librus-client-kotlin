@@ -1,0 +1,7 @@
+{
+  "access_token": "ACCESS_TOKEN",
+  "token_type": "Bearer",
+  "expires_in": 2592000,
+  "refresh_token": "REFRESH_TOKEN",
+  "account_group": 8
+}
