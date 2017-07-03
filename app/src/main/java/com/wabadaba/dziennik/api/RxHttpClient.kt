@@ -18,7 +18,7 @@ open class RxHttpClient(
 
     private val logger = KotlinLogging.logger {}
 
-    fun executeCall(request: Request): Single<String> = Single.create<String> {
+    open fun executeCall(request: Request): Single<String> = Single.create<String> {
         val url = request.url().toString()
         try {
             if (isDeviceOffline()) {
