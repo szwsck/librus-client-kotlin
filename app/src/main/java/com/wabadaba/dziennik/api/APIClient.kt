@@ -1,11 +1,12 @@
 package com.wabadaba.dziennik.api
 
+import com.wabadaba.dziennik.vo.Identifiable
 import com.wabadaba.dziennik.vo.LibrusEntity
-import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.FormBody
 import okhttp3.Request
+import kotlin.reflect.KClass
 import kotlin.reflect.full.findAnnotation
 
 
@@ -30,7 +31,7 @@ class APIClient(val httpClient: (Request) -> Single<String>) {
                 .build()
 
         return httpClient(request)
-                .map { Parser.parse<AuthInfo>(it) }
+                .map { Parser.parse(it, AuthInfo::class) }
     }
 
     fun refreshAccess(refreshToken: String): Single<AuthInfo> {
@@ -49,21 +50,14 @@ class APIClient(val httpClient: (Request) -> Single<String>) {
                 .build()
 
         return httpClient(request)
-                .map { Parser.parse<AuthInfo>(it) }
+                .map { Parser.parse(it, AuthInfo::class) }
     }
 
-    inline fun <reified T> fetchEntity(accessToken: String): Maybe<T> {
-        val librusEntity = T::class.findAnnotation<LibrusEntity>() ?:
-                throw IllegalStateException("Class ${T::class.simpleName} not annotated with LibrusEntity annotation")
+    fun <T : Identifiable> fetchEntities(clazz: KClass<T>, accessToken: String): Observable<T> {
+        val librusEntity = clazz.findAnnotation<LibrusEntity>() ?:
+                throw IllegalStateException("Class ${clazz.simpleName} not annotated with LibrusEntity annotation")
         return fetchRawData(librusEntity.endpoint, accessToken)
-                .flatMapMaybe { Parser.parseEntity(it, T::class.java) }
-    }
-
-    inline fun <reified T> fetchEntities(accessToken: String): Observable<T> {
-        val librusEntity = T::class.findAnnotation<LibrusEntity>() ?:
-                throw IllegalStateException("Class ${T::class.simpleName} not annotated with LibrusEntity annotation")
-        return fetchRawData(librusEntity.endpoint, accessToken)
-                .flatMapObservable { Parser.parseEntityList(it, T::class.java) }
+                .flatMapObservable { Parser.parseEntityList(it, clazz.java) }
     }
 
     fun fetchRawData(endpoint: String, accessToken: String): Single<String> {

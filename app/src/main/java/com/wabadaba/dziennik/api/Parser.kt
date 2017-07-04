@@ -1,11 +1,15 @@
 package com.wabadaba.dziennik.api
 
-import com.fasterxml.jackson.databind.*
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.JavaType
+import com.fasterxml.jackson.databind.MapperFeature
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.joda.JodaModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import java.io.IOException
+import kotlin.reflect.KClass
 
 object Parser {
 
@@ -35,9 +39,6 @@ object Parser {
         val input = escapedInput.unescape()
         try {
             val root = mapper.readTree(input)
-            if (!root.containsStandardFields()) {
-                throw ParseException(input, "Invalid structure")
-            }
             val firstField = root.first()
             if (firstField.isTextual && firstField.textValue() == "Disabled") {
                 return null
@@ -49,17 +50,10 @@ object Parser {
         }
     }
 
-    inline fun <reified T> parse(escapedInput: String): T = try {
-        mapper.readValue(escapedInput.unescape(), T::class.java)
+    fun <T : Any> parse(escapedInput: String, clazz: KClass<T>): T = try {
+        mapper.readValue(escapedInput.unescape(), clazz.java)
     } catch (e: IOException) {
         throw ParseException(escapedInput, e)
-    }
-
-    private fun JsonNode.containsStandardFields(): Boolean {
-        return this.fieldNames()
-                .asSequence()
-                .toList()
-                .containsAll(listOf("Url", "Resources"))
     }
 
     fun String.unescape() = this.replace("\\\\\\", "\\")

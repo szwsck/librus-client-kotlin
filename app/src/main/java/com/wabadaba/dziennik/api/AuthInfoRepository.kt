@@ -18,7 +18,7 @@ class AuthInfoRepository(val login: String, context: Context) {
 
     fun getAuthInfo(): AuthInfo {
         val stringValue = prefs.getString(prefKey, null) ?: throw IllegalStateException("Authorization info for user $login not found")
-        return Parser.parse(stringValue)
+        return Parser.parse(stringValue, AuthInfo::class)
     }
 
     fun deleteAuthInfo() {
