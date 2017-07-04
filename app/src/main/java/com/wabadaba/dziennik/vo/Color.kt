@@ -4,15 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import io.requery.Entity
 import io.requery.Key
-import io.requery.Persistable
 
 @LibrusEntity("Colors")
 @Entity
 @JsonDeserialize(`as` = ColorEntity::class)
-interface Color : Persistable {
+interface Color : Identifiable {
 
     @get:Key
-    val id: String
+    override val id: String
 
     val name: String?
 

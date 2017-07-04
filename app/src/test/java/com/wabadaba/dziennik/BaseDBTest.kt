@@ -6,7 +6,7 @@ import io.requery.sql.KotlinEntityDataStore
 import org.junit.Before
 import org.robolectric.RuntimeEnvironment
 
-abstract class BaseDBTest {
+abstract class BaseDBTest : BaseTest() {
 
     protected lateinit var dataStore: KotlinEntityDataStore<Persistable>
 

@@ -4,15 +4,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import io.requery.Entity
 import io.requery.Key
 import io.requery.ManyToOne
-import io.requery.Persistable
 
 @LibrusEntity("Grades/Comments")
 @Entity
 @JsonDeserialize(`as` = GradeCommentEntity::class)
-interface GradeComment : Persistable {
+interface GradeComment : Identifiable {
 
     @get:Key
-    val id: String
+    override val id: String
 
     val text: String?
 

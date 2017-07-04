@@ -1,13 +1,13 @@
 {
   "Users": [
     {
-      "Id": 666,
-      "IsSchoolAdministrator": true
-    },
-    {
       "Id": 12345,
       "FirstName": "Tomasz",
       "LastName": "Problem"
+    },
+    {
+      "Id": 666,
+      "IsSchoolAdministrator": true
     }
   ],
   "Resources": {

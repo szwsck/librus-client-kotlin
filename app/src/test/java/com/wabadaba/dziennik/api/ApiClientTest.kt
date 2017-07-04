@@ -41,7 +41,7 @@ class ApiClientTest : BaseTest() {
 
     @Test
     fun shouldFetchEntities() {
-        val response = readFile("/Grades.json")
+        val response = readFile("/endpoints/Grades.json")
         val client = APIClient { Single.just(response) }
         val result = client.fetchEntities<Grade>("")
                 .toList()

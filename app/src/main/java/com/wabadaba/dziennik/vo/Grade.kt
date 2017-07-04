@@ -2,16 +2,19 @@ package com.wabadaba.dziennik.vo
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import io.requery.*
+import io.requery.Entity
+import io.requery.Key
+import io.requery.ManyToOne
+import io.requery.OneToMany
 import org.joda.time.LocalDate
 
 @LibrusEntity("Grades")
 @Entity
 @JsonDeserialize(`as` = GradeEntity::class)
-interface Grade : Persistable {
+interface Grade : Identifiable {
 
     @get:Key
-    val id: String
+    override val id: String
 
     @get:ManyToOne
     val category: GradeCategory?
