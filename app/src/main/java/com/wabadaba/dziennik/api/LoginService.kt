@@ -20,11 +20,5 @@ class LoginService(val context: Context) {
                                 .doOnSuccess { login ->
                                     AuthInfoRepository(login, context).saveAuthInfo(authInfo)
                                 }
-//                        client.fetchEntity<Me>(authInfo.accessToken)
-//                                .toSingle()
-//                                .map { me -> me.account.login }
-//                                .doOnSuccess { login ->
-//                                    AuthInfoRepository(login, context).saveAuthInfo(authInfo)
-//                                }
                     }
 }

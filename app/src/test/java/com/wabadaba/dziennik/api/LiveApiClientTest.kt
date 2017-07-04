@@ -34,8 +34,5 @@ class LiveApiClientTest : BaseTest() {
                 .login(username, password)
                 .blockingGet()
         login shouldEqualTo "13335"
-//        val authInfo = client.login(username, password).blockingGet()
-//        val me = client.fetchEntity<Me>(authInfo.accessToken).blockingGet()
-//        me.account.login shouldEqualTo username
     }
 }
