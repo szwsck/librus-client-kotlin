@@ -2,7 +2,6 @@ package com.wabadaba.dziennik.api
 
 import com.wabadaba.dziennik.BaseParseTest
 import org.amshove.kluent.shouldBe
-import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldEqualTo
 import org.junit.Test
 
@@ -14,7 +13,7 @@ class ParserTest : BaseParseTest() {
     fun shouldParseSingleObject() {
         val testObject = parse("/single-object.json", TestSubject::class)
         //then
-        testObject!!.name shouldEqualTo "some name"
+        testObject.blockingGet().name shouldEqualTo "some name"
     }
 
     @Test
@@ -22,13 +21,15 @@ class ParserTest : BaseParseTest() {
         //when
         val testList = parseList("/object-list.json", TestSubject::class)
         //then
-        testList!!.map { it.name } shouldEqual listOf("name1", "name2")
+        testList.map { it.name }
+                .test()
+                .assertValues("name1", "name2")
     }
 
     @Test
     fun shouldNotFailOnDisabled() {
         val testObject = parse("/Disabled.json", TestSubject::class)
-        testObject shouldBe null
+        testObject.blockingGet() shouldBe null
     }
 
     @Test(expected = ParseException::class)

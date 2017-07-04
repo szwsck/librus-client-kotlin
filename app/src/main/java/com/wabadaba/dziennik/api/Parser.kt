@@ -3,6 +3,8 @@ package com.wabadaba.dziennik.api
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.datatype.joda.JodaModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import io.reactivex.Maybe
+import io.reactivex.Observable
 import java.io.IOException
 
 object Parser {
@@ -15,14 +17,18 @@ object Parser {
             .registerModule(JodaModule())
             .registerModule(KotlinModule())
 
-    fun <T> parseEntityList(unescapedInput: String, type: Class<T>): List<T>? {
+    fun <T> parseEntityList(unescapedInput: String, type: Class<T>): Observable<T> {
         val javaType = mapper.typeFactory.constructParametricType(List::class.java, type)
-        return parseEntity(unescapedInput, javaType)
+        return parseEntity<List<T>>(unescapedInput, javaType)
+                ?.let { Observable.fromIterable(it) }
+                ?: Observable.empty<T>()
     }
 
-    fun <T> parseEntity(unescapedInput: String, type: Class<T>): T? {
+    fun <T> parseEntity(unescapedInput: String, type: Class<T>): Maybe<T> {
         val javaType = mapper.typeFactory.constructType(type)
-        return parseEntity(unescapedInput, javaType)
+        return parseEntity<T>(unescapedInput, javaType)
+                ?.let { Maybe.just(it) }
+                ?: Maybe.empty()
     }
 
     private fun <T> parseEntity(escapedInput: String, type: JavaType): T? {

@@ -1,0 +1,33 @@
+{
+  "Me": {
+    "Account": {
+      "Id": 12,
+      "UserId": 33,
+      "FirstName": "Tomasz",
+      "LastName": "Problem",
+      "Email": "tompro@gmail.com",
+      "GroupId": 8,
+      "IsActive": false,
+      "Login": "12u",
+      "AppRuleUrl": "https://synergia.librus.pl/regulamin_aplikacji_mobilnej/f4dbdf21",
+      "IsNewAppRulesAccepted": true,
+      "IsPremium": true,
+      "ExpiredPremiumDate": 1504216799
+    },
+    "Refresh": 900,
+    "User": {
+      "FirstName": "Tomasz",
+      "LastName": "Problem"
+    },
+    "Class": {
+      "Id": 99,
+      "Url": "https://api.librus.pl/2.0/Classes/99"
+    }
+  },
+  "Resources": {
+    "..": {
+      "Url": "https://api.librus.pl/2.0/Root"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/Me"
+}

@@ -14,7 +14,9 @@ class DeserializeTest : BaseParseTest() {
         expected.setRawColor("FF1493")
         expected.setId("25")
         expected.setName("deeppink")
-        colors!! shouldContain expected
+        val result = colors.toList()
+                .blockingGet()
+        result shouldContain expected
     }
 
     @Test
@@ -30,7 +32,8 @@ class DeserializeTest : BaseParseTest() {
         color.setId("16")
         category.setColor(color)
 
-        categories!! shouldContain category
+        val result = categories.toList().blockingGet()
+        result shouldContain category
     }
 
     @Test
@@ -47,8 +50,8 @@ class DeserializeTest : BaseParseTest() {
             setGrade("5")
             setConstituent(true)
         }
-
-        grades!![2] shouldEqual grade
+        val result = grades.toList().blockingGet()
+        result[2] shouldEqual grade
     }
 
     @Test
@@ -61,7 +64,8 @@ class DeserializeTest : BaseParseTest() {
             setLastName("Problem")
         }
 
-        teachers!! shouldContain teacher
+        val result = teachers.toList().blockingGet()
+        result shouldContain teacher
     }
 
     @Test
@@ -75,6 +79,7 @@ class DeserializeTest : BaseParseTest() {
             setAddedBy(TeacherEntity().apply { setId("1406771") })
         }
 
-        comments!! shouldContain comment
+        val result = comments.toList().blockingGet()
+        result shouldContain comment
     }
 }

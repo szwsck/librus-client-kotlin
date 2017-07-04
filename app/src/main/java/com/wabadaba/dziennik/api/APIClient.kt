@@ -1,22 +1,17 @@
 package com.wabadaba.dziennik.api
 
-import android.content.Context
-import android.preference.PreferenceManager
+import com.wabadaba.dziennik.vo.LibrusEntity
+import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
-import mu.KotlinLogging
 import okhttp3.FormBody
 import okhttp3.Request
+import kotlin.reflect.full.findAnnotation
 
 
-class APIClient(val context: Context, val httpClient: (Request) -> Single<String>) {
+class APIClient(val httpClient: (Request) -> Single<String>) {
 
-    private val ACCESS_TOKEN_PREF = "access_token"
-    private val REFRESH_TOKEN_PREF = "refresh_token"
-
-    private val logger = KotlinLogging.logger {}
-
-    fun login(username: String, password: String): Single<AuthTokens> {
+    fun login(username: String, password: String): Single<AuthInfo> {
         val AUTH_URL = "https://api.librus.pl/OAuth/Token"
         val auth_token = "MzU6NjM2YWI0MThjY2JlODgyYjE5YTMzZjU3N2U5NGNiNGY="
         val formBody = FormBody.Builder()
@@ -35,17 +30,16 @@ class APIClient(val context: Context, val httpClient: (Request) -> Single<String
                 .build()
 
         return httpClient(request)
-                .map { Parser.parse<AuthTokens>(it) }
-                .doOnSuccess(this::saveTokens)
+                .map { Parser.parse<AuthInfo>(it) }
     }
 
-    private fun refreshAccess(refreshToken: String): Single<AuthTokens> {
+    fun refreshAccess(refreshToken: String): Single<AuthInfo> {
         val AUTH_URL = "https://api.librus.pl/OAuth/Token"
         val auth_token = "MzU6NjM2YWI0MThjY2JlODgyYjE5YTMzZjU3N2U5NGNiNGY="
 
         val body = FormBody.Builder()
-                .add("grant_type", REFRESH_TOKEN_PREF)
-                .add(REFRESH_TOKEN_PREF, refreshToken)
+                .add("grant_type", "refresh_token")
+                .add("refresh_token", refreshToken)
                 .build()
 
         val request = Request.Builder()
@@ -55,54 +49,34 @@ class APIClient(val context: Context, val httpClient: (Request) -> Single<String
                 .build()
 
         return httpClient(request)
-                .map { Parser.parse<AuthTokens>(it) }
-                .doOnSuccess(this::saveTokens)
+                .map { Parser.parse<AuthInfo>(it) }
     }
 
-    private fun fetchData(endpoint: String, accessToken: String): Single<String> {
-        val url = "https://api.librus.pl/2.0" + endpoint
+    inline fun <reified T> fetchEntity(accessToken: String): Maybe<T> {
+        val librusEntity = T::class.findAnnotation<LibrusEntity>() ?:
+                throw IllegalStateException("Class ${T::class.simpleName} not annotated with LibrusEntity annotation")
+        return fetchRawData(librusEntity.endpoint, accessToken)
+                .flatMapMaybe { Parser.parseEntity(it, T::class.java) }
+    }
+
+    inline fun <reified T> fetchEntities(accessToken: String): Observable<T> {
+        val librusEntity = T::class.findAnnotation<LibrusEntity>() ?:
+                throw IllegalStateException("Class ${T::class.simpleName} not annotated with LibrusEntity annotation")
+        return fetchRawData(librusEntity.endpoint, accessToken)
+                .flatMapObservable { Parser.parseEntityList(it, T::class.java) }
+    }
+
+    fun fetchRawData(endpoint: String, accessToken: String): Single<String> {
+        val url = "https://api.librus.pl/2.0/" + endpoint
 
         val request = Request.Builder()
                 .addHeader("Authorization", "Bearer " + accessToken)
                 .url(url)
                 .get()
                 .build()
+
         return httpClient(request)
     }
-
-    fun makeRequest(endpoint: String, tokens: AuthTokens): Single<String> {
-        return fetchData(endpoint, tokens.accessToken)
-                .onErrorResumeNext { cause ->
-                    if (isTokenExpired(cause)) {
-                        refreshAccess(tokens.refreshToken)
-                                .flatMap { (accessToken) -> fetchData(endpoint, accessToken) }
-                    } else {
-                        Single.error(cause)
-                    }
-                }.subscribeOn(Schedulers.io())
-    }
-
-
-    fun saveTokens(tokens: AuthTokens) {
-        PreferenceManager.getDefaultSharedPreferences(context)
-                .edit()
-                .putString(ACCESS_TOKEN_PREF, tokens.accessToken)
-                .putString(REFRESH_TOKEN_PREF, tokens.refreshToken)
-                .apply()
-    }
-
-    fun loadTokens(): AuthTokens? {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        if (prefs.contains(ACCESS_TOKEN_PREF) && prefs.contains(REFRESH_TOKEN_PREF)) {
-            return AuthTokens(
-                    prefs.getString(ACCESS_TOKEN_PREF, null),
-                    prefs.getString(REFRESH_TOKEN_PREF, null))
-        } else {
-            return null
-        }
-    }
-
-    private fun isTokenExpired(throwable: Throwable): Boolean = throwable.message?.contains("Access Token expired") ?: false
 }
 
 

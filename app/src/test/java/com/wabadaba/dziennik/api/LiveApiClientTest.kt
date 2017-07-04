@@ -11,31 +11,31 @@ import org.robolectric.RuntimeEnvironment
 @RunWith(RobolectricTestRunner::class)
 class LiveApiClientTest : BaseTest() {
 
-    val login = "13335"
+    val client = APIClient(RxHttpClient(RuntimeEnvironment.application)::executeCall)
+
+    val username = "13335"
     val password = "librus11"
 
     @Test
     fun shouldLogIn() {
-        val client = APIClient(RuntimeEnvironment.application, RxHttpClient(RuntimeEnvironment.application)::executeCall)
-        val result = client.login(login, password).blockingGet()
+        val result = client.login(username, password).blockingGet()
         result.accessToken shouldNotBe null
         result.refreshToken shouldNotBe null
     }
 
     @Test(expected = HttpException.Authorization::class)
     fun shouldNotLogIn() {
-        val client = APIClient(RuntimeEnvironment.application, RxHttpClient(RuntimeEnvironment.application)::executeCall)
-        client.login(login, "invalid password").blockingGet()
+        client.login(username, "invalid password").blockingGet()
     }
 
     @Test
-    fun shouldMakeRequest() {
-        val client = APIClient(RuntimeEnvironment.application, RxHttpClient(RuntimeEnvironment.application)::executeCall)
-        val tokens = client.login(login, password)
+    fun shouldFetchLogin() {
+        val login = LoginService(RuntimeEnvironment.application)
+                .login(username, password)
                 .blockingGet()
-        val result = client.makeRequest("/Grades", tokens)
-                .blockingGet()
-        val expected = readFile("/Root.json")
-        result shouldEqualTo expected
+        login shouldEqualTo "13335"
+//        val authInfo = client.login(username, password).blockingGet()
+//        val me = client.fetchEntity<Me>(authInfo.accessToken).blockingGet()
+//        me.account.login shouldEqualTo username
     }
 }

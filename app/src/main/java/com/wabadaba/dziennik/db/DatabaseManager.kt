@@ -11,11 +11,11 @@ import io.requery.sql.KotlinEntityDataStore
 import io.requery.sql.TableCreationMode
 import io.requery.sql.platform.SQLite
 
-class DatabaseManager(context: Context, login: String) {
+class DatabaseManager(context: Context, username: String) {
     val dataStore: KotlinEntityDataStore<Persistable>
 
     init {
-        val source = DatabaseSource(context, Models.DEFAULT, login.databaseName, 1)
+        val source = DatabaseSource(context, Models.DEFAULT, username.databaseName, 1)
         source.setTableCreationMode(TableCreationMode.DROP_CREATE)
         source.setLoggingEnabled(true)
 

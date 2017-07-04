@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\szyme\StudioProjects\librus-client-kotlin\app\app.iml" filepath="C:\Users\szyme\StudioProjects\librus-client-kotlin\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/librus-client-kotlin.iml" filepath="$PROJECT_DIR$/librus-client-kotlin.iml" />
-      <module fileurl="file://C:\Users\szyme\StudioProjects\librus-client-kotlin\librus-client-kotlin.iml" filepath="C:\Users\szyme\StudioProjects\librus-client-kotlin\librus-client-kotlin.iml" />
     </modules>
   </component>
 </project>

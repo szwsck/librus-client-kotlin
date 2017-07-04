@@ -12,7 +12,7 @@ abstract class BaseDBTest {
 
     @Before
     fun setupDB() {
-        val dbManager = DatabaseManager(RuntimeEnvironment.application, "testlogin")
+        val dbManager = DatabaseManager(RuntimeEnvironment.application, "testUsername")
         dataStore = dbManager.dataStore
     }
 
