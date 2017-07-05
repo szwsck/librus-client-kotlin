@@ -34,7 +34,6 @@ class EntitiesTest(
             return Models.DEFAULT
                     .types
                     .map { it.baseType.kotlin }
-                    .filter { it != Me::class } //FIXME At this point you cannot deserialize embedded entity
                     .map {
                         arrayOf(it.qualifiedName!!,
                                 it.findEndpoint(),

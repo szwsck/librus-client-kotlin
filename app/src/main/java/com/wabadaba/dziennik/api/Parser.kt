@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.joda.JodaModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import io.reactivex.Maybe
 import io.reactivex.Observable
 import java.io.IOException
 import kotlin.reflect.KClass
@@ -26,13 +25,6 @@ object Parser {
         return parseEntity<List<T>>(unescapedInput, javaType)
                 ?.let { Observable.fromIterable(it) }
                 ?: Observable.empty<T>()
-    }
-
-    fun <T> parseEntity(unescapedInput: String, type: Class<T>): Maybe<T> {
-        val javaType = mapper.typeFactory.constructType(type)
-        return parseEntity<T>(unescapedInput, javaType)
-                ?.let { Maybe.just(it) }
-                ?: Maybe.empty()
     }
 
     private fun <T> parseEntity(escapedInput: String, type: JavaType): T? {

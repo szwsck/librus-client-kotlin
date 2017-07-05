@@ -1,8 +1,10 @@
 package com.wabadaba.dziennik.api
 
 import com.wabadaba.dziennik.BaseParseTest
+import com.wabadaba.dziennik.vo.Me
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldNotBe
 import org.junit.Test
 
 class ParserTest : BaseParseTest() {
@@ -11,9 +13,9 @@ class ParserTest : BaseParseTest() {
 
     @Test
     fun shouldParseSingleObject() {
-        val testObject = parse("/single-object.json", TestSubject::class)
+        val testObject = parseList("/single-object.json", TestSubject::class)
         //then
-        testObject.blockingGet().name shouldEqualTo "some name"
+        testObject.singleOrError().blockingGet().name shouldEqualTo "some name"
     }
 
     @Test
@@ -28,14 +30,23 @@ class ParserTest : BaseParseTest() {
 
     @Test
     fun shouldNotFailOnDisabled() {
-        val testObject = parse("/Disabled.json", TestSubject::class)
-        testObject.blockingGet() shouldBe null
+        val testObject = parseList("/Disabled.json", TestSubject::class)
+        testObject.toList().blockingGet().size shouldEqualTo 0
     }
 
     @Test(expected = ParseException::class)
     fun shouldFailOnMalformed() {
         //when
-        parse("/Malformed.txt", TestSubject::class)
+        parseList("/Malformed.txt", TestSubject::class)
+    }
+
+    @Test
+    fun shouldDeserializeEmbeddedEntity() {
+        //when
+        val testObject = parseList("/endpoints/Me.json", Me::class)
+        val result = testObject.singleOrError().blockingGet()
+        //then
+        result.account.login shouldEqualTo "12u"
     }
 
 
