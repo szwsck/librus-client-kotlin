@@ -6,13 +6,14 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.FormBody
 import okhttp3.Request
+import javax.inject.Inject
 import kotlin.reflect.KClass
 import kotlin.reflect.full.findAnnotation
 
 
-class APIClient(val httpClient: (Request) -> Single<String>) {
+open class APIClient @Inject constructor(val httpClient: RxHttpClient) {
 
-    fun login(username: String, password: String): Single<AuthInfo> {
+    open fun login(username: String, password: String): Single<AuthInfo> {
         val AUTH_URL = "https://api.librus.pl/OAuth/Token"
         val auth_token = "MzU6NjM2YWI0MThjY2JlODgyYjE5YTMzZjU3N2U5NGNiNGY="
         val formBody = FormBody.Builder()
@@ -30,7 +31,7 @@ class APIClient(val httpClient: (Request) -> Single<String>) {
                 .post(formBody)
                 .build()
 
-        return httpClient(request)
+        return httpClient.executeCall(request)
                 .map { Parser.parse(it, AuthInfo::class) }
     }
 
@@ -49,7 +50,7 @@ class APIClient(val httpClient: (Request) -> Single<String>) {
                 .url(AUTH_URL)
                 .build()
 
-        return httpClient(request)
+        return httpClient.executeCall(request)
                 .map { Parser.parse(it, AuthInfo::class) }
     }
 
@@ -69,7 +70,7 @@ class APIClient(val httpClient: (Request) -> Single<String>) {
                 .get()
                 .build()
 
-        return httpClient(request)
+        return httpClient.executeCall(request)
     }
 }
 

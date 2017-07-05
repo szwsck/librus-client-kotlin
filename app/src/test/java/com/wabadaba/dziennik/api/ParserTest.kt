@@ -2,9 +2,7 @@ package com.wabadaba.dziennik.api
 
 import com.wabadaba.dziennik.BaseParseTest
 import com.wabadaba.dziennik.vo.Me
-import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldEqualTo
-import org.amshove.kluent.shouldNotBe
 import org.junit.Test
 
 class ParserTest : BaseParseTest() {

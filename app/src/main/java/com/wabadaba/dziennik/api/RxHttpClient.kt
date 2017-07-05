@@ -5,16 +5,20 @@ import android.net.ConnectivityManager
 import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.databind.JsonNode
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import mu.KotlinLogging
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Named
 
 //Open for mockito
-open class RxHttpClient(
+open class RxHttpClient @Inject constructor(
         val context: Context,
-        val timeoutSeconds: Long = 30) {
+        @Named("timeout")
+        val timeoutSeconds: Long) {
 
     private val logger = KotlinLogging.logger {}
 
@@ -42,7 +46,7 @@ open class RxHttpClient(
         } catch (e: SocketTimeoutException) {
             it.onError(HttpException.DeviceOffline(url))
         }
-    }
+    }.subscribeOn(Schedulers.io())
 
     fun isDeviceOffline(): Boolean {
         val activeNetworkInfo = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

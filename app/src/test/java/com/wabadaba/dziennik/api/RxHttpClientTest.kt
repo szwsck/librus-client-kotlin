@@ -36,7 +36,7 @@ class RxHttpClientTest : BaseTest() {
         val shadow = Shadows.shadowOf(connectivityManager.activeNetworkInfo)
         shadow.setConnectionStatus(false)
 
-        RxHttpClient(RuntimeEnvironment.application)
+        RxHttpClient(RuntimeEnvironment.application, 1)
                 .executeCall(request)
                 .blockingGet()
     }
@@ -46,7 +46,7 @@ class RxHttpClientTest : BaseTest() {
         val response = "RESPONSE"
         server.enqueue(MockResponse().setBody(response))
 
-        val result = RxHttpClient(RuntimeEnvironment.application)
+        val result = RxHttpClient(RuntimeEnvironment.application, 1)
                 .executeCall(request)
                 .blockingGet()
 
@@ -70,7 +70,7 @@ class RxHttpClientTest : BaseTest() {
         val response = readFile("/Maintenance.json")
         server.enqueue(MockResponse().setBody(response).setResponseCode(503))
 
-        RxHttpClient(RuntimeEnvironment.application)
+        RxHttpClient(RuntimeEnvironment.application, 1)
                 .executeCall(request)
                 .blockingGet()
     }
@@ -80,7 +80,7 @@ class RxHttpClientTest : BaseTest() {
         val response = readFile("/NotActive.json")
         server.enqueue(MockResponse().setBody(response).setResponseCode(400))
 
-        RxHttpClient(RuntimeEnvironment.application)
+        RxHttpClient(RuntimeEnvironment.application, 1)
                 .executeCall(request)
                 .blockingGet()
     }
@@ -90,7 +90,7 @@ class RxHttpClientTest : BaseTest() {
         val response = "Server offline"
         server.enqueue(MockResponse().setBody(response).setResponseCode(500))
 
-        RxHttpClient(RuntimeEnvironment.application)
+        RxHttpClient(RuntimeEnvironment.application, 1)
                 .executeCall(request)
                 .blockingGet()
     }
@@ -100,7 +100,7 @@ class RxHttpClientTest : BaseTest() {
         val response = "Unknown response!!!1!!1 "
         server.enqueue(MockResponse().setBody(response).setResponseCode(500))
 
-        RxHttpClient(RuntimeEnvironment.application)
+        RxHttpClient(RuntimeEnvironment.application, 1)
                 .executeCall(request)
                 .blockingGet()
     }

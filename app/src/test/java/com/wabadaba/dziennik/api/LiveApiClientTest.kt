@@ -1,17 +1,28 @@
 package com.wabadaba.dziennik.api
 
 import com.wabadaba.dziennik.BaseTest
-import org.amshove.kluent.shouldEqualTo
+import com.wabadaba.dziennik.di.ApplicationModule
+import com.wabadaba.dziennik.di.DaggerTestMainComponent
 import org.amshove.kluent.shouldNotBe
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
+import javax.inject.Inject
 
 @RunWith(RobolectricTestRunner::class)
 class LiveApiClientTest : BaseTest() {
 
-    val client = APIClient(RxHttpClient(RuntimeEnvironment.application)::executeCall)
+    @Inject lateinit var client: APIClient
+
+    @Before
+    fun setup() {
+        DaggerTestMainComponent.builder()
+                .applicationModule(ApplicationModule(RuntimeEnvironment.application))
+                .build()
+                .inject(this)
+    }
 
     val username = "13335"
     val password = "librus11"
@@ -28,11 +39,4 @@ class LiveApiClientTest : BaseTest() {
         client.login(username, "invalid password").blockingGet()
     }
 
-    @Test
-    fun shouldFetchLogin() {
-        val login = LoginService(RuntimeEnvironment.application)
-                .login(username, password)
-                .blockingGet()
-        login shouldEqualTo "13335"
-    }
 }
