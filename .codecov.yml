@@ -1,6 +1,6 @@
 coverage:
   range: 65...80
   notify:
-    webhook:
+    slack:
       default:
-        url: "https://discordapp.com/api/webhooks/331926555733524480/U6Lv0VVCHF0vsiwKZvGSaedAG7FBjMS6_HHAkPQb_gB6g25__NDgSx7v69IruQBYondg"
+        url: "https://discordapp.com/api/webhooks/331926555733524480/U6Lv0VVCHF0vsiwKZvGSaedAG7FBjMS6_HHAkPQb_gB6g25__NDgSx7v69IruQBYondg/slack"
