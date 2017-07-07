@@ -1,18 +1,25 @@
 package com.wabadaba.dziennik.di
 
+import android.app.Application
 import android.arch.lifecycle.ViewModel
+import com.wabadaba.dziennik.api.APIClient
 import com.wabadaba.dziennik.ui.login.LoginViewModel
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.multibindings.IntoMap
+import javax.inject.Provider
 
 
 @Module
-abstract class ViewModelModule {
+class ViewModelModule {
 
-    @Binds
+    @Provides
     @IntoMap
     @ViewModelKey(LoginViewModel::class)
-    abstract fun bindLoginViewModel(loginViewModel: LoginViewModel): ViewModel
+    fun provideLoginViewModel(application: Application, client: APIClient): ViewModel =
+            LoginViewModel(application, client)
 
+    @Provides
+    fun provideViewModelFactory(creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>) =
+            ViewModelFactory(creators)
 }

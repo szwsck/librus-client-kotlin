@@ -2,10 +2,9 @@ package com.wabadaba.dziennik.di
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import javax.inject.Inject
 import javax.inject.Provider
 
-class ViewModelFactory @Inject constructor(
+class ViewModelFactory(
         val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

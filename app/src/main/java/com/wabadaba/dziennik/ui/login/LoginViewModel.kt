@@ -7,9 +7,8 @@ import com.wabadaba.dziennik.api.AuthInfoRepository
 import com.wabadaba.dziennik.vo.Me
 import io.reactivex.Completable
 import mu.KotlinLogging
-import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(
+class LoginViewModel(
         application: Application,
         val client: APIClient) : AndroidViewModel(application) {
 

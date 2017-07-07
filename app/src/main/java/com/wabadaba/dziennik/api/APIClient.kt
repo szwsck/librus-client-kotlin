@@ -6,12 +6,11 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.FormBody
 import okhttp3.Request
-import javax.inject.Inject
 import kotlin.reflect.KClass
 import kotlin.reflect.full.findAnnotation
 
 
-open class APIClient @Inject constructor(val httpClient: RxHttpClient) {
+open class APIClient constructor(val httpClient: RxHttpClient) {
 
     open fun login(username: String, password: String): Single<AuthInfo> {
         val AUTH_URL = "https://api.librus.pl/OAuth/Token"
@@ -54,7 +53,7 @@ open class APIClient @Inject constructor(val httpClient: RxHttpClient) {
                 .map { Parser.parse(it, AuthInfo::class) }
     }
 
-    fun <T : Identifiable> fetchEntities(clazz: KClass<T>, accessToken: String): Observable<T> {
+    open fun <T : Identifiable> fetchEntities(clazz: KClass<T>, accessToken: String): Observable<T> {
         val librusEntity = clazz.findAnnotation<LibrusEntity>() ?:
                 throw IllegalStateException("Class ${clazz.simpleName} not annotated with LibrusEntity annotation")
         return fetchRawData(librusEntity.endpoint, accessToken)
