@@ -12,7 +12,6 @@ android:
     - extra-google-m2repository
     - extra-android-support
     - extra-google-google_play_services
-    - sys-img-armeabi-v7a-android-22
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -22,7 +21,7 @@ cache:
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
 before_script:
-  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+  - android create avd --force -n test -t android-21 --abi armeabi-v7a --skin 480x800
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
