@@ -2,8 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'jacoco-android'
-apply from: rootProject.file("gradle/codeQuality.gradle")
+apply from: rootProject.file("app/codeQuality.gradle")
 
 android {
     compileSdkVersion 25
@@ -22,12 +21,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            testCoverageEnabled true
+        }
     }
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
     }
-
     lintOptions {
         disable 'InvalidPackage'
     }
@@ -88,8 +89,8 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.0.0-alpha3"
     kapt "android.arch.lifecycle:compiler:1.0.0-alpha3"
 
-    androidTestCompile 'com.github.fabioCollini:DaggerMock:0.7.0'
-    androidTestCompile 'com.github.tmurakami:dexopener:0.9.8'
+    androidTestImplementation 'com.github.fabioCollini:DaggerMock:0.7.0'
+    androidTestImplementation 'com.github.tmurakami:dexopener:0.9.8'
     androidTestImplementation 'org.mockito:mockito-android:2.8.47'
     androidTestImplementation "com.nhaarman:mockito-kotlin:1.5.0"
 
