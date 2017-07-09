@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import org.joda.time.LocalDateTime
 
 data class AuthInfo(
-        @JsonProperty("access_token") var accessToken: String,
-        @JsonProperty("refresh_token") var refreshToken: String,
-        @JsonProperty("expires_in") var expiresIn: Int,
-        var validFrom: LocalDateTime = LocalDateTime.now()) {
+        @JsonProperty("access_token") val accessToken: String,
+        @JsonProperty("refresh_token") val refreshToken: String,
+        @JsonProperty("expires_in") val expiresIn: Int,
+        val validFrom: LocalDateTime = LocalDateTime.now()) {
     private val buffer: Int = 3600
 
     fun needsRefresh(): Boolean =
