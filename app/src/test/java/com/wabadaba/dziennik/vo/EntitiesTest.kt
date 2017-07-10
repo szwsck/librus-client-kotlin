@@ -53,7 +53,6 @@ class EntitiesTest(
                 .toList().blockingGet()
         parsedList.size shouldBeGreaterThan 0
         parsedList.forEach { original ->
-            println(original)
             val inserted = dataStore.upsert(original)
             inserted shouldEqual original
             val found = dataStore.findByKey(clazz, original.id)

@@ -1,7 +1,6 @@
 package com.wabadaba.dziennik.vo
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import io.requery.Entity
 import io.requery.Key
 import io.requery.ManyToOne
@@ -10,7 +9,6 @@ import org.joda.time.LocalDate
 
 @LibrusEntity("Grades")
 @Entity
-@JsonDeserialize(`as` = GradeEntity::class)
 interface Grade : Identifiable {
 
     @get:Key

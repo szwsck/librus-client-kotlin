@@ -8,7 +8,6 @@ import io.requery.Key
 
 @Entity
 @LibrusEntity("Me")
-@JsonDeserialize(`as` = MeEntity::class)
 interface Me : Identifiable {
 
     override val id: String
