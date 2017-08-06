@@ -5,12 +5,12 @@ apply plugin: 'kotlin-kapt'
 apply from: rootProject.file("app/codeQuality.gradle")
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.wabadaba.dziennik"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "0.1"
         testInstrumentationRunner 'com.github.tmurakami.dexopener.DexOpenerAndroidJUnitRunner'
@@ -43,13 +43,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+
     implementation group: 'org.slf4j', name: 'slf4j-android', version: '1.7.25'
 
+    implementation 'com.android.support:multidex:1.0.2'
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:25.4.0'
+    implementation 'com.android.support:appcompat-v7:26.0.0'
+    implementation 'com.android.support:support-v13:26.0.0'
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
@@ -85,13 +86,26 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.11'
     kaptTest 'com.google.dagger:dagger-compiler:2.11'
 
-    implementation "android.arch.lifecycle:runtime:1.0.0-alpha3"
-    implementation "android.arch.lifecycle:extensions:1.0.0-alpha3"
-    kapt "android.arch.lifecycle:compiler:1.0.0-alpha3"
+    implementation "android.arch.lifecycle:runtime:1.0.0-alpha8"
+    implementation "android.arch.lifecycle:extensions:1.0.0-alpha8"
+    kapt "android.arch.lifecycle:compiler:1.0.0-alpha8"
+
+    implementation 'com.afollestad.material-dialogs:core:0.9.4.5'
+    implementation 'com.android.support:design:26.0.0'
+    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    implementation('com.mikepenz:materialdrawer:5.9.4@aar') {
+        transitive = true
+    }
 
     androidTestImplementation 'com.github.fabioCollini:DaggerMock:0.7.0'
     androidTestImplementation 'com.github.tmurakami:dexopener:0.9.8'
     androidTestImplementation 'org.mockito:mockito-android:2.8.47'
     androidTestImplementation "com.nhaarman:mockito-kotlin:1.5.0"
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.0'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestImplementation 'com.android.support.test:runner:1.0.0'
+    androidTestImplementation 'com.android.support.test:rules:1.0.0'
 
 }

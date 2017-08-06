@@ -28,7 +28,7 @@ open class RxHttpClient @Inject constructor(
             if (isDeviceOffline()) {
                 it.onError(HttpException.DeviceOffline(url))
             } else {
-                logger.trace { "start fetching data from $url" }
+                logger.info { "start fetching data from $url" }
                 val response = OkHttpClient.Builder()
                         .connectTimeout(timeoutSeconds, TimeUnit.SECONDS)
                         .readTimeout(timeoutSeconds, TimeUnit.SECONDS)
@@ -37,7 +37,7 @@ open class RxHttpClient @Inject constructor(
                         .newCall(request).execute()
                 val message = response.body()?.string() ?: throw IllegalStateException("Empty response from $url")
                 if (response.isSuccessful) {
-                    logger.trace { "data fetched successfully from $url" }
+                    logger.info { "data fetched successfully from $url" }
                     it.onSuccess(message)
                 } else {
                     it.onError(createException(response.code(), message, url))

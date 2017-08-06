@@ -1,7 +1,9 @@
 package com.wabadaba.dziennik.db
 
 import android.content.Context
+import com.wabadaba.dziennik.api.FullUser
 import com.wabadaba.dziennik.vo.Models
+import io.reactivex.Observable
 import io.requery.Persistable
 import io.requery.android.sqlite.DatabaseSource
 import io.requery.cache.EntityCacheBuilder
@@ -11,11 +13,18 @@ import io.requery.sql.KotlinEntityDataStore
 import io.requery.sql.TableCreationMode
 import io.requery.sql.platform.SQLite
 
-class DatabaseManager(context: Context, username: String) {
-    val dataStore: KotlinEntityDataStore<Persistable>
+class DatabaseManager(
+        private val context: Context,
+        userObservable: Observable<FullUser>) {
+    lateinit var dataStore: KotlinEntityDataStore<Persistable>
 
     init {
-        val source = DatabaseSource(context, Models.DEFAULT, username.databaseName, 1)
+        userObservable.map { it.login }
+                .subscribe(this::createDatastore)
+    }
+
+    private fun createDatastore(login: String) {
+        val source = DatabaseSource(context, Models.DEFAULT, login.databaseName, 1)
         source.setTableCreationMode(TableCreationMode.DROP_CREATE)
         source.setLoggingEnabled(true)
 
@@ -28,7 +37,7 @@ class DatabaseManager(context: Context, username: String) {
         dataStore = KotlinEntityDataStore<Persistable>(configuration)
     }
 
-    private val String.databaseName get() = "user-data-" + this
+    private val String.databaseName get() = "userObservable-data-" + this
 
     object MainMapping : GenericMapping(SQLite()) {
         init {

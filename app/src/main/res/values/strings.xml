@@ -3,4 +3,17 @@
     <string name="username">Nazwa użytkownika</string>
     <string name="password">Hasło</string>
     <string name="log_in">Zaloguj się</string>
+    <string name="add_account">Dodaj konto</string>
+    <string name="password_incorrect">Nieprawidłowe hasło</string>
+    <string name="logout">Wyloguj się</string>
+    <string name="student">Uczeń</string>
+    <string name="parent">Rodzic</string>
+    <string name="enter_password">Wpisz hasło</string>
+    <string name="enter_username">Wpisz nazwę użytkownika</string>
+    <string name="incorrect_password">Nieprawidłowe hasło</string>
+    <string name="maintenance_message">Trwa przerwa techniczna, spróbuj ponownie później</string>
+    <string name="server_offline_message">Błąd serwera, spróbuj ponownie później</string>
+    <string name="device_offline_message">Brak połączenia</string>
+    <string name="unknown_error_message">Wystąpił nieoczekiwany błąd</string>
+    <string name="already_logged_in_message">Ten użytkownik jest już zalogowany</string>
 </resources>

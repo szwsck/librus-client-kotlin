@@ -2,8 +2,7 @@ package com.wabadaba.dziennik.di
 
 import android.app.Application
 import android.arch.lifecycle.ViewModel
-import com.wabadaba.dziennik.api.APIClient
-import com.wabadaba.dziennik.ui.login.LoginViewModel
+import com.wabadaba.dziennik.ui.MainViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
@@ -15,9 +14,8 @@ class ViewModelModule {
 
     @Provides
     @IntoMap
-    @ViewModelKey(LoginViewModel::class)
-    fun provideLoginViewModel(application: Application, client: APIClient): ViewModel =
-            LoginViewModel(application, client)
+    @ViewModelKey(MainViewModel::class)
+    fun provideMainViewModel(appliaction: Application): ViewModel = MainViewModel(appliaction)
 
     @Provides
     fun provideViewModelFactory(creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>) =

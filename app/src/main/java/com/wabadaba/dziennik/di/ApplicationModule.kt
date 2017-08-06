@@ -2,8 +2,11 @@ package com.wabadaba.dziennik.di
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import com.wabadaba.dziennik.api.APIClient
 import com.wabadaba.dziennik.api.RxHttpClient
+import com.wabadaba.dziennik.api.UserRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
@@ -19,8 +22,14 @@ class ApplicationModule(private val mainApplication: Application) {
     fun provideContext(): Context = mainApplication
 
     @Provides
-    fun provideMainApplication(): Application = mainApplication
+    fun provideApplication(): Application = mainApplication
 
     @Provides
     fun provideApiClient(rxHttpClient: RxHttpClient) = APIClient(rxHttpClient)
+
+    @Provides
+    fun provideSharedPrefs(context: Context): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
+    @Provides
+    fun provideUserRepository(context: Context): UserRepository = UserRepository(context)
 }
