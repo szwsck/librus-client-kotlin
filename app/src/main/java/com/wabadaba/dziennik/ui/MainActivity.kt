@@ -1,16 +1,18 @@
 package com.wabadaba.dziennik.ui
 
-import android.arch.lifecycle.LifecycleActivity
+import android.arch.lifecycle.LifecycleRegistry
+import android.arch.lifecycle.LifecycleRegistryOwner
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import co.zsmb.materialdrawerkt.builders.accountHeader
+import co.zsmb.materialdrawerkt.builders.drawer
+import co.zsmb.materialdrawerkt.draweritems.profile.profile
+import co.zsmb.materialdrawerkt.draweritems.profile.profileSetting
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
-import com.mikepenz.materialdrawer.AccountHeaderBuilder
-import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
-import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem
-import com.mikepenz.materialdrawer.model.interfaces.IProfile
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.api.User
@@ -22,7 +24,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 import mu.KotlinLogging
 import javax.inject.Inject
 
-class MainActivity : LifecycleActivity() {
+class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
+
+    private val registry = LifecycleRegistry(this)
+
+    override fun getLifecycle(): LifecycleRegistry {
+        return registry
+    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -38,6 +46,9 @@ class MainActivity : LifecycleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        title = getString(R.string.app_name)
+        setSupportActionBar(toolbar_main)
 
         val mainApplication = applicationContext as MainApplication
         mainApplication.mainComponent.inject(this)
@@ -56,73 +67,62 @@ class MainActivity : LifecycleActivity() {
                     }
                 }
         userRepository.currentUser.observeOn(AndroidSchedulers.mainThread())
-                .subscribe { user ->
-                    logger.info { "Current user: ${user.login}" }
-                    logged_in_as.text = "Logged in as ${user.login}"
-                }
+                .subscribe { logger.info { "Current user: ${it.login}" } }
     }
 
     private val SETTING_ADD_ACCOUNT = 934L
     private val SETTING_LOGOUT = 935L
 
-    private fun setupDrawer(users: List<User>) {
-        val addAccountItem = ProfileSettingDrawerItem()
-                .withName(getString(R.string.add_account))
-                .withIcon(R.drawable.ic_add_black_24dp)
-                .withIconTinted(true)
-                .withIdentifier(SETTING_ADD_ACCOUNT)
-        val logoutItem = ProfileSettingDrawerItem()
-                .withName(getString(R.string.logout))
-                .withIcon(R.drawable.ic_exit_to_app_black_24dp)
-                .withIconTinted(true)
-                .withIdentifier(SETTING_LOGOUT)
-
-        val accountHeader = AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.navbackground)
-                .withCurrentProfileHiddenInList(true)
-                .withSelectionListEnabledForSingleProfile(false)
-                .withOnAccountHeaderListener({ _, profile, current ->
-                    if (profile.identifier == SETTING_ADD_ACCOUNT) {
-                        redirectToLogin()
-                        return@withOnAccountHeaderListener true
-                    } else if (profile.identifier == SETTING_LOGOUT) {
-                        userRepository.removeUser(userRepository.currentUser.blockingFirst().login)
-                        return@withOnAccountHeaderListener false
-                    } else if (!current && profile is ProfileDrawerItem) {
-                        userRepository.switchUser(profile.tag as String)
-                        return@withOnAccountHeaderListener false
-                    } else (return@withOnAccountHeaderListener false)
-                })
-                .withProfiles(users.map(this::getProfile) + addAccountItem + logoutItem)
-                .build()
-
-        DrawerBuilder()
-                .withActivity(this)
-                .withAccountHeader(accountHeader)
-                .build()
-    }
-
-    private fun getProfile(user: User): IProfile<*> {
-        val generator = ColorGenerator.MATERIAL
-        val color = generator.getColor(user.login)
-        val icon = TextDrawable.builder()
-                .beginConfig()
-                .height(48)
-                .width(48)
-                .endConfig()
-                .buildRect(user.firstName.substring(0, 1), color)
-        val subtitle: String =
-                if (user.groupId == 8) getString(R.string.student)
-                else if (user.groupId == 5) getString(R.string.parent)
-                else user.login
-
-        return ProfileDrawerItem()
-                .withName("${user.firstName} ${user.lastName}")
-                .withEmail(subtitle)
-                .withNameShown(true)
-                .withIcon(icon)
-                .withTag(user.login)
+    private fun setupDrawer(users: List<User>) = drawer {
+        actionBarDrawerToggleAnimated = true
+        toolbar = toolbar_main
+        accountHeader {
+            background = R.drawable.navbackground
+            currentHidden = true
+            onProfileChanged { _, profile, current ->
+                if (profile.identifier == SETTING_ADD_ACCOUNT) {
+                    redirectToLogin()
+                    return@onProfileChanged true
+                } else if (profile.identifier == SETTING_LOGOUT) {
+                    userRepository.removeUser(userRepository.currentUser.blockingFirst().login)
+                    return@onProfileChanged false
+                } else if (!current && profile is ProfileDrawerItem) {
+                    userRepository.switchUser(profile.tag as String)
+                    return@onProfileChanged false
+                } else (return@onProfileChanged false)
+            }
+            for (user in users) {
+                profile {
+                    val generator = ColorGenerator.MATERIAL
+                    val color = generator.getColor(user.login)
+                    iconDrawable = TextDrawable.builder()
+                            .beginConfig()
+                            .height(48)
+                            .width(48)
+                            .endConfig()
+                            .buildRect(user.firstName.substring(0, 1), color)
+                    email =
+                            if (user.groupId == 8) getString(R.string.student)
+                            else if (user.groupId == 5) getString(R.string.parent)
+                            else user.login
+                    nameShown = true
+                    name = "${user.firstName} ${user.lastName}"
+                    tag = user.login
+                }
+            }
+            profileSetting {
+                nameRes = R.string.add_account
+                icon = R.drawable.ic_add_black_24dp
+                iconTinted = true
+                identifier = SETTING_ADD_ACCOUNT
+            }
+            profileSetting {
+                nameRes = R.string.logout
+                icon = R.drawable.ic_exit_to_app_black_24dp
+                iconTinted = true
+                identifier = SETTING_LOGOUT
+            }
+        }
     }
 
     fun redirectToLogin() {

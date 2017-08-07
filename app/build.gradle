@@ -93,9 +93,7 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:0.9.4.5'
     implementation 'com.android.support:design:26.0.0'
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
-    implementation('com.mikepenz:materialdrawer:5.9.4@aar') {
-        transitive = true
-    }
+    implementation 'co.zsmb:materialdrawer-kt:1.0.6'
 
     androidTestImplementation 'com.github.fabioCollini:DaggerMock:0.7.0'
     androidTestImplementation 'com.github.tmurakami:dexopener:0.9.8'
