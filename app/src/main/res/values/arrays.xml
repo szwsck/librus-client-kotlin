@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="defaultFragmentPreferenceEntries">
+        <item>@string/timetable</item>
+        <item>@string/grades</item>
+        <item>@string/agenda</item>
+        <item>@string/announcements</item>
+        <item>@string/absences</item>
+    </string-array>
+    <string-array name="defaultFragmentPreferenceEntryValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="enabledNotificationsPreferenceEntries">
+        <item>@string/grades</item>
+        <item>@string/announcements</item>
+        <item>@string/agenda_entries</item>
+        <item>@string/lucky_numbers</item>
+    </string-array>
+    <string-array name="enabledNotificationsPreferenceEntryValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+</resources>

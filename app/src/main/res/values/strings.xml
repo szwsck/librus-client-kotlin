@@ -16,4 +16,22 @@
     <string name="device_offline_message">Brak połączenia</string>
     <string name="unknown_error_message">Wystąpił nieoczekiwany błąd</string>
     <string name="already_logged_in_message">Ten użytkownik jest już zalogowany</string>
+    <string name="settings">Ustawienia</string>
+
+    <!-- Settings -->
+    <string name="general">Ogólne</string>
+    <string name="default_view">Domyślny widok</string>
+    <string name="dark_theme">Ciemny motyw</string>
+    <string name="notifications">Powiadomienia</string>
+    <string name="show_notifications">Pokazuj powiadomienia</string>
+    <string name="received_notifications">Otrzymywane powiadomienia</string>
+    <string name="more">Więcej</string>
+    <string name="about_app">O aplikacji</string>
+    <string name="timetable">Plan lekcji</string>
+    <string name="grades">Oceny</string>
+    <string name="announcements">Ogłoszenia</string>
+    <string name="absences">Nieobecności</string>
+    <string name="agenda">Terminarz</string>
+    <string name="agenda_entries">Wpisy w terminarzu</string>
+    <string name="lucky_numbers">Szczęśliwe numerki</string>
 </resources>

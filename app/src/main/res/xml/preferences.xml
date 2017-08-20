@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/general">
+        <ListPreference
+            android:key="defaultFragment"
+            android:title="@string/default_view"
+            android:entries="@array/defaultFragmentPreferenceEntries"
+            android:entryValues="@array/defaultFragmentPreferenceEntryValues"/>
+        <SwitchPreference
+            android:defaultValue="0"
+            android:key="@string/dark_theme"
+            android:title="@string/dark_theme" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/notifications">
+        <SwitchPreference
+            android:defaultValue="1"
+            android:key="enable_notifications"
+            android:title="@string/show_notifications"/>
+        <MultiSelectListPreference
+            android:key="enabled_notification_types"
+            android:title="@string/received_notifications"
+            android:entries="@array/enabledNotificationsPreferenceEntries"
+            android:entryValues="@array/enabledNotificationsPreferenceEntryValues"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/more">
+        <Preference android:title="@string/about_app">
+            <!--<intent android:action=".ui.AboutActivity" />-->
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

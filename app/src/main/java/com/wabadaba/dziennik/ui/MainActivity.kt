@@ -5,9 +5,13 @@ import android.arch.lifecycle.LifecycleRegistryOwner
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import co.zsmb.materialdrawerkt.builders.accountHeader
 import co.zsmb.materialdrawerkt.builders.drawer
+import co.zsmb.materialdrawerkt.builders.footer
+import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
+import co.zsmb.materialdrawerkt.draweritems.badgeable.secondaryItem
 import co.zsmb.materialdrawerkt.draweritems.profile.profile
 import co.zsmb.materialdrawerkt.draweritems.profile.profileSetting
 import com.amulyakhare.textdrawable.TextDrawable
@@ -22,6 +26,7 @@ import com.wabadaba.dziennik.ui.login.LoginActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import mu.KotlinLogging
+import java.util.logging.Logger
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
@@ -121,6 +126,18 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
                 icon = R.drawable.ic_exit_to_app_black_24dp
                 iconTinted = true
                 identifier = SETTING_LOGOUT
+            }
+        }
+        footer {
+            primaryItem(R.string.settings) {
+                icon = R.drawable.ic_settings_black_24dp
+                selectable = false
+                iconTintingEnabled = true
+                onClick { _ ->
+                    logger.info { "onClick: settings" }
+                    fragmentManager.beginTransaction().replace(R.id.content_main, SettingsFragment.newInstance()).commit()
+                    false
+                }
             }
         }
     }
