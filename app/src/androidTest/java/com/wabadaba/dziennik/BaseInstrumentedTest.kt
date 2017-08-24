@@ -1,6 +1,7 @@
 package com.wabadaba.dziennik
 
 import android.arch.lifecycle.ViewModel
+import android.support.test.InstrumentationRegistry
 import com.nhaarman.mockito_kotlin.KStubbing
 import com.nhaarman.mockito_kotlin.mock
 import com.wabadaba.dziennik.di.ViewModelFactory
@@ -19,5 +20,9 @@ abstract class BaseInstrumentedTest {
 
         `when`(viewModelFactory.create(T::class.java)).thenReturn(viewModelMock)
         return viewModelMock
+    }
+
+    companion object {
+        fun getApp(): MainApplication = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as MainApplication
     }
 }

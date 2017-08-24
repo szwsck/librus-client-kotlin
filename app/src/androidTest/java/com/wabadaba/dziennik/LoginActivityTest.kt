@@ -11,10 +11,7 @@ import android.support.test.espresso.intent.matcher.IntentMatchers.toPackage
 import android.support.test.espresso.intent.rule.IntentsTestRule
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import com.nhaarman.mockito_kotlin.times
-import com.wabadaba.dziennik.api.APIClient
-import com.wabadaba.dziennik.api.AuthInfo
-import com.wabadaba.dziennik.api.FullUser
-import com.wabadaba.dziennik.api.UserRepository
+import com.wabadaba.dziennik.api.*
 import com.wabadaba.dziennik.ui.MainActivity
 import com.wabadaba.dziennik.ui.login.LoginActivity
 import com.wabadaba.dziennik.vo.Me
@@ -33,6 +30,7 @@ class LoginActivityTest : BaseInstrumentedTest() {
     @get:Rule val activityRule = IntentsTestRule(LoginActivity::class.java, false, false)
     @Mock lateinit var userRepository: UserRepository
     @Mock lateinit var apiClient: APIClient
+    @Mock lateinit var loginClient: LoginClient
 
     val username = "username"
     val password = "password"
@@ -41,12 +39,12 @@ class LoginActivityTest : BaseInstrumentedTest() {
     @Test
     fun shouldLogIn() {
         val authInfo = AuthInfo("AToken", "RToken", 9000000)
-        `when`(apiClient.login(username, password)).thenReturn(Single.just(authInfo))
+        `when`(loginClient.login(username, password)).thenReturn(Single.just(authInfo))
         val login = "testlogin"
         val me = MeEntity().apply {
             account.setLogin(login)
         }
-        `when`(apiClient.fetchEntities(Me::class, authInfo.accessToken)).thenReturn(Observable.just(me))
+        `when`(apiClient.fetchEntities(Me::class)).thenReturn(Observable.just(me))
         activityRule.launchActivity(null)
         val packageName = MainApplication::class.java.`package`.name
         val result = Instrumentation.ActivityResult(Activity.RESULT_OK, null)

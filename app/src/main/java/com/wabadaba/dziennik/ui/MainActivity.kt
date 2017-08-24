@@ -11,7 +11,6 @@ import co.zsmb.materialdrawerkt.builders.accountHeader
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.builders.footer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
-import co.zsmb.materialdrawerkt.draweritems.badgeable.secondaryItem
 import co.zsmb.materialdrawerkt.draweritems.profile.profile
 import co.zsmb.materialdrawerkt.draweritems.profile.profileSetting
 import com.amulyakhare.textdrawable.TextDrawable
@@ -19,14 +18,15 @@ import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
+import com.wabadaba.dziennik.api.RxHttpClient
 import com.wabadaba.dziennik.api.User
 import com.wabadaba.dziennik.api.UserRepository
 import com.wabadaba.dziennik.di.ViewModelFactory
+import com.wabadaba.dziennik.ui.grades.GradesFragment
 import com.wabadaba.dziennik.ui.login.LoginActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import mu.KotlinLogging
-import java.util.logging.Logger
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
@@ -45,8 +45,10 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
     @Inject
     lateinit var userRepository: UserRepository
 
-    val logger = KotlinLogging.logger { }
+    @Inject
+    lateinit var rxHttpClient: RxHttpClient
 
+    val logger = KotlinLogging.logger { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,23 +98,23 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
                     return@onProfileChanged false
                 } else (return@onProfileChanged false)
             }
-            for (user in users) {
+            for ((login, firstName, lastName, groupId) in users) {
                 profile {
                     val generator = ColorGenerator.MATERIAL
-                    val color = generator.getColor(user.login)
+                    val color = generator.getColor(login)
                     iconDrawable = TextDrawable.builder()
                             .beginConfig()
                             .height(48)
                             .width(48)
                             .endConfig()
-                            .buildRect(user.firstName.substring(0, 1), color)
+                            .buildRect(firstName.substring(0, 1), color)
                     email =
-                            if (user.groupId == 8) getString(R.string.student)
-                            else if (user.groupId == 5) getString(R.string.parent)
-                            else user.login
+                            if (groupId == 8) getString(R.string.student)
+                            else if (groupId == 5) getString(R.string.parent)
+                            else login
                     nameShown = true
-                    name = "${user.firstName} ${user.lastName}"
-                    tag = user.login
+                    name = "$firstName $lastName"
+                    tag = login
                 }
             }
             profileSetting {
@@ -128,6 +130,15 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
                 identifier = SETTING_LOGOUT
             }
         }
+        primaryItem {
+            nameRes = R.string.grades
+            icon = R.drawable.ic_assignment_black_24dp
+            iconTintingEnabled = true
+            onClick { _ ->
+                switchFragment(GradesFragment())
+                false
+            }
+        }
         footer {
             primaryItem(R.string.settings) {
                 icon = R.drawable.ic_settings_black_24dp
@@ -135,11 +146,17 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
                 iconTintingEnabled = true
                 onClick { _ ->
                     logger.info { "onClick: settings" }
-                    fragmentManager.beginTransaction().replace(R.id.content_main, SettingsFragment.newInstance()).commit()
+                    switchFragment(SettingsFragment.newInstance())
                     false
                 }
             }
         }
+    }
+
+    private fun switchFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.content_main, fragment)
+                .commit()
     }
 
     fun redirectToLogin() {

@@ -52,6 +52,8 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:26.0.1'
     implementation 'com.android.support:support-v13:26.0.1'
     implementation 'com.android.support:support-v4:26.0.1'
+
+    implementation 'com.android.support:preference-v14:26.0.1'
     implementation 'com.android.support:design:26.0.1'
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -67,7 +69,7 @@ dependencies {
 
     implementation 'joda-time:joda-time:2.9.9'
 
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.8'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.9'
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.8.8"
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.8'
 
@@ -95,7 +97,12 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:0.9.4.5'
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     implementation 'co.zsmb:materialdrawer-kt:1.0.6'
+    implementation 'eu.davidea:flexible-adapter:5.0.0-rc2'
+    implementation 'eu.davidea:flexible-adapter-databinding:1.0.0-b1@aar'
 
+    androidTestImplementation('org.amshove.kluent:kluent:1.24', {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-reflect'
+    })
     androidTestImplementation 'com.github.fabioCollini:DaggerMock:0.7.0'
     androidTestImplementation 'com.github.tmurakami:dexopener:0.9.8'
     androidTestImplementation 'org.mockito:mockito-android:2.8.47'

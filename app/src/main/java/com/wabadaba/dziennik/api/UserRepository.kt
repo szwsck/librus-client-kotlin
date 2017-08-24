@@ -5,7 +5,9 @@ import android.content.Context
 import android.preference.PreferenceManager
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import javax.inject.Singleton
 
+@Singleton
 @SuppressLint("ApplySharedPref")
 class UserRepository(
         context: Context) {

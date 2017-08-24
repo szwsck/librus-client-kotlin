@@ -9,12 +9,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import javax.inject.Inject
 
 @RunWith(RobolectricTestRunner::class)
-class LiveApiClientTest : BaseTest() {
+@Config(sdk = intArrayOf(23))
+class LiveLoginClientTest : BaseTest() {
 
-    @Inject lateinit var client: APIClient
+    @Inject lateinit var client: LoginClient
 
     @Before
     fun setup() {

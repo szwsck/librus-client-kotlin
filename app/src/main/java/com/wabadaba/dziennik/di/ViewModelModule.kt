@@ -2,11 +2,14 @@ package com.wabadaba.dziennik.di
 
 import android.app.Application
 import android.arch.lifecycle.ViewModel
+import com.wabadaba.dziennik.api.EntityRepository
 import com.wabadaba.dziennik.ui.MainViewModel
+import com.wabadaba.dziennik.ui.grades.GradesViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import javax.inject.Provider
+import javax.inject.Singleton
 
 
 @Module
@@ -18,6 +21,12 @@ class ViewModelModule {
     fun provideMainViewModel(appliaction: Application): ViewModel = MainViewModel(appliaction)
 
     @Provides
+    @IntoMap
+    @ViewModelKey(GradesViewModel::class)
+    fun provideGradesViewModel(entityRepo: EntityRepository): ViewModel = GradesViewModel(entityRepo)
+
+    @Provides
+    @Singleton
     fun provideViewModelFactory(creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>) =
             ViewModelFactory(creators)
 }

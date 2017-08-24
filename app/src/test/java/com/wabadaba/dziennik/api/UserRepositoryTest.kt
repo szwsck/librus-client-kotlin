@@ -81,7 +81,7 @@ class UserRepositoryTest {
         userRepository.removeUser(user1.login)
 
         currentUserTest.values().last() shouldEqual user2Full
-        allUsersTest.values().last() shouldEqual listOf(user2.login)
+        allUsersTest.values().last() shouldEqual listOf(user2)
     }
 
     @Test
@@ -96,7 +96,7 @@ class UserRepositoryTest {
         userRepository.removeUser(user2.login)
 
         currentUserTest.values().last() shouldEqual user1Full
-        allUsersTest.values().last() shouldEqual listOf(user1.login)
+        allUsersTest.values().last() shouldEqual listOf(user1)
     }
 
     @Test

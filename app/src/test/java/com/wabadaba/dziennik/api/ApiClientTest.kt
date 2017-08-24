@@ -17,28 +17,7 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class ApiClientTest : BaseTest() {
 
-    @Test
-    fun shouldLogIn() {
-        val httpClient = mock<RxHttpClient> {
-            on { executeCall(any()) } doReturn (Single.just(readFile("/loginResponse.json")))
-        }
-        val client = APIClient(httpClient)
-        val result = client.login("username", "password")
-                .blockingGet()
-
-        result.accessToken shouldEqualTo "ACCESS_TOKEN"
-        result.refreshToken shouldEqualTo "REFRESH_TOKEN"
-    }
-
-    @Test(expected = HttpException.Authorization::class)
-    fun shouldPassException() {
-        val httpClient = mock<RxHttpClient> {
-            on { executeCall(any()) } doReturn (Single.error(HttpException.Authorization("url")))
-        }
-        val client = APIClient(httpClient)
-        client.login("username", "password")
-                .blockingGet()
-    }
+    val authInfo = AuthInfo("", "", 900000)
 
     @Test
     fun shouldFetchEntities() {
@@ -46,8 +25,8 @@ class ApiClientTest : BaseTest() {
         val httpClient = mock<RxHttpClient> {
             on { executeCall(any()) } doReturn (Single.just(response))
         }
-        val client = APIClient(httpClient)
-        val result = client.fetchEntities(Grade::class, "")
+        val client = APIClient(authInfo, httpClient)
+        val result = client.fetchEntities(Grade::class)
                 .toList()
                 .blockingGet()
         result.size shouldEqualTo 5
@@ -59,8 +38,8 @@ class ApiClientTest : BaseTest() {
         val httpClient = mock<RxHttpClient> {
             on { executeCall(any()) } doReturn (Single.just(response))
         }
-        val client = APIClient(httpClient)
-        val result = client.refreshAccess("").blockingGet()
+        val client = APIClient(authInfo, httpClient)
+        val result = client.refreshAccess().blockingGet()
         result.accessToken shouldEqualTo "ACCESS_TOKEN"
         result.refreshToken shouldEqualTo "REFRESH_TOKEN"
         result.expiresIn shouldEqualTo 2592000
