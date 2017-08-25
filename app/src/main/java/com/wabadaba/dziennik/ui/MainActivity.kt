@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
         footer {
             primaryItem(R.string.settings) {
                 icon = R.drawable.ic_settings_black_24dp
-                selectable = false
+                selectable = true
                 iconTintingEnabled = true
                 onClick { _ ->
                     logger.info { "onClick: settings" }
