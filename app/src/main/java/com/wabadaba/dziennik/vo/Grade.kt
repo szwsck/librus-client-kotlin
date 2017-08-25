@@ -19,6 +19,9 @@ interface Grade : Identifiable {
     @get:ManyToOne
     val category: GradeCategory?
 
+    @get:ManyToOne
+    val subject: Subject?
+
     @get:OneToMany
     val comments: Set<GradeComment>
 

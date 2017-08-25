@@ -9,7 +9,6 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.requery.Persistable
 import io.requery.reactivex.KotlinReactiveEntityStore
-import mu.KotlinLogging
 import kotlin.reflect.KClass
 
 class EntityRepository(userObservable: Observable<FullUser>, val datastoreCreator: ((FullUser) -> KotlinReactiveEntityStore<Persistable>), val apiClientCreator: ((FullUser) -> APIClient)) {
@@ -20,8 +19,6 @@ class EntityRepository(userObservable: Observable<FullUser>, val datastoreCreato
     private val refreshSubject = BehaviorSubject.createDefault<Unit>(Unit)
 
     lateinit var datastore: KotlinReactiveEntityStore<Persistable>
-
-    val logger = KotlinLogging.logger { }
 
     init {
 
