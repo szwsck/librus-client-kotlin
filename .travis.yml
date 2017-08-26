@@ -27,7 +27,7 @@ before_script:
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 script:
-  - ./gradlew clean jacocoTestReport lintDebug
+  - ./gradlew clean jacocoTestReport lintDevDebug
 notifications:
   webhooks: https://krake.one/travis-ci/303300186892009472/MTFBp0u9ra3ckgYgI6DyOjcorhCjxN0EyFHoBcPP6u3ErL-GdmI10Sr0esNNV5icFfAH
 after_success:
