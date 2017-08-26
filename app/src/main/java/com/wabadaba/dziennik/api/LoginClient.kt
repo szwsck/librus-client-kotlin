@@ -1,12 +1,13 @@
 package com.wabadaba.dziennik.api
 
+import com.wabadaba.dziennik.BuildConfig
 import io.reactivex.Single
 import okhttp3.FormBody
 import okhttp3.Request
 
 class LoginClient(val httpClient: RxHttpClient) {
-    //    val BASE_URL = "https://api.librus.pl"
-    val BASE_URL = "https://librus-mock.herokuapp.com" //FIXME
+
+    val BASE_URL = BuildConfig.BASE_URL
 
     fun login(username: String, password: String): Single<AuthInfo> {
         val authEndpoint = "/OAuth/Token"

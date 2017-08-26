@@ -13,6 +13,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "0.1"
+        flavorDimensions "versionCode"
         testInstrumentationRunner 'com.github.tmurakami.dexopener.DexOpenerAndroidJUnitRunner'
         multiDexEnabled true
     }
@@ -23,6 +24,14 @@ android {
         }
         debug {
             testCoverageEnabled true
+        }
+    }
+    productFlavors {
+        dev {
+            buildConfigField "String", "BASE_URL", "\"https://librus-mock.herokuapp.com\""
+        }
+        full {
+            buildConfigField "String", "BASE_URL", "\"https://api.librus.pl\""
         }
     }
     packagingOptions {

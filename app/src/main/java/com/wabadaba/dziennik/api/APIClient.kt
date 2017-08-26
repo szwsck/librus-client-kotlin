@@ -1,5 +1,6 @@
 package com.wabadaba.dziennik.api
 
+import com.wabadaba.dziennik.BuildConfig
 import com.wabadaba.dziennik.vo.Identifiable
 import com.wabadaba.dziennik.vo.LibrusEntity
 import io.reactivex.Observable
@@ -12,8 +13,7 @@ import kotlin.reflect.full.findAnnotation
 
 open class APIClient(val authInfo: AuthInfo, val httpClient: RxHttpClient) {
 
-    //    val BASE_URL = "https://api.librus.pl"
-    val BASE_URL = "https://librus-mock.herokuapp.com" //FIXME
+    val BASE_URL = BuildConfig.BASE_URL
 
     open fun <T : Identifiable> fetchEntities(clazz: KClass<T>): Observable<T> {
         val librusEntity = clazz.findAnnotation<LibrusEntity>() ?:

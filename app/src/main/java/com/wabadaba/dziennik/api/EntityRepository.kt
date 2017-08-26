@@ -33,7 +33,6 @@ class EntityRepository(userObservable: Observable<FullUser>, val datastoreCreato
         }.subscribeOn(Schedulers.io())
                 .subscribe { user -> refreshAll(user) }
 
-
     }
 
     fun refresh() = refreshSubject.onNext(Unit)
