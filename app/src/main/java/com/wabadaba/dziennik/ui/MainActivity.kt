@@ -24,6 +24,7 @@ import com.wabadaba.dziennik.api.UserRepository
 import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.grades.GradesFragment
 import com.wabadaba.dziennik.ui.login.LoginActivity
+import com.wabadaba.dziennik.ui.timetable.TimetableFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import mu.KotlinLogging
@@ -131,6 +132,15 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
             }
         }
         primaryItem {
+            nameRes = R.string.timetable
+            icon = R.drawable.ic_event_black_24dp
+            iconTintingEnabled = true
+            onClick { _ ->
+                switchFragment(TimetableFragment())
+                false
+            }
+        }
+        primaryItem {
             nameRes = R.string.grades
             icon = R.drawable.ic_assignment_black_24dp
             iconTintingEnabled = true
@@ -164,3 +174,4 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
     }
 
 }
+

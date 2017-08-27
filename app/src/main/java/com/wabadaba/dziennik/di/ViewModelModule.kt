@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModel
 import com.wabadaba.dziennik.api.EntityRepository
 import com.wabadaba.dziennik.ui.MainViewModel
 import com.wabadaba.dziennik.ui.grades.GradesViewModel
+import com.wabadaba.dziennik.ui.timetable.TimetableViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
@@ -24,6 +25,11 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(GradesViewModel::class)
     fun provideGradesViewModel(entityRepo: EntityRepository): ViewModel = GradesViewModel(entityRepo)
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(TimetableViewModel::class)
+    fun provideTimetableViewModel(entityRepo: EntityRepository): ViewModel = TimetableViewModel(entityRepo)
 
     @Provides
     @Singleton

@@ -25,6 +25,8 @@ class GradesFragment : LifecycleFragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelFactory
 
+    private lateinit var viewModel: GradesViewModel
+
     val logger = KotlinLogging.logger { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,8 +37,6 @@ class GradesFragment : LifecycleFragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?)
             = inflater?.inflate(R.layout.fragment_grades, container, false)
-
-    private lateinit var viewModel: GradesViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

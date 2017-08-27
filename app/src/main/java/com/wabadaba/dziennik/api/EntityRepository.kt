@@ -21,6 +21,9 @@ class EntityRepository(userObservable: Observable<FullUser>, val datastoreCreato
     private val gradesSubject: BehaviorSubject<List<Grade>> = BehaviorSubject.create()
     val grades: Observable<List<Grade>> = gradesSubject
 
+    private val lessonsSubject: BehaviorSubject<List<Lesson>> = BehaviorSubject.create()
+    val lessons: Observable<List<Lesson>> = lessonsSubject
+
     private val refreshSubject = BehaviorSubject.createDefault<Unit>(Unit)
 
     lateinit var datastore: KotlinReactiveEntityStore<Persistable>
@@ -82,6 +85,12 @@ class EntityRepository(userObservable: Observable<FullUser>, val datastoreCreato
                 .toList()
                 .subscribeOn(Schedulers.io())
                 .subscribe(gradesSubject::onNext)
+        datastore.select(Lesson::class)
+                .get()
+                .observable()
+                .toList()
+                .subscribeOn(Schedulers.io())
+                .subscribe(lessonsSubject::onNext)
     }
 
     private fun getDefaultWeekStart() = LocalDate.now().plusDays(2).withDayOfWeek(MONDAY)
