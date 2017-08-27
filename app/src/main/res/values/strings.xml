@@ -32,4 +32,5 @@
     <string name="lucky_numbers">Szczęśliwe numerki</string>
     <string name="log_in">Zaloguj się</string>
     <string name="using_librus">za pomocą konta Librus lub Librus Synergia</string>
+    <string name="close">Zamknij</string>
 </resources>
