@@ -33,4 +33,14 @@
     <string name="log_in">Zaloguj się</string>
     <string name="using_librus">za pomocą konta Librus lub Librus Synergia</string>
     <string name="close">Zamknij</string>
+    <string name="no_grades">Brak ocen</string>
+    <string name="subject">Przedmiot</string>
+    <string name="date">Data</string>
+    <string name="weight">Waga</string>
+    <string name="category">Kategoria</string>
+    <string name="grade">Ocena</string>
+    <string name="grade_details">Szczegóły oceny</string>
+    <string name="added_by">Dodana przez</string>
+    <string name="date_format_full">EEEE, d MMMM yyyy</string>
+    <string name="comment">Komentarz</string>
 </resources>
