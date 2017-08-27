@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
@@ -43,48 +44,82 @@ class GradesFragment : LifecycleFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GradesViewModel::class.java)
 
         viewModel.grades.observe(this, Observer { grades ->
-            if (grades != null) {
-                logger.info { "Displaying ${grades.size} grades" }
-                val subjectGradeMap = mutableMapOf<Subject, MutableList<Grade>>()
-                for (grade in grades) {
-                    if (!subjectGradeMap.contains(grade.subject)) {
-                        subjectGradeMap.put(grade.subject!!, mutableListOf())
-                    }
-                    subjectGradeMap[grade.subject]?.add(grade)
-                }
-                val headers = subjectGradeMap.map {
-                    val header = GradeHeaderItem(it.key)
-                    val subItems = it.value.map { GradeItem(it, header) }
-                    header.withSubItems(subItems)
-                    header
-                }
-                val adapter = FastItemAdapter<IItem<*, *>>()
-                adapter.withPositionBasedStateManagement(false)
-                adapter.withSelectable(true)
-                adapter.withOnClickListener({ _, _, item, _ ->
-                    if (item is GradeItem) {
-                        val grade = item.grade
-                        val ddb = DetailsDialogBuilder(activity)
-                                .withTitle("Szczegóły oceny")
-                                .addField("Ocena", grade.grade)
-                                .addField("Kategoria", grade.category?.name)
-                                .addField("Waga", grade.category?.weight?.toString())
-                                .addField("Przedmiot", grade.subject?.name)
-                                .addField("Data", grade.date?.toString("EEEE, d MMMM yyyy"))
-                                .addField("Dodana przez", "${grade.addedBy?.firstName} ${grade.addedBy?.lastName}")
-                        for (comment in grade.comments) {
-                            ddb.addField("Komentarz", comment.text)
-                        }
-                        ddb.build().show()
-                        return@withOnClickListener true
-                    }
-                    return@withOnClickListener false
-
-                })
-                recycler_view_grades.adapter = adapter
-                recycler_view_grades.layoutManager = LinearLayoutManager(activity)
-                adapter.add(headers)
+            if (grades != null && grades.isNotEmpty()) {
+                fragment_grades_recyclerview.visibility = View.VISIBLE
+                fragment_grades_message.visibility = View.GONE
+                displayGrades(grades)
+            } else {
+                fragment_grades_recyclerview.visibility = View.GONE
+                fragment_grades_message.visibility = View.VISIBLE
+                fragment_grades_message.text = getString(R.string.no_grades)
             }
         })
+    }
+
+    private fun displayGrades(grades: List<Grade>) {
+        logger.info { "Displaying ${grades.size} grades" }
+        val subjectGradeMap = mutableMapOf<Subject, MutableList<Grade>>()
+        for (grade in grades) {
+            if (!subjectGradeMap.contains(grade.subject)) {
+                subjectGradeMap.put(grade.subject!!, mutableListOf())
+            }
+            subjectGradeMap[grade.subject]?.add(grade)
+        }
+        val headers = subjectGradeMap.map {
+            val header = GradeHeaderItem(it.key)
+            val subItems = it.value.map { GradeItem(it, header) }
+            header.withSubItems(subItems)
+            header
+        }
+        val adapter = FastItemAdapter<IItem<*, *>>()
+        adapter.withPositionBasedStateManagement(false)
+        adapter.withSelectable(true)
+        adapter.withOnClickListener({ _, _, item, _ ->
+            if (item is GradeItem) {
+                showDialog(item.grade)
+                return@withOnClickListener true
+            }
+            return@withOnClickListener false
+
+        })
+        fragment_grades_recyclerview.adapter = adapter
+        fragment_grades_recyclerview.layoutManager = LinearLayoutManager(activity)
+        adapter.add(headers)
+    }
+
+    private fun showDialog(grade: Grade) {
+        val ddb = DetailsDialogBuilder(activity)
+                .withTitle(getString(R.string.grade_details))
+
+        if (grade.grade != null)
+            ddb.addField(getString(R.string.grade), grade.grade)
+
+        if (grade.category?.name != null)
+            ddb.addField(getString(R.string.category), grade.category?.name)
+
+        if (grade.category?.weight != null)
+            ddb.addField(getString(R.string.weight), grade.category?.weight?.toString())
+
+        if (grade.subject?.name != null)
+            ddb.addField(getString(R.string.subject), grade.subject?.name)
+
+        if (grade.date != null)
+            ddb.addField(getString(R.string.date), grade.date?.toString(getString(R.string.date_format_full)))
+
+        val addedBy = StringBuilder()
+        val firstName = grade.addedBy?.firstName
+        val lastName = grade.addedBy?.lastName
+
+        if (!(firstName == null && lastName == null)) {
+            if (firstName != null) addedBy.append(firstName)
+            if (firstName != null && lastName != null) addedBy.append(' ')
+            if (lastName != null) addedBy.append(lastName)
+            ddb.addField(getString(R.string.added_by), addedBy.toString())
+        }
+
+        for (comment in grade.comments) {
+            ddb.addField(getString(R.string.comment), comment.text)
+        }
+        ddb.build().show()
     }
 }
