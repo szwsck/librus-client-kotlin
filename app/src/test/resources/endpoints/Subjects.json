@@ -1,0 +1,194 @@
+{
+  "Subjects": [
+    {
+      "Id": 44555,
+      "Name": "Biologia",
+      "No": 1,
+      "Short": "bio",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44556,
+      "Name": "Chemia",
+      "No": 2,
+      "Short": "che",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44557,
+      "Name": "Etyka",
+      "No": 3,
+      "Short": "ety",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44558,
+      "Name": "Fizyka",
+      "No": 4,
+      "Short": "fiz",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44560,
+      "Name": "Geografia",
+      "No": 6,
+      "Short": "geo",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44561,
+      "Name": "Godzina wychowawcza",
+      "No": 7,
+      "Short": "gw",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44562,
+      "Name": "Historia",
+      "No": 8,
+      "Short": "his",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44565,
+      "Name": "Język angielski",
+      "No": 11,
+      "Short": "jang",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44566,
+      "Name": "Język francuski",
+      "No": 12,
+      "Short": "jfr",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44567,
+      "Name": "Język hiszpański",
+      "No": 13,
+      "Short": "hisz",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44568,
+      "Name": "Język niemiecki",
+      "No": 14,
+      "Short": "niem",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44569,
+      "Name": "Język polski",
+      "No": 15,
+      "Short": "pol",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44570,
+      "Name": "Matematyka",
+      "No": 16,
+      "Short": "mat",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44572,
+      "Name": "Plastyka",
+      "No": 18,
+      "Short": "plas",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44576,
+      "Name": "Religia",
+      "No": 22,
+      "Short": "rel",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44579,
+      "Name": "Wiedza o społeczeństwie",
+      "No": 25,
+      "Short": "wos",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44580,
+      "Name": "Wychowanie do życia w rodzinie",
+      "No": 26,
+      "Short": "rodz",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44581,
+      "Name": "Wychowanie fizyczne",
+      "No": 27,
+      "Short": "wf",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44711,
+      "Name": "Edukacja dla bezpieczeństwa",
+      "No": 31,
+      "Short": "edb",
+      "IsExtracurricular": false,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 44908,
+      "Name": "Matematyka i media",
+      "No": 36,
+      "Short": "mmed",
+      "IsExtracurricular": true,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 48234,
+      "Name": "Lekcja biblioteczna",
+      "No": 40,
+      "Short": "lbib",
+      "IsExtracurricular": true,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 48235,
+      "Name": "Spotkanie z pedagogiem",
+      "No": 41,
+      "Short": "Szp",
+      "IsExtracurricular": true,
+      "IsBlockLesson": false
+    },
+    {
+      "Id": 48236,
+      "Name": "Spotkanie z psychologiem",
+      "No": 42,
+      "Short": "Szps",
+      "IsExtracurricular": true,
+      "IsBlockLesson": false
+    }
+  ],
+  "Resources": {
+    "..": {
+      "Url": "https://api.librus.pl/2.0/Root"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/Subjects"
+}

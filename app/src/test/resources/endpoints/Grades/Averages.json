@@ -1,0 +1,36 @@
+{
+  "Averages": [
+    {
+      "Student": {
+        "Id": 1402361,
+        "Url": "https://api.librus.pl/2.0/Users/1402361"
+      },
+      "Subject": {
+        "Id": 44555,
+        "Url": "https://api.librus.pl/2.0/Subjects/44555"
+      },
+      "Semester1": 4.29,
+      "Semester2": 4.17,
+      "FullYear": 4.26
+    },
+    {
+      "Student": {
+        "Id": 1402361,
+        "Url": "https://api.librus.pl/2.0/Users/1402361"
+      },
+      "Subject": {
+        "Id": 44556,
+        "Url": "https://api.librus.pl/2.0/Subjects/44556"
+      },
+      "Semester1": 4.82,
+      "Semester2": 0,
+      "FullYear": 4.82
+    }
+  ],
+  "Resources": {
+    "..": {
+      "Url": "https://api.librus.pl/2.0/Grades"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/Grades/Averages"
+}
