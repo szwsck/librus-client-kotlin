@@ -1,0 +1,285 @@
+{
+  "Timetable": {
+    "2017-08-21": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "2017-08-22": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "2017-08-23": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "2017-08-24": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "2017-08-25": [
+      [],
+      [
+        {
+          "Lesson": {
+            "Id": "482916",
+            "Url": "https://api.librus.pl/2.0/Lessons/482916"
+          },
+          "DateFrom": "2017-08-25",
+          "DateTo": "2018-06-22",
+          "LessonNo": "1",
+          "TimetableEntry": {
+            "Id": "13558",
+            "Url": "https://api.librus.pl/2.0/TimetableEntries/13558"
+          },
+          "DayNo": "5",
+          "Subject": {
+            "Id": "24375",
+            "Name": "Geografia",
+            "Short": "geo",
+            "Url": "https://api.librus.pl/2.0/Subjects/24375"
+          },
+          "Teacher": {
+            "Id": "12895",
+            "FirstName": "Michał",
+            "LastName": "Twardowski",
+            "Url": "https://api.librus.pl/2.0/Users/12895"
+          },
+          "Class": {
+            "Id": 523,
+            "Url": "https://api.librus.pl/2.0/Classes/523"
+          },
+          "IsSubstitutionClass": false,
+          "IsCanceled": false,
+          "SubstitutionNote": null,
+          "HourFrom": "08:00",
+          "HourTo": "08:45"
+        }
+      ],
+      [
+        {
+          "Lesson": {
+            "Id": "472584",
+            "Url": "https://api.librus.pl/2.0/Lessons/472584"
+          },
+          "DateFrom": "2017-08-25",
+          "DateTo": "2018-06-22",
+          "LessonNo": "2",
+          "TimetableEntry": {
+            "Id": "13563",
+            "Url": "https://api.librus.pl/2.0/TimetableEntries/13563"
+          },
+          "DayNo": "5",
+          "Subject": {
+            "Id": "718",
+            "Name": "Język polski",
+            "Short": "pol",
+            "Url": "https://api.librus.pl/2.0/Subjects/718"
+          },
+          "Teacher": {
+            "Id": "12897",
+            "FirstName": "Jan",
+            "LastName": "Kowalczyk",
+            "Url": "https://api.librus.pl/2.0/Users/12897"
+          },
+          "Class": {
+            "Id": 523,
+            "Url": "https://api.librus.pl/2.0/Classes/523"
+          },
+          "IsSubstitutionClass": false,
+          "IsCanceled": false,
+          "SubstitutionNote": null,
+          "HourFrom": "09:00",
+          "HourTo": "09:45"
+        }
+      ],
+      [
+        {
+          "Lesson": {
+            "Id": "457690",
+            "Url": "https://api.librus.pl/2.0/Lessons/457690"
+          },
+          "DateFrom": "2017-08-25",
+          "DateTo": "2018-06-22",
+          "LessonNo": "3",
+          "TimetableEntry": {
+            "Id": "13568",
+            "Url": "https://api.librus.pl/2.0/TimetableEntries/13568"
+          },
+          "DayNo": "5",
+          "Subject": {
+            "Id": "716",
+            "Name": "Matematyka",
+            "Short": "Mat",
+            "Url": "https://api.librus.pl/2.0/Subjects/716"
+          },
+          "Teacher": {
+            "Id": "368224",
+            "FirstName": "Anna",
+            "LastName": "Kępa",
+            "Url": "https://api.librus.pl/2.0/Users/368224"
+          },
+          "Class": {
+            "Id": 523,
+            "Url": "https://api.librus.pl/2.0/Classes/523"
+          },
+          "IsSubstitutionClass": false,
+          "IsCanceled": false,
+          "SubstitutionNote": null,
+          "HourFrom": "10:00",
+          "HourTo": "10:45"
+        }
+      ],
+      [
+        {
+          "Lesson": {
+            "Id": "472582",
+            "Url": "https://api.librus.pl/2.0/Lessons/472582"
+          },
+          "DateFrom": "2017-08-25",
+          "DateTo": "2018-06-22",
+          "LessonNo": "4",
+          "TimetableEntry": {
+            "Id": "13573",
+            "Url": "https://api.librus.pl/2.0/TimetableEntries/13573"
+          },
+          "DayNo": "5",
+          "Subject": {
+            "Id": "717",
+            "Name": "Historia",
+            "Short": "His",
+            "Url": "https://api.librus.pl/2.0/Subjects/717"
+          },
+          "Teacher": {
+            "Id": "12896",
+            "FirstName": "Jan",
+            "LastName": "Kryspinowicz",
+            "Url": "https://api.librus.pl/2.0/Users/12896"
+          },
+          "Class": {
+            "Id": 523,
+            "Url": "https://api.librus.pl/2.0/Classes/523"
+          },
+          "IsSubstitutionClass": false,
+          "IsCanceled": false,
+          "SubstitutionNote": null,
+          "HourFrom": "11:00",
+          "HourTo": "11:45"
+        }
+      ],
+      [
+        {
+          "Lesson": {
+            "Id": "482915",
+            "Url": "https://api.librus.pl/2.0/Lessons/482915"
+          },
+          "DateFrom": "2017-08-25",
+          "DateTo": "2018-06-22",
+          "LessonNo": "5",
+          "TimetableEntry": {
+            "Id": "13578",
+            "Url": "https://api.librus.pl/2.0/TimetableEntries/13578"
+          },
+          "DayNo": "5",
+          "Subject": {
+            "Id": "24373",
+            "Name": "Chemia",
+            "Short": "che",
+            "Url": "https://api.librus.pl/2.0/Subjects/24373"
+          },
+          "Teacher": {
+            "Id": "383783",
+            "FirstName": "Jan",
+            "LastName": "Stefanowski",
+            "Url": "https://api.librus.pl/2.0/Users/383783"
+          },
+          "Class": {
+            "Id": 523,
+            "Url": "https://api.librus.pl/2.0/Classes/523"
+          },
+          "IsSubstitutionClass": false,
+          "IsCanceled": false,
+          "SubstitutionNote": null,
+          "HourFrom": "12:00",
+          "HourTo": "12:45"
+        }
+      ],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "2017-08-26": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "2017-08-27": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ]
+  },
+  "Pages": {
+    "Next": "https://api.librus.pl/2.0/Timetables?weekStart=2017-08-28",
+    "Prev": "https://api.librus.pl/2.0/Timetables?weekStart=2017-08-14"
+  },
+  "Resources": {
+    "..": {
+      "Url": "https://api.librus.pl/2.0/Root"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/Timetables?weekStart=2017-08-21"
+}

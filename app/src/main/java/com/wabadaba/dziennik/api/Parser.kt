@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.joda.JodaModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.wabadaba.dziennik.vo.Lesson
 import io.reactivex.Observable
+import org.joda.time.LocalDate
 import java.io.IOException
 import kotlin.reflect.KClass
 
@@ -20,11 +22,34 @@ object Parser {
             .registerModule(JodaModule())
             .registerModule(KotlinModule())
 
-    fun <T> parseEntityList(unescapedInput: String, type: Class<T>): Observable<T> {
-        val javaType = mapper.typeFactory.constructParametricType(List::class.java, type)
-        return parseEntity<List<T>>(unescapedInput, javaType)
-                ?.let { Observable.fromIterable(it) }
-                ?: Observable.empty<T>()
+    fun <T> parseEntityList(escapedInput: String, type: Class<T>): Observable<T> {
+        if (type.isAssignableFrom(Lesson::class.java)) {
+            val timetable = parseEntity<Timetable>(escapedInput, mapper.typeFactory.constructType(Timetable::class.java))
+            println(timetable)
+            @Suppress("UNCHECKED_CAST")
+            return unpackTimetable(timetable) as Observable<T>
+        } else {
+            val javaType = mapper.typeFactory.constructParametricType(List::class.java, type)
+            return parseEntity<List<T>>(escapedInput, javaType)
+                    ?.let { Observable.fromIterable(it) }
+                    ?: Observable.empty<T>()
+        }
+    }
+
+    private fun unpackTimetable(timetable: Timetable?): Observable<Lesson> {
+        if (timetable == null) return Observable.empty()
+        val result = mutableListOf<Lesson>()
+        for ((date, schoolDay) in timetable.entries) {
+            for (lessonWrapper in schoolDay) {
+                if (lessonWrapper.isNotEmpty()) {
+                    val lesson = lessonWrapper[0]
+                    lesson.date = date
+                    lesson.id = "$date:${lesson.lessonNumber}"
+                    result.add(lesson)
+                }
+            }
+        }
+        return Observable.fromIterable(result)
     }
 
     private fun <T> parseEntity(escapedInput: String, type: JavaType): T? {
@@ -50,3 +75,5 @@ object Parser {
 
     fun String.unescape() = this.replace("\\\\\\", "\\")
 }
+
+class Timetable : HashMap<LocalDate, List<List<Lesson>>>()

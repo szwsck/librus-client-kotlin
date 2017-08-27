@@ -1,6 +1,5 @@
 package com.wabadaba.dziennik.ui.grades
 
-import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.support.v7.widget.RecyclerView
 import android.text.Spannable
@@ -43,7 +42,6 @@ class GradeHeaderItem(val subject: Subject) : AbstractExpandableItem<GradeHeader
 
     override fun getLayoutRes(): Int = R.layout.grade_header_item
 
-    @SuppressLint("SetTextI18n")
     override fun bindView(holder: ViewHolder, payloads: MutableList<Any>?) {
         super.bindView(holder, payloads)
         holder.title.text = subject.name

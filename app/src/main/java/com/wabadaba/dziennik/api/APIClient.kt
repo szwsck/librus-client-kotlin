@@ -21,7 +21,6 @@ open class APIClient(val authInfo: AuthInfo, val httpClient: RxHttpClient) {
                 throw IllegalStateException("Class ${clazz.simpleName} not annotated with LibrusEntity annotation")
         return fetchRawData(librusEntity.endpoint, queryParams)
                 .flatMapObservable { Parser.parseEntityList(it, clazz.java) }
-                .doOnNext { println(it) }
     }
 
     open fun <T : Identifiable> fetchEntities(clazz: KClass<T>) = fetchEntities(clazz, emptyList())
