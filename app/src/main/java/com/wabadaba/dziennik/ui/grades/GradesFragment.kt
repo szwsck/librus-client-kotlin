@@ -12,6 +12,7 @@ import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
+import com.wabadaba.dziennik.ui.DetailsDialogBuilder
 import com.wabadaba.dziennik.vo.Grade
 import com.wabadaba.dziennik.vo.Subject
 import kotlinx.android.synthetic.main.fragment_grades.*
@@ -60,6 +61,26 @@ class GradesFragment : LifecycleFragment() {
                 val adapter = FastItemAdapter<IItem<*, *>>()
                 adapter.withPositionBasedStateManagement(false)
                 adapter.withSelectable(true)
+                adapter.withOnClickListener({ _, _, item, _ ->
+                    if (item is GradeItem) {
+                        val grade = item.grade
+                        val ddb = DetailsDialogBuilder(activity)
+                                .withTitle("Szczegóły oceny")
+                                .addField("Ocena", grade.grade)
+                                .addField("Kategoria", grade.category?.name)
+                                .addField("Waga", grade.category?.weight?.toString())
+                                .addField("Przedmiot", grade.subject?.name)
+                                .addField("Data", grade.date?.toString("EEEE, d MMMM yyyy"))
+                                .addField("Dodana przez", "${grade.addedBy?.firstName} ${grade.addedBy?.lastName}")
+                        for (comment in grade.comments) {
+                            ddb.addField("Komentarz", comment.text)
+                        }
+                        ddb.build().show()
+                        return@withOnClickListener true
+                    }
+                    return@withOnClickListener false
+
+                })
                 recycler_view_grades.adapter = adapter
                 recycler_view_grades.layoutManager = LinearLayoutManager(activity)
                 adapter.add(headers)
