@@ -54,13 +54,14 @@ class GradesFragment : LifecycleFragment() {
                 fragment_grades_message.text = getString(R.string.no_grades)
             }
         })
+
     }
 
     private fun displayGrades(grades: List<Grade>) {
         logger.info { "Displaying ${grades.size} grades" }
         val subjectGradeMap = mutableMapOf<Subject, MutableList<Grade>>()
         for (grade in grades) {
-            if (!subjectGradeMap.contains(grade.subject)) {
+            if (grade.subject != null && !subjectGradeMap.contains(grade.subject)) {
                 subjectGradeMap.put(grade.subject!!, mutableListOf())
             }
             subjectGradeMap[grade.subject]?.add(grade)
@@ -80,9 +81,9 @@ class GradesFragment : LifecycleFragment() {
                 return@withOnClickListener true
             }
             return@withOnClickListener false
-
         })
         fragment_grades_recyclerview.adapter = adapter
+        fragment_grades_recyclerview.itemAnimator = null
         fragment_grades_recyclerview.layoutManager = LinearLayoutManager(activity)
         adapter.add(headers)
     }

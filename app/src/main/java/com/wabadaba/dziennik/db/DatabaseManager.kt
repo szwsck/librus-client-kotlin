@@ -34,7 +34,7 @@ open class DatabaseManager(
         dataStore = KotlinReactiveEntityStore(blockingDataStore)
     }
 
-    private val String.databaseName get() = "userObservable-data-" + this
+    private val String.databaseName get() = "user-data-" + this
 
     object MainMapping : GenericMapping(SQLite()) {
         init {

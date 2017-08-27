@@ -6,6 +6,7 @@ import com.wabadaba.dziennik.vo.LibrusEntity
 import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.FormBody
+import okhttp3.HttpUrl
 import okhttp3.Request
 import kotlin.reflect.KClass
 import kotlin.reflect.full.findAnnotation
@@ -13,17 +14,30 @@ import kotlin.reflect.full.findAnnotation
 
 open class APIClient(val authInfo: AuthInfo, val httpClient: RxHttpClient) {
 
-    val BASE_URL = BuildConfig.BASE_URL
+    val HOST = BuildConfig.HOST
 
-    open fun <T : Identifiable> fetchEntities(clazz: KClass<T>): Observable<T> {
+    open fun <T : Identifiable> fetchEntities(clazz: KClass<T>, queryParams: List<Pair<String, String>>): Observable<T> {
         val librusEntity = clazz.findAnnotation<LibrusEntity>() ?:
                 throw IllegalStateException("Class ${clazz.simpleName} not annotated with LibrusEntity annotation")
-        return fetchRawData(librusEntity.endpoint)
+        return fetchRawData(librusEntity.endpoint, queryParams)
                 .flatMapObservable { Parser.parseEntityList(it, clazz.java) }
+                .doOnNext { println(it) }
     }
 
-    fun fetchRawData(endpoint: String): Single<String> {
-        val url = BASE_URL + "/2.0/" + endpoint
+    open fun <T : Identifiable> fetchEntities(clazz: KClass<T>) = fetchEntities(clazz, emptyList())
+
+    fun fetchRawData(endpoint: String, queryParams: List<Pair<String, String>>): Single<String> {
+        val urlBuilder = HttpUrl.Builder()
+                .scheme("https")
+                .host(HOST)
+                .addPathSegment("2.0")
+                .addPathSegments(endpoint)
+
+        queryParams.forEach { (name, value) ->
+            urlBuilder.addQueryParameter(name, value)
+        }
+
+        val url = urlBuilder.build()
 
         val request = Request.Builder()
                 .addHeader("Authorization", "Bearer " + authInfo.accessToken)
@@ -43,10 +57,16 @@ open class APIClient(val authInfo: AuthInfo, val httpClient: RxHttpClient) {
                 .add("refresh_token", authInfo.refreshToken)
                 .build()
 
+        val url = HttpUrl.Builder()
+                .scheme("https")
+                .host(HOST)
+                .addPathSegment(authEndpoint)
+                .build()
+
         val request = Request.Builder()
                 .addHeader("Authorization", "Basic " + auth_token)
                 .post(body)
-                .url(BASE_URL + authEndpoint)
+                .url(url)
                 .build()
 
         return httpClient.executeCall(request)

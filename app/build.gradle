@@ -28,10 +28,10 @@ android {
     }
     productFlavors {
         dev {
-            buildConfigField "String", "BASE_URL", "\"https://librus-mock.herokuapp.com\""
+            buildConfigField "String", "HOST", "\"librus-mock.herokuapp.com\""
         }
         full {
-            buildConfigField "String", "BASE_URL", "\"https://api.librus.pl\""
+            buildConfigField "String", "HOST", "\"api.librus.pl\""
         }
     }
     packagingOptions {

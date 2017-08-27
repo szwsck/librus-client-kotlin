@@ -5,7 +5,15 @@
     android:background="@color/md_light_cards">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_grades"
+        android:id="@+id/fragment_grades_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/fragment_grades_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone" />
 </android.support.constraint.ConstraintLayout>

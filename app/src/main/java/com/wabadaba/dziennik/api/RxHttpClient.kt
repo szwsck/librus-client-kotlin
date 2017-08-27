@@ -56,7 +56,7 @@ open class RxHttpClient @Inject constructor(
 
     private fun createException(code: Int, message: String, url: String): HttpException {
         try {
-            val root = Parser.mapper.readTree(message)
+            val root = Parser.mapper.readTree(message) ?: return HttpException.Unknown(url, code, message)
             if (root.hasChildWithText("error", "invalid_grant")) {
                 return HttpException.Authorization(url)
             }

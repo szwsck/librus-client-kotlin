@@ -14,5 +14,7 @@ class GradesViewModel(entityRepo: EntityRepository) : ViewModel() {
         entityRepo.grades
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { grades.value = it }
+        entityRepo.averages
+                .subscribe { System.out.println("Got ${it.size} averages") }
     }
 }

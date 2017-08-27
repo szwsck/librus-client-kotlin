@@ -3,6 +3,7 @@ package com.wabadaba.dziennik.vo
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import io.requery.Entity
 import io.requery.Key
+import io.requery.OneToOne
 
 @Entity
 @LibrusEntity("Subjects")
@@ -14,4 +15,6 @@ interface Subject : Identifiable {
 
     val name: String?
 
+    @get:OneToOne
+    val average: Average?
 }
