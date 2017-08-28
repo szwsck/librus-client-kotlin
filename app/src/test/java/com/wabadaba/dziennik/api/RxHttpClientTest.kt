@@ -23,8 +23,8 @@ import java.util.concurrent.TimeUnit
 @Config(shadows = arrayOf(RxHttpClientTest.MyNetworkSecurityPolicy::class))
 class RxHttpClientTest : BaseTest() {
 
-    val server = MockWebServer().apply { start() }
-    val request: Request = Request.Builder()
+    private val server = MockWebServer().apply { start() }
+    private val request: Request = Request.Builder()
             .url(server.url("somePath"))
             .get()
             .build()

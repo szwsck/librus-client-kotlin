@@ -11,7 +11,7 @@ import org.robolectric.RuntimeEnvironment
 abstract class BaseDBTest : BaseTest() {
 
     protected lateinit var dataStore: BlockingEntityStore<Persistable>
-    protected lateinit var dbManager: DatabaseManager
+    private lateinit var dbManager: DatabaseManager
     @Before
     fun setupDB() {
         dbManager = DatabaseManager(RuntimeEnvironment.application, FullUser(

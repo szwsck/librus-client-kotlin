@@ -13,10 +13,10 @@ import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.wabadaba.dziennik.R
 
-class DetailsDialogBuilder(val activity: Activity) {
+class DetailsDialogBuilder(private val activity: Activity) {
 
     var title: String? = null
-    val fields = mutableListOf<Pair<CharSequence, CharSequence>>()
+    private val fields = mutableListOf<Pair<CharSequence, CharSequence>>()
 
     fun withTitle(title: String): DetailsDialogBuilder {
         this.title = title
@@ -42,9 +42,9 @@ class DetailsDialogBuilder(val activity: Activity) {
         return this
     }
 
+    @SuppressLint("InflateParams")
     fun build(): MaterialDialog {
         val inflater = LayoutInflater.from(activity)
-        @SuppressLint("InflateParams")
         val dialogLayout = inflater.inflate(R.layout.dialog_details, null)
         val rootView = dialogLayout.findViewById<ViewGroup>(R.id.dialog_details_root)
         for ((index, field) in fields.withIndex()) {

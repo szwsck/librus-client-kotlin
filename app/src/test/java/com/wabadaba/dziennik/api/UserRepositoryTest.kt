@@ -10,22 +10,22 @@ import org.robolectric.RuntimeEnvironment
 @RunWith(RobolectricTestRunner::class)
 class UserRepositoryTest {
 
-    val user1 = User(
+    private val user1 = User(
             "user1",
             "user1FirstName",
             "user1FirstName",
             5)
-    val user2 = User(
+    private val user2 = User(
             "user2",
             "user2FirstName",
             "user2FirstName",
             5)
-    val user1Full = FullUser(
+    private val user1Full = FullUser(
             "user1",
             "user1FirstName",
             "user1FirstName",
             5, AuthInfo("aToken1", "rToken1", 12))
-    val user2Full = FullUser(
+    private val user2Full = FullUser(
             "user2",
             "user2FirstName",
             "user2FirstName",

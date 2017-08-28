@@ -17,7 +17,7 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class ApiClientTest : BaseTest() {
 
-    val authInfo = AuthInfo("", "", 900000)
+    private val authInfo = AuthInfo("", "", 900000)
 
     @Test
     fun shouldFetchEntities() {

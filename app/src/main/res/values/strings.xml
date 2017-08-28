@@ -43,4 +43,5 @@
     <string name="added_by">Dodana przez</string>
     <string name="date_format_full">EEEE, d MMMM yyyy</string>
     <string name="comment">Komentarz</string>
+    <string name="no_lessons">Brak lekcji</string>
 </resources>

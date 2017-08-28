@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: MainViewModel
 
     @Inject
     lateinit var userRepository: UserRepository
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
     @Inject
     lateinit var rxHttpClient: RxHttpClient
 
-    val logger = KotlinLogging.logger { }
+    private val logger = KotlinLogging.logger { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,10 +109,11 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
                             .width(48)
                             .endConfig()
                             .buildRect(firstName.substring(0, 1), color)
-                    email =
-                            if (groupId == 8) getString(R.string.student)
-                            else if (groupId == 5) getString(R.string.parent)
-                            else login
+                    email = when (groupId) {
+                        8 -> getString(R.string.student)
+                        5 -> getString(R.string.parent)
+                        else -> login
+                    }
                     nameShown = true
                     name = "$firstName $lastName"
                     tag = login
@@ -169,7 +170,7 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
                 .commit()
     }
 
-    fun redirectToLogin() {
+    private fun redirectToLogin() {
         startActivity(Intent(this, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT))
     }
 

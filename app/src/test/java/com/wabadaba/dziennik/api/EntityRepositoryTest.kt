@@ -16,25 +16,25 @@ import org.robolectric.RuntimeEnvironment
 @RunWith(RobolectricTestRunner::class)
 class EntityRepositoryTest : BaseDBTest() {
 
-    val user1Full = FullUser(
+    private val user1Full = FullUser(
             "user1",
             "user1FirstName",
             "user1FirstName",
             5, AuthInfo("aToken1", "rToken1", 12))
-    val user2Full = FullUser(
+    private val user2Full = FullUser(
             "user2",
             "user2FirstName",
             "user2FirstName",
             5,
             AuthInfo("aToken2", "rToken2", 12))
 
-    val userSubject: BehaviorSubject<FullUser> = BehaviorSubject.create<FullUser>()
+    private val userSubject: BehaviorSubject<FullUser> = BehaviorSubject.create<FullUser>()
 
-    val grade1: Grade = GradeEntity().apply {
+    private val grade1: Grade = GradeEntity().apply {
         setId("grade1")
         setDate(LocalDate.now())
     }
-    val grade2: Grade = GradeEntity().apply {
+    private val grade2: Grade = GradeEntity().apply {
         setId("grade2")
         setDate(LocalDate.now())
     }

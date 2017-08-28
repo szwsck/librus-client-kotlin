@@ -54,13 +54,13 @@ object Parser {
 
     private fun <T> parseEntity(escapedInput: String, type: JavaType): T? {
         val input = escapedInput.unescape()
-        try {
+        return try {
             val root = mapper.readTree(input)
             val firstField = root.first()
             if (firstField.isTextual && firstField.textValue() == "Disabled") {
                 return null
             }
-            return mapper.readValue(mapper.treeAsTokens(firstField), type)
+            mapper.readValue(mapper.treeAsTokens(firstField), type)
 
         } catch (e: IOException) {
             throw ParseException(input, e)
@@ -73,7 +73,7 @@ object Parser {
         throw ParseException(escapedInput, e)
     }
 
-    fun String.unescape() = this.replace("\\\\\\", "\\")
+    private fun String.unescape() = this.replace("\\\\\\", "\\")
 }
 
 class Timetable : HashMap<LocalDate, List<List<Lesson>>>()

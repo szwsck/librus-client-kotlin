@@ -5,14 +5,17 @@ import android.arch.lifecycle.ViewModel
 import com.wabadaba.dziennik.api.EntityRepository
 import com.wabadaba.dziennik.vo.Lesson
 import io.reactivex.android.schedulers.AndroidSchedulers
+import org.joda.time.LocalDate
 
 class TimetableViewModel(entityRepo: EntityRepository) : ViewModel() {
 
-    val lessons = MutableLiveData<List<Lesson>>()
+    val lessons = MutableLiveData<Map<LocalDate, List<Lesson>>>()
 
     init {
         entityRepo.lessons
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { lessons.value = it }
+                .subscribe { newLessons ->
+                    lessons.value = newLessons
+                }
     }
 }

@@ -8,14 +8,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.mikepenz.fastadapter.IItem
-import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.DetailsDialogBuilder
 import com.wabadaba.dziennik.vo.Grade
 import com.wabadaba.dziennik.vo.Subject
+import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_grades.*
 import mu.KotlinLogging
 import javax.inject.Inject
@@ -27,7 +27,7 @@ class GradesFragment : LifecycleFragment() {
 
     private lateinit var viewModel: GradesViewModel
 
-    val logger = KotlinLogging.logger { }
+    private val logger = KotlinLogging.logger { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +59,9 @@ class GradesFragment : LifecycleFragment() {
 
     private fun displayGrades(grades: List<Grade>) {
         logger.info { "Displaying ${grades.size} grades" }
+
+        val items = mutableListOf<IFlexible<*>>()
+
         val subjectGradeMap = mutableMapOf<Subject, MutableList<Grade>>()
         for (grade in grades) {
             if (grade.subject != null && !subjectGradeMap.contains(grade.subject)) {
@@ -66,26 +69,30 @@ class GradesFragment : LifecycleFragment() {
             }
             subjectGradeMap[grade.subject]?.add(grade)
         }
-        val headers = subjectGradeMap.map {
-            val header = GradeHeaderItem(it.key)
-            val subItems = it.value.map { GradeItem(it, header) }
-            header.withSubItems(subItems)
-            header
+
+        subjectGradeMap.entries.forEach { entry: MutableMap.MutableEntry<Subject, MutableList<Grade>> ->
+            val header = GradeHeaderItem(entry.key)
+            entry.value.map { GradeItem(it, header) }
+                    .forEach(header::addSubItem)
+            items.add(header)
         }
-        val adapter = FastItemAdapter<IItem<*, *>>()
-        adapter.withPositionBasedStateManagement(false)
-        adapter.withSelectable(true)
-        adapter.withOnClickListener({ _, _, item, _ ->
+
+        val adapter = FlexibleAdapter<IFlexible<*>>(items)
+        adapter.setDisplayHeadersAtStartUp(true)
+        adapter.collapseAll()
+
+        adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+            val item = adapter.getItem(position)
             if (item is GradeItem) {
                 showDialog(item.grade)
-                return@withOnClickListener true
+                false
+            } else {
+                true
             }
-            return@withOnClickListener false
-        })
-        fragment_grades_recyclerview.adapter = adapter
+        }
         fragment_grades_recyclerview.itemAnimator = null
         fragment_grades_recyclerview.layoutManager = LinearLayoutManager(activity)
-        adapter.add(headers)
+        fragment_grades_recyclerview.adapter = adapter
     }
 
     private fun showDialog(grade: Grade) {

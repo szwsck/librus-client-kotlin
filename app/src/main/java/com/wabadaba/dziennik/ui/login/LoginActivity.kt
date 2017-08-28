@@ -50,7 +50,7 @@ class LoginActivity : LifecycleActivity() {
                         }, { exception ->
                             if (exception is HttpException.Authorization) {
                                 passwordInputLayout.error = getString(R.string.incorrect_password)
-                            } else if (exception is IllegalStateException && (exception.message?.contains("already logged in") ?: false)) {
+                            } else if (exception is IllegalStateException && (exception.message?.contains("already logged in") == true)) {
                                 usernameInputLayout.error = getString(R.string.already_logged_in_message)
                             } else if (exception is HttpException.DeviceOffline) {
                                 showErrorSnackbar(getString(R.string.device_offline_message))

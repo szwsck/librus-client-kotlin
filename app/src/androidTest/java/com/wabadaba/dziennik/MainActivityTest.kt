@@ -16,8 +16,8 @@ import org.mockito.Mockito.`when`
 
 class MainActivityTest : BaseInstrumentedTest() {
 
-    @get:Rule val activityRule = ActivityTestRule(MainActivity::class.java, false, false)
-    @Mock lateinit var userRepository: UserRepository
+    @get:Rule private val activityRule = ActivityTestRule(MainActivity::class.java, false, false)
+    @Mock private lateinit var userRepository: UserRepository
 
     @Test
     fun shouldRedirectToLoginActivity() {

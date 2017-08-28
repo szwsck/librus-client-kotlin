@@ -2,7 +2,6 @@ package com.wabadaba.dziennik.api
 
 import com.wabadaba.dziennik.BaseTest
 import com.wabadaba.dziennik.di.ApplicationModule
-import com.wabadaba.dziennik.di.DaggerTestMainComponent
 import org.amshove.kluent.shouldNotBe
 import org.junit.Before
 import org.junit.Test
@@ -16,7 +15,7 @@ import javax.inject.Inject
 @Config(sdk = intArrayOf(23))
 class LiveLoginClientTest : BaseTest() {
 
-    @Inject lateinit var client: LoginClient
+    @Inject private lateinit var client: LoginClient
 
     @Before
     fun setup() {
@@ -26,8 +25,8 @@ class LiveLoginClientTest : BaseTest() {
                 .inject(this)
     }
 
-    val username = "13335"
-    val password = "librus11"
+    private val username = "13335"
+    private val password = "librus11"
 
     @Test
     fun shouldLogIn() {

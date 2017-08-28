@@ -18,13 +18,13 @@ import kotlin.reflect.full.isSubclassOf
  */
 @RunWith(ParameterizedRobolectricTestRunner::class)
 class EntitiesTest(
-        val className: String,
-        val endpoint: String,
+        private val className: String,
+        private val endpoint: String,
         @Suppress("unused")
         val name: String) : BaseDBTest() {
 
     companion object {
-        fun KClass<out Any>.findEndpoint() = this.findAnnotation<LibrusEntity>()?.endpoint
+        private fun KClass<out Any>.findEndpoint() = this.findAnnotation<LibrusEntity>()?.endpoint
                 ?: throw AssertionError("Class ${this.simpleName} not annotated with LibrusEntity annotation")
 
         @JvmStatic

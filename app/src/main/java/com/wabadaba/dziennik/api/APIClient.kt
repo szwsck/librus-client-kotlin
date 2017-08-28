@@ -12,9 +12,9 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.findAnnotation
 
 
-open class APIClient(val authInfo: AuthInfo, val httpClient: RxHttpClient) {
+open class APIClient(private val authInfo: AuthInfo, private val httpClient: RxHttpClient) {
 
-    val HOST = BuildConfig.HOST
+    private val HOST = BuildConfig.HOST
 
     open fun <T : Identifiable> fetchEntities(clazz: KClass<T>, queryParams: List<Pair<String, String>>): Observable<T> {
         val librusEntity = clazz.findAnnotation<LibrusEntity>() ?:
@@ -25,7 +25,7 @@ open class APIClient(val authInfo: AuthInfo, val httpClient: RxHttpClient) {
 
     open fun <T : Identifiable> fetchEntities(clazz: KClass<T>) = fetchEntities(clazz, emptyList())
 
-    fun fetchRawData(endpoint: String, queryParams: List<Pair<String, String>>): Single<String> {
+    private fun fetchRawData(endpoint: String, queryParams: List<Pair<String, String>>): Single<String> {
         val urlBuilder = HttpUrl.Builder()
                 .scheme("https")
                 .host(HOST)

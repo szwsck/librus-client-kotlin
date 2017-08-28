@@ -43,14 +43,14 @@ class UserRepository(
         allUsersSubject.onNext(users)
     }
 
-    fun loadUsers(): List<User> {
+    private fun loadUsers(): List<User> {
         val loadedRawUsers = prefs.getStringSet(usersPrefKey, null)
-        if (loadedRawUsers != null) {
+        return if (loadedRawUsers != null) {
             //deserialize raw users
-            return loadedRawUsers.map { Parser.parse(it, User::class) }
+            loadedRawUsers.map { Parser.parse(it, User::class) }
         } else {
             //if there is no saved data return empty list
-            return emptyList()
+            emptyList()
         }
     }
 
@@ -101,9 +101,8 @@ class UserRepository(
 
     private fun getUser(login: String): User {
         val users = loadUsers()
-        val user = (users.filter { it.login == login }.singleOrNull()
+        return (users.singleOrNull { it.login == login }
                 ?: throw UnsupportedOperationException("User $login doesn't exist."))
-        return user
     }
 
     private fun getFullUser(user: User) = FullUser(

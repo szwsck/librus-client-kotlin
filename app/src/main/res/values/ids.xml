@@ -2,4 +2,7 @@
 <resources>
     <item name="grade_item_id" type="id">1</item>
     <item name="grade_header_item_id" type="id">2</item>
+    <item name="item_lesson" type="id">3</item>
+    <item name="item_lesson_header" type="id">4</item>
+    <item name="item_empty_lesson" type="id">5</item>
 </resources>

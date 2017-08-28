@@ -48,7 +48,7 @@ open class RxHttpClient @Inject constructor(
         }
     }.subscribeOn(Schedulers.io())
 
-    fun isDeviceOffline(): Boolean {
+    private fun isDeviceOffline(): Boolean {
         val activeNetworkInfo = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = activeNetworkInfo.activeNetworkInfo
         return networkInfo == null || !networkInfo.isConnectedOrConnecting
@@ -75,7 +75,7 @@ open class RxHttpClient @Inject constructor(
         return HttpException.Unknown(url, code, message)
     }
 
-    fun JsonNode.hasChildWithText(childName: String, text: String): Boolean {
+    private fun JsonNode.hasChildWithText(childName: String, text: String): Boolean {
         val child = this.at("/$childName")
         return !child.isMissingNode && child.textValue().contains(text)
     }

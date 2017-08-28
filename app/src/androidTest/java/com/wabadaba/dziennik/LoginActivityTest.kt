@@ -27,13 +27,13 @@ import org.mockito.Mockito.verify
 
 class LoginActivityTest : BaseInstrumentedTest() {
 
-    @get:Rule val activityRule = IntentsTestRule(LoginActivity::class.java, false, false)
-    @Mock lateinit var userRepository: UserRepository
-    @Mock lateinit var apiClient: APIClient
-    @Mock lateinit var loginClient: LoginClient
+    @get:Rule private val activityRule = IntentsTestRule(LoginActivity::class.java, false, false)
+    @Mock private lateinit var userRepository: UserRepository
+    @Mock private lateinit var apiClient: APIClient
+    @Mock private lateinit var loginClient: LoginClient
 
-    val username = "username"
-    val password = "password"
+    private val username = "username"
+    private val password = "password"
 
 
     @Test

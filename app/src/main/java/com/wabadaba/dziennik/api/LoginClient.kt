@@ -6,9 +6,9 @@ import okhttp3.FormBody
 import okhttp3.HttpUrl
 import okhttp3.Request
 
-class LoginClient(val httpClient: RxHttpClient) {
+class LoginClient(private val httpClient: RxHttpClient) {
 
-    val HOST = BuildConfig.HOST
+    private val HOST = BuildConfig.HOST
 
     fun login(username: String, password: String): Single<AuthInfo> {
         val authEndpoint = "/OAuth/Token"
