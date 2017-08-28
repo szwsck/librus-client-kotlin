@@ -41,25 +41,39 @@ class TimetableFragment : LifecycleFragment() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(TimetableViewModel::class.java)
 
-        viewModel.lessons.observe(this, Observer { lessonMap ->
-            if (lessonMap != null && lessonMap.isNotEmpty()) {
+        viewModel.lessons.observe(this, Observer { lessonData ->
+            if (lessonData != null && lessonData.isNotEmpty()) {
                 fragment_timetable_recyclerview.visibility = View.VISIBLE
                 fragment_timetable_message.visibility = View.GONE
 
                 val items = mutableListOf<IFlexible<*>>()
 
-                val weekStart: LocalDate = lessonMap.keys.min()!!
+                val weekStart: LocalDate = lessonData.keys.min()!!
                 val endDate = weekStart + 7.days()
                 var date = weekStart
 
                 while (date < endDate) {
                     val header = LessonHeaderItem(date)
-                    if (lessonMap.containsKey(date)) {
-                        val schoolDay: List<Lesson> = lessonMap[date]!!
-                        schoolDay.map { LessonItem(header, it) }
-                                .forEach { items.add(it) }
+                    if (lessonData.containsKey(date)) {
+                        val lessonList: List<Lesson> = lessonData[date]!!
+                        if (lessonList.isNotEmpty()) {
+                            val lessonMap = lessonList
+                                    .associateBy { it.lessonNumber }
+
+                            val startLesson = minOf(lessonMap.keys.min()!!, 1)
+                            val endLesson = lessonMap.keys.max()!!
+
+                            for (lessonNumber in startLesson..endLesson) {
+                                val lesson = lessonMap[lessonNumber]
+                                items.add(
+                                        if (lesson != null) LessonItem(header, lesson)
+                                        else EmptyLessonItem(header, lessonNumber))
+                            }
+                        } else {
+                            items.add(NoLessonsItem(header))
+                        }
                     } else {
-                        items.add(EmptyLessonItem(header))
+                        items.add(NoLessonsItem(header))
                     }
                     date += 1.days()
                 }
