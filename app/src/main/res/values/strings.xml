@@ -46,5 +46,8 @@
     <string name="no_lessons">Brak lekcji</string>
     <string name="canceled">odwołane</string>
     <string name="substitution">zastępstwo</string>
+    <string name="lesson_details">Szczegóły lekcji</string>
+    <string name="teacher">Nauczyciel</string>
+    <string name="time">Godzina</string>
     <string name="empty_lesson">Okienko</string>
 </resources>
