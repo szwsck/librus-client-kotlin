@@ -1,5 +1,9 @@
 package com.wabadaba.dziennik.ui.timetable
 
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
 import android.view.View
 import android.widget.TextView
 import com.wabadaba.dziennik.R
@@ -8,6 +12,7 @@ import eu.davidea.flexibleadapter.items.AbstractHeaderItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 import org.joda.time.LocalDate
+import java.util.*
 
 class LessonHeaderItem(val date: LocalDate) : AbstractHeaderItem<LessonHeaderItem.ViewHolder>() {
 
@@ -29,7 +34,21 @@ class LessonHeaderItem(val date: LocalDate) : AbstractHeaderItem<LessonHeaderIte
     override fun getLayoutRes() = R.layout.item_lesson_header
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.title.text = date.toString()
+        holder.title.text = getDateText()
+    }
+
+    private fun getDateText(): SpannableStringBuilder {
+        val title: String = when (date) {
+            LocalDate.now() -> "Dzisiaj"
+            LocalDate.now().plusDays(1) -> "Jutro"
+            else -> date.toString("EEEE", Locale("pl"))
+        }
+        val subtitle = date.toString("d.M")
+
+        return SpannableStringBuilder()
+                .append(title.capitalize(), StyleSpan(Typeface.BOLD), Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                .append(' ')
+                .append(subtitle)
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter) {
