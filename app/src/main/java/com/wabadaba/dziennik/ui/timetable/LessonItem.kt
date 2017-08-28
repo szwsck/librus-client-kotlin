@@ -14,7 +14,7 @@ import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 
-class LessonItem(header: LessonHeaderItem, private val lesson: Lesson)
+class LessonItem(header: LessonHeaderItem, val lesson: Lesson)
     : AbstractSectionableItem<LessonItem.ViewHolder, LessonHeaderItem>(header) {
 
     override fun equals(other: Any?): Boolean {

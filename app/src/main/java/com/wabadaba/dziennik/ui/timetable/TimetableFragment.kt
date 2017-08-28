@@ -13,6 +13,7 @@ import com.github.debop.kodatimes.days
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
+import com.wabadaba.dziennik.ui.DetailsDialogBuilder
 import com.wabadaba.dziennik.vo.Lesson
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -81,6 +82,16 @@ class TimetableFragment : LifecycleFragment() {
                 val adapter = FlexibleAdapter(items)
                 adapter.setDisplayHeadersAtStartUp(true)
 
+                adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+                    val item = adapter.getItem(position)
+                    if (item is LessonItem && !item.lesson.canceled) {
+                        showDialog(item.lesson)
+                        false
+                    } else {
+                        true
+                    }
+                }
+
                 fragment_timetable_recyclerview.itemAnimator = null
                 fragment_timetable_recyclerview.layoutManager = LinearLayoutManager(activity)
                 fragment_timetable_recyclerview.adapter = adapter
@@ -91,6 +102,28 @@ class TimetableFragment : LifecycleFragment() {
                 fragment_timetable_message.text = "Brak lekcji"
             }
         })
+    }
+
+    private fun showDialog(lesson: Lesson) {
+        val ddb = DetailsDialogBuilder(activity)
+                .withTitle(getString(R.string.lesson_details))
+
+        if (lesson.teacher != null) {
+            val teacher = StringBuilder()
+            val firstName = lesson.teacher?.firstName
+            val lastName = lesson.teacher?.lastName
+
+            if (!(firstName == null && lastName == null)) {
+                if (firstName != null) teacher.append(firstName)
+                if (firstName != null && lastName != null) teacher.append(' ')
+                if (lastName != null) teacher.append(lastName)
+                ddb.addField(getString(R.string.teacher), teacher.toString())
+            }
+        }
+
+        ddb.addField(getString(R.string.date), lesson.date.toString(getString(R.string.date_format_full)))
+        ddb.addField(getString(R.string.time), lesson.hourFrom.toString("HH:mm") + " - " + lesson.hourTo.toString("HH:mm"))
+        ddb.build().show()
     }
 }
 
