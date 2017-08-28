@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Typeface
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.view.LayoutInflater
@@ -23,7 +22,7 @@ class DetailsDialogBuilder(private val activity: Activity) {
         return this
     }
 
-    fun addStyledField(title: SpannableString?, value: SpannableString?): DetailsDialogBuilder {
+    fun addStyledField(title: CharSequence?, value: CharSequence?): DetailsDialogBuilder {
         fields.add(Pair(title ?: "", value ?: ""))
         return this
     }

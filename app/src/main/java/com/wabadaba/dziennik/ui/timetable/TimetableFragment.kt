@@ -4,8 +4,12 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.LifecycleFragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +19,7 @@ import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.DetailsDialogBuilder
 import com.wabadaba.dziennik.vo.Lesson
+import com.wabadaba.dziennik.vo.Teacher
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_timetable.*
@@ -108,22 +113,52 @@ class TimetableFragment : LifecycleFragment() {
         val ddb = DetailsDialogBuilder(activity)
                 .withTitle(getString(R.string.lesson_details))
 
-        if (lesson.teacher != null) {
-            val teacher = StringBuilder()
-            val firstName = lesson.teacher?.firstName
-            val lastName = lesson.teacher?.lastName
+        val orgSubjectName = lesson.orgSubject?.name
+        val subjectName = lesson.subject?.name
 
-            if (!(firstName == null && lastName == null)) {
-                if (firstName != null) teacher.append(firstName)
-                if (firstName != null && lastName != null) teacher.append(' ')
-                if (lastName != null) teacher.append(lastName)
-                ddb.addField(getString(R.string.teacher), teacher.toString())
+        if (subjectName != null) {
+            if (orgSubjectName != null && orgSubjectName != subjectName) {
+                val ssb = SpannableStringBuilder()
+                        .append(orgSubjectName)
+                        .append(" -> ")
+                        .append(subjectName, StyleSpan(Typeface.BOLD), Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                ddb.addStyledField(getString(R.string.subject), ssb)
+            } else {
+                ddb.addField(getString(R.string.subject), subjectName)
+            }
+        }
+
+        val orgTeacherName = lesson.orgTeacher?.getFullName()
+        val teacherName = lesson.teacher?.getFullName()
+
+        if (teacherName != null) {
+            if (orgTeacherName != null && orgTeacherName != teacherName) {
+                val ssb = SpannableStringBuilder()
+                        .append(orgTeacherName)
+                        .append(" -> ")
+                        .append(teacherName, StyleSpan(Typeface.BOLD), Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                ddb.addStyledField(getString(R.string.teacher), ssb)
+            } else {
+                ddb.addField(getString(R.string.teacher), teacherName.toString())
             }
         }
 
         ddb.addField(getString(R.string.date), lesson.date.toString(getString(R.string.date_format_full)))
         ddb.addField(getString(R.string.time), lesson.hourFrom.toString("HH:mm") + " - " + lesson.hourTo.toString("HH:mm"))
         ddb.build().show()
+    }
+
+    private fun Teacher.getFullName(): CharSequence? {
+        val sb = StringBuilder()
+        val firstName = this.firstName
+        val lastName = this.lastName
+
+        return if (!(firstName == null && lastName == null)) {
+            if (firstName != null) sb.append(firstName)
+            if (firstName != null && lastName != null) sb.append(' ')
+            if (lastName != null) sb.append(lastName)
+            sb
+        } else null
     }
 }
 

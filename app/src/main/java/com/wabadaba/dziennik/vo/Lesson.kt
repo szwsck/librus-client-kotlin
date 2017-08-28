@@ -31,6 +31,12 @@ interface Lesson : Identifiable {
     @get:JsonProperty("IsCanceled")
     val canceled: Boolean
 
+    @get:ManyToOne
+    val orgTeacher: Teacher?
+
+    @get:ManyToOne
+    val orgSubject: Subject?
+
     var date: LocalDate
 
     val hourFrom: LocalTime
