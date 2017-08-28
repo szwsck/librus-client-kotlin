@@ -44,4 +44,6 @@
     <string name="date_format_full">EEEE, d MMMM yyyy</string>
     <string name="comment">Komentarz</string>
     <string name="no_lessons">Brak lekcji</string>
+    <string name="canceled">odwołane</string>
+    <string name="substitution">zastępstwo</string>
 </resources>
