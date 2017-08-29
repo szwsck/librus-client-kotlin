@@ -37,5 +37,4 @@ class LoginClient(private val httpClient: RxHttpClient) {
         return httpClient.executeCall(request)
                 .map { Parser.parse(it, AuthInfo::class) }
     }
-
 }

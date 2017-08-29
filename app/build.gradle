@@ -1,3 +1,4 @@
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -29,9 +30,11 @@ android {
     productFlavors {
         dev {
             buildConfigField "String", "HOST", "\"librus-mock.herokuapp.com\""
+            buildConfigField "String", "SENDER_ID", "\"745699180250\""
         }
         full {
             buildConfigField "String", "HOST", "\"api.librus.pl\""
+            buildConfigField "String", "SENDER_ID", "\"431120868545\""
         }
     }
     packagingOptions {
@@ -61,6 +64,8 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:26.0.1'
     implementation 'com.android.support:support-v13:26.0.1'
     implementation 'com.android.support:support-v4:26.0.1'
+
+    implementation "com.google.android.gms:play-services-gcm:11.2.0"
 
     implementation 'com.android.support:preference-v14:26.0.1'
     implementation 'com.android.support:design:26.0.1'

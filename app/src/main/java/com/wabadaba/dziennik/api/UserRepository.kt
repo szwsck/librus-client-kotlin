@@ -2,7 +2,9 @@ package com.wabadaba.dziennik.api
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.preference.PreferenceManager
+import com.wabadaba.dziennik.api.notification.LibrusRegistrationIntentService
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Singleton
@@ -10,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 @SuppressLint("ApplySharedPref")
 class UserRepository(
-        context: Context) {
+        val context: Context) {
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     private val usersPrefKey = "logged_in_users"
 
@@ -45,13 +47,7 @@ class UserRepository(
 
     private fun loadUsers(): List<User> {
         val loadedRawUsers = prefs.getStringSet(usersPrefKey, null)
-        return if (loadedRawUsers != null) {
-            //deserialize raw users
-            loadedRawUsers.map { Parser.parse(it, User::class) }
-        } else {
-            //if there is no saved data return empty list
-            emptyList()
-        }
+        return loadedRawUsers?.map { Parser.parse(it, User::class) } ?: emptyList()
     }
 
     fun addUser(fullUser: FullUser) {
@@ -72,6 +68,9 @@ class UserRepository(
         saveUsers(newUsers)
 
         saveAuthInfo(fullUser.login, fullUser.authInfo)
+
+        val intent = Intent(context, LibrusRegistrationIntentService::class.java)
+        context.startService(intent)
 
         //set the newly added user as current
         userSubject.onNext(fullUser)

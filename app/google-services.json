@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "745699180250",
+    "firebase_url": "https://librus-mock.firebaseio.com",
+    "project_id": "librus-mock",
+    "storage_bucket": "librus-mock.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745699180250:android:f1477e4dddb1a663",
+        "android_client_info": {
+          "package_name": "com.wabadaba.dziennik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745699180250-rg8i7kak7aio13s7oh8gisit56c6jq57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGUv1NEDr0v9jEU6osxkA1qjLRiLaRd7I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

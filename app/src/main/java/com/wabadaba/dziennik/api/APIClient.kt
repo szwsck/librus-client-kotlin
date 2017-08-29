@@ -5,9 +5,8 @@ import com.wabadaba.dziennik.vo.Identifiable
 import com.wabadaba.dziennik.vo.LibrusEntity
 import io.reactivex.Observable
 import io.reactivex.Single
-import okhttp3.FormBody
-import okhttp3.HttpUrl
-import okhttp3.Request
+import okhttp3.*
+import org.json.JSONObject
 import kotlin.reflect.KClass
 import kotlin.reflect.full.findAnnotation
 
@@ -15,6 +14,8 @@ import kotlin.reflect.full.findAnnotation
 open class APIClient(private val authInfo: AuthInfo, private val httpClient: RxHttpClient) {
 
     private val HOST = BuildConfig.HOST
+
+    private val jsonMediaType = MediaType.parse("application/json; charset=utf-8")
 
     open fun <T : Identifiable> fetchEntities(clazz: KClass<T>, queryParams: List<Pair<String, String>>): Observable<T> {
         val librusEntity = clazz.findAnnotation<LibrusEntity>() ?:
@@ -70,6 +71,29 @@ open class APIClient(private val authInfo: AuthInfo, private val httpClient: RxH
 
         return httpClient.executeCall(request)
                 .map { Parser.parse(it, AuthInfo::class) }
+    }
+
+    fun pushDevices(token: String): Single<String> {
+        val endpoint = "/2.0/PushDevices"
+
+        val bodyJson = JSONObject().put("provider", "Android_dru")
+                .put("device", token)
+
+        val body = RequestBody.create(jsonMediaType, bodyJson.toString())
+
+        val url = HttpUrl.Builder()
+                .scheme("https")
+                .host(HOST)
+                .addPathSegments(endpoint)
+                .build()
+
+        val request = Request.Builder()
+                .addHeader("Authorization", "Bearer " + authInfo.accessToken)
+                .post(body)
+                .url(url)
+                .build()
+
+        return httpClient.executeCall(request)
     }
 }
 
