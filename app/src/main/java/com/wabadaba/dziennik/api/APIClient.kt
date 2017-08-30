@@ -3,6 +3,7 @@ package com.wabadaba.dziennik.api
 import com.wabadaba.dziennik.BuildConfig
 import com.wabadaba.dziennik.vo.Identifiable
 import com.wabadaba.dziennik.vo.LibrusEntity
+import com.wabadaba.dziennik.vo.QueryParam
 import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.*
@@ -24,7 +25,13 @@ open class APIClient(private val authInfo: AuthInfo, private val httpClient: RxH
                 .flatMapObservable { Parser.parseEntityList(it, clazz.java) }
     }
 
-    open fun <T : Identifiable> fetchEntities(clazz: KClass<T>) = fetchEntities(clazz, emptyList())
+    open fun <T : Identifiable> fetchEntities(clazz: KClass<T>): Observable<T> {
+        val annotation = clazz.findAnnotation<QueryParam>()
+        val queryParams =
+                if (annotation == null) emptyList()
+                else listOf(Pair(annotation.name, annotation.value))
+        return fetchEntities(clazz, queryParams)
+    }
 
     private fun fetchRawData(endpoint: String, queryParams: List<Pair<String, String>>): Single<String> {
         val urlBuilder = HttpUrl.Builder()
