@@ -1,9 +1,6 @@
 package com.wabadaba.dziennik.api
 
-import com.wabadaba.dziennik.vo.Grade
-import com.wabadaba.dziennik.vo.Identifiable
-import com.wabadaba.dziennik.vo.Lesson
-import com.wabadaba.dziennik.vo.Models
+import com.wabadaba.dziennik.vo.*
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Observables
@@ -22,6 +19,9 @@ class EntityRepository(userObservable: Observable<FullUser>,
 
     private val gradesSubject: BehaviorSubject<List<Grade>> = BehaviorSubject.create()
     val grades: Observable<List<Grade>> = gradesSubject
+
+    private val attendancesSubject: BehaviorSubject<List<Attendance>> = BehaviorSubject.create()
+    val attendances: Observable<List<Attendance>> = attendancesSubject
 
     private val lessonsSubject: BehaviorSubject<Map<LocalDate, List<Lesson>>> = BehaviorSubject.create()
     val lessons: Observable<Map<LocalDate, List<Lesson>>> = lessonsSubject
@@ -53,6 +53,7 @@ class EntityRepository(userObservable: Observable<FullUser>,
                 .flatMapSingle { kClass ->
                     download(user, kClass, when (kClass) {
                         Lesson::class -> listOf(Pair("weekStart", getDefaultWeekStart().toString("yyyy-MM-dd")))
+                        Attendance::class -> listOf(Pair("showPresences", "false"))
                         else -> emptyList()
                     })
                 }.waitForAll()
@@ -86,6 +87,12 @@ class EntityRepository(userObservable: Observable<FullUser>,
                 .toList()
                 .subscribeOn(Schedulers.io())
                 .subscribe(gradesSubject::onNext)
+        datastore.select(Attendance::class)
+                .get()
+                .observable()
+                .toList()
+                .subscribeOn(Schedulers.io())
+                .subscribe(attendancesSubject::onNext)
         datastore.select(Lesson::class)
                 .get()
                 .observable()

@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.ViewModel
 import com.wabadaba.dziennik.api.EntityRepository
 import com.wabadaba.dziennik.ui.MainViewModel
+import com.wabadaba.dziennik.ui.attendance.AttendancesViewModel
 import com.wabadaba.dziennik.ui.grades.GradesViewModel
 import com.wabadaba.dziennik.ui.timetable.TimetableViewModel
 import dagger.Module
@@ -30,6 +31,11 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(TimetableViewModel::class)
     fun provideTimetableViewModel(entityRepo: EntityRepository): ViewModel = TimetableViewModel(entityRepo)
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(AttendancesViewModel::class)
+    fun provideAttendancesViewModel(entityRepo: EntityRepository): ViewModel = AttendancesViewModel(entityRepo)
 
     @Provides
     @Singleton

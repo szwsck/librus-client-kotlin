@@ -22,9 +22,7 @@ import com.wabadaba.dziennik.api.RxHttpClient
 import com.wabadaba.dziennik.api.User
 import com.wabadaba.dziennik.api.UserRepository
 import com.wabadaba.dziennik.di.ViewModelFactory
-import com.wabadaba.dziennik.ui.grades.GradesFragment
 import com.wabadaba.dziennik.ui.login.LoginActivity
-import com.wabadaba.dziennik.ui.timetable.TimetableFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import mu.KotlinLogging
@@ -48,6 +46,8 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
 
     @Inject
     lateinit var rxHttpClient: RxHttpClient
+
+    private val fragmentRepository = FragmentRepository()
 
     private val logger = KotlinLogging.logger { }
 
@@ -76,6 +76,8 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
                 }
         userRepository.currentUser.observeOn(AndroidSchedulers.mainThread())
                 .subscribe { logger.info { "Current user: ${it.login}" } }
+        fragmentRepository.current.observeOn(AndroidSchedulers.mainThread())
+                .subscribe { switchFragment(it.kClass.java.newInstance()) }
     }
 
     private val SETTING_ADD_ACCOUNT = 934L
@@ -132,22 +134,15 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
                 identifier = SETTING_LOGOUT
             }
         }
-        primaryItem {
-            nameRes = R.string.timetable
-            icon = R.drawable.ic_event_black_24dp
-            iconTintingEnabled = true
-            onClick { _ ->
-                switchFragment(TimetableFragment())
-                false
-            }
-        }
-        primaryItem {
-            nameRes = R.string.grades
-            icon = R.drawable.ic_assignment_black_24dp
-            iconTintingEnabled = true
-            onClick { _ ->
-                switchFragment(GradesFragment())
-                false
+        for ((id, _, titleRes, iconRes) in fragmentRepository.fragmentInfoList) {
+            primaryItem {
+                nameRes = titleRes
+                icon = iconRes
+                iconTintingEnabled = true
+                onClick { _ ->
+                    fragmentRepository.setCurrentFragment(id)
+                    false
+                }
             }
         }
         footer {
@@ -175,4 +170,3 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
     }
 
 }
-

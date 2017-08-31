@@ -50,4 +50,5 @@
     <string name="teacher">Nauczyciel</string>
     <string name="time">Godzina</string>
     <string name="empty_lesson">Okienko</string>
+    <string name="attendances">Nieobecności</string>
 </resources>

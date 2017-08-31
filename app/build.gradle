@@ -115,6 +115,9 @@ dependencies {
     implementation 'eu.davidea:flexible-adapter:5.0.0-rc2'
     implementation 'eu.davidea:flexible-adapter-databinding:1.0.0-b1@aar'
 
+    implementation "com.chibatching.kotpref:kotpref:2.1.2"
+    implementation "com.chibatching.kotpref:initializer:2.1.2"
+
     androidTestImplementation('org.amshove.kluent:kluent:1.24', {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-reflect'
     })

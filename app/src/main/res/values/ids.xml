@@ -5,4 +5,7 @@
     <item name="item_lesson" type="id">3</item>
     <item name="item_lesson_header" type="id">4</item>
     <item name="item_empty_lesson" type="id">5</item>
+    <item name="fragment_timetable" type="id">78</item>
+    <item name="fragment_grades" type="id">79</item>
+    <item name="fragment_attendances" type="id">80</item>
 </resources>

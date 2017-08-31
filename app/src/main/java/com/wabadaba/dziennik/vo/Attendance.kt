@@ -12,7 +12,6 @@ import org.joda.time.LocalDateTime
 
 @Entity
 @LibrusEntity("Attendances")
-@QueryParam("showPresences", "false")
 @JsonDeserialize(`as` = AttendanceEntity::class)
 interface Attendance : Identifiable {
 

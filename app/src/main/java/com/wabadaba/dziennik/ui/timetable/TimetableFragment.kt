@@ -97,7 +97,6 @@ class TimetableFragment : LifecycleFragment() {
                     }
                 }
 
-                fragment_timetable_recyclerview.itemAnimator = null
                 fragment_timetable_recyclerview.layoutManager = LinearLayoutManager(activity)
                 fragment_timetable_recyclerview.adapter = adapter
 
