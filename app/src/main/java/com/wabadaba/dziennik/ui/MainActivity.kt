@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
                     } else {
                         logger.info { "${users.size} users logged in" }
                         setupDrawer(users)
-                        switchFragment(fragmentRepository.defaultFragment)
+                        switchFragment(fragmentRepository.currentFragment)
                         drawer.setSelection(fragmentRepository.currentFragment.drawerId)
                     }
                 }
