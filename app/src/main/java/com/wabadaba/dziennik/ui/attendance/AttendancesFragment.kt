@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
+import com.wabadaba.dziennik.ui.DetailsDialogBuilder
+import com.wabadaba.dziennik.vo.Attendance
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_attendances.*
@@ -52,12 +54,45 @@ class AttendancesFragment : LifecycleFragment() {
 
             val adapter = FlexibleAdapter(items)
             adapter.collapseAll()
+            adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+                val item = adapter.getItem(position)
+                if (item is AttendanceItem) {
+                    showDialog(item.attendance)
+                    false
+                } else {
+                    true
+                }
+            }
 
             fragment_attendances_recyclerview.layoutManager = LinearLayoutManager(activity)
             fragment_attendances_recyclerview.itemAnimator = null
             fragment_attendances_recyclerview.adapter = adapter
 
         })
+    }
+
+    private fun showDialog(attendance: Attendance) {
+        val ddb = DetailsDialogBuilder(activity)
+                .withTitle("Szczegóły nieobecności")
+
+        val typeName = attendance.type?.name
+        if (typeName != null) ddb.addField("Typ", typeName)
+
+        val subject = attendance.lesson?.subject?.name
+        if (subject != null) ddb.addField("Przedmiot", subject)
+
+        val date = attendance.date
+        val lessonNumber = attendance.lessonNumber
+        if (date != null && lessonNumber != null)
+            ddb.addField("Data", "Lekcja $lessonNumber, ${date.toString(activity.getString(R.string.date_format_full))}")
+
+        val addedBy = attendance.addedBy
+        if (addedBy?.firstName != null && addedBy.lastName != null) ddb.addField("Dodana przez", "${addedBy.firstName} ${addedBy.lastName}")
+
+        val addDate = attendance.addDate
+        if (addDate != null) ddb.addField("Data dodania", addDate.toString(activity.getString(R.string.date_format_full) + " HH:mm:ss"))
+
+        ddb.build().show()
     }
 }
 
