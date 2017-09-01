@@ -27,12 +27,23 @@ android {
             testCoverageEnabled true
         }
     }
+
+    flavorDimensions "fdroid", "server"
+
     productFlavors {
+        full {
+            dimension "fdroid"
+        }
+        foss {
+            dimension "fdroid"
+        }
         dev {
+            dimension "server"
             buildConfigField "String", "HOST", "\"librus-mock.herokuapp.com\""
             buildConfigField "String", "SENDER_ID", "\"745699180250\""
         }
-        full {
+        prod {
+            dimension "server"
             buildConfigField "String", "HOST", "\"api.librus.pl\""
             buildConfigField "String", "SENDER_ID", "\"431120868545\""
         }
@@ -65,7 +76,7 @@ dependencies {
     implementation 'com.android.support:support-v13:26.0.1'
     implementation 'com.android.support:support-v4:26.0.1'
 
-    implementation "com.google.android.gms:play-services-gcm:11.2.0"
+    fullImplementation "com.google.android.gms:play-services-gcm:11.2.0"
 
     implementation 'com.android.support:preference-v14:26.0.1'
     implementation 'com.android.support:design:26.0.1'
