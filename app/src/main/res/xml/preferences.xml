@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <android.support.v7.preference.PreferenceCategory android:title="@string/general">
-        <android.support.v14.preference.MultiSelectListPreference
-            android:entries="@array/defaultFragmentPreferenceEntries"
-            android:entryValues="@array/defaultFragmentPreferenceEntryValues"
+        <ListPreference
             android:key="defaultFragment"
+            android:persistent="true"
             android:title="@string/default_view" />
-        <android.support.v14.preference.SwitchPreference
-            android:defaultValue="0"
-            android:key="@string/dark_theme"
-            android:title="@string/dark_theme" />
     </android.support.v7.preference.PreferenceCategory>
     <android.support.v7.preference.PreferenceCategory android:title="@string/notifications">
         <android.support.v14.preference.SwitchPreference

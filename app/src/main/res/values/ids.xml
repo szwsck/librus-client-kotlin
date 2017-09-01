@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="grade_item_id" type="id">1</item>
-    <item name="grade_header_item_id" type="id">2</item>
-    <item name="item_lesson" type="id">3</item>
-    <item name="item_lesson_header" type="id">4</item>
-    <item name="item_empty_lesson" type="id">5</item>
     <item name="fragment_timetable" type="id">78</item>
     <item name="fragment_grades" type="id">79</item>
     <item name="fragment_attendances" type="id">80</item>

@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.wabadaba.dziennik.api.*
 import com.wabadaba.dziennik.db.DatabaseManager
+import com.wabadaba.dziennik.ui.FragmentRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
@@ -41,4 +42,8 @@ class ApplicationModule(private val mainApplication: Application) {
     fun provideEntityRepository(context: Context, userRepository: UserRepository, httpClient: RxHttpClient): EntityRepository = EntityRepository(userRepository.currentUser,
             { user -> DatabaseManager(context, user).dataStore },
             { user -> APIClient(user.authInfo, httpClient) })
+
+    @Provides
+    @Singleton
+    fun provideFragmentRepository(context: Context): FragmentRepository = FragmentRepository(context)
 }

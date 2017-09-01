@@ -14,7 +14,7 @@ import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.isSubclassOf
 
 /**
- * Generic test, checking if all entities are properly parsed, saved in DB and retrieved by id.
+ * Generic test, checking if all entities are properly parsed, saved in DB and retrieved by fragmentId.
  */
 @RunWith(ParameterizedRobolectricTestRunner::class)
 class EntitiesTest(

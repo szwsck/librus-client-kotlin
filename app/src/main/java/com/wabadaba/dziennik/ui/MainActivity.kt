@@ -5,16 +5,17 @@ import android.arch.lifecycle.LifecycleRegistryOwner
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import co.zsmb.materialdrawerkt.builders.accountHeader
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.builders.footer
-import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
 import co.zsmb.materialdrawerkt.draweritems.profile.profile
 import co.zsmb.materialdrawerkt.draweritems.profile.profileSetting
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
+import com.mikepenz.materialdrawer.Drawer
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
@@ -47,9 +48,15 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
     @Inject
     lateinit var rxHttpClient: RxHttpClient
 
-    private val fragmentRepository = FragmentRepository()
+    @Inject
+    lateinit var fragmentRepository: FragmentRepository
 
     private val logger = KotlinLogging.logger { }
+
+    private val SETTING_ADD_ACCOUNT = 934L
+    private val SETTING_LOGOUT = 935L
+
+    private lateinit var drawer: Drawer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,98 +79,91 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
                     } else {
                         logger.info { "${users.size} users logged in" }
                         setupDrawer(users)
+                        switchFragment(fragmentRepository.defaultFragment)
+                        drawer.setSelection(fragmentRepository.currentFragment.drawerId)
                     }
                 }
-        userRepository.currentUser.observeOn(AndroidSchedulers.mainThread())
-                .subscribe { logger.info { "Current user: ${it.login}" } }
-        fragmentRepository.current.observeOn(AndroidSchedulers.mainThread())
-                .subscribe { switchFragment(it.kClass.java.newInstance()) }
     }
 
-    private val SETTING_ADD_ACCOUNT = 934L
-    private val SETTING_LOGOUT = 935L
-
-    private fun setupDrawer(users: List<User>) = drawer {
-        actionBarDrawerToggleAnimated = true
-        toolbar = toolbar_main
-        accountHeader {
-            background = R.drawable.navbackground
-            currentHidden = true
-            onProfileChanged { _, profile, current ->
-                if (profile.identifier == SETTING_ADD_ACCOUNT) {
-                    redirectToLogin()
-                    return@onProfileChanged true
-                } else if (profile.identifier == SETTING_LOGOUT) {
-                    userRepository.removeUser(userRepository.currentUser.blockingFirst().login)
-                    return@onProfileChanged false
-                } else if (!current && profile is ProfileDrawerItem) {
-                    userRepository.switchUser(profile.tag as String)
-                    return@onProfileChanged false
-                } else (return@onProfileChanged false)
-            }
-            for ((login, firstName, lastName, groupId) in users) {
-                profile {
-                    val generator = ColorGenerator.MATERIAL
-                    val color = generator.getColor(login)
-                    iconDrawable = TextDrawable.builder()
-                            .beginConfig()
-                            .height(48)
-                            .width(48)
-                            .endConfig()
-                            .buildRect(firstName.substring(0, 1), color)
-                    email = when (groupId) {
-                        8 -> getString(R.string.student)
-                        5 -> getString(R.string.parent)
-                        else -> login
+    @Suppress("DEPRECATION")
+    private fun setupDrawer(users: List<User>) {
+        drawer = drawer {
+            actionBarDrawerToggleAnimated = true
+            toolbar = toolbar_main
+            accountHeader {
+                background = R.drawable.navbackground
+                currentHidden = true
+                onProfileChanged { _, profile, current ->
+                    if (profile.identifier == SETTING_ADD_ACCOUNT) {
+                        redirectToLogin()
+                        return@onProfileChanged true
+                    } else if (profile.identifier == SETTING_LOGOUT) {
+                        userRepository.removeUser(userRepository.currentUser.blockingFirst().login)
+                        return@onProfileChanged false
+                    } else if (!current && profile is ProfileDrawerItem) {
+                        userRepository.switchUser(profile.tag as String)
+                        return@onProfileChanged false
+                    } else (return@onProfileChanged false)
+                }
+                for ((login, firstName, lastName, groupId) in users) {
+                    profile {
+                        val generator = ColorGenerator.MATERIAL
+                        val color = generator.getColor(login)
+                        iconDrawable = TextDrawable.builder()
+                                .beginConfig()
+                                .height(48)
+                                .width(48)
+                                .endConfig()
+                                .buildRect(firstName.substring(0, 1), color)
+                        email = when (groupId) {
+                            8 -> getString(R.string.student)
+                            5 -> getString(R.string.parent)
+                            else -> login
+                        }
+                        nameShown = true
+                        name = "$firstName $lastName"
+                        tag = login
                     }
-                    nameShown = true
-                    name = "$firstName $lastName"
-                    tag = login
+                }
+                profileSetting {
+                    nameRes = R.string.add_account
+                    icon = R.drawable.ic_add_black_24dp
+                    iconTinted = true
+                    identifier = SETTING_ADD_ACCOUNT
+                }
+                profileSetting {
+                    nameRes = R.string.logout
+                    icon = R.drawable.ic_exit_to_app_black_24dp
+                    iconTinted = true
+                    identifier = SETTING_LOGOUT
                 }
             }
-            profileSetting {
-                nameRes = R.string.add_account
-                icon = R.drawable.ic_add_black_24dp
-                iconTinted = true
-                identifier = SETTING_ADD_ACCOUNT
-            }
-            profileSetting {
-                nameRes = R.string.logout
-                icon = R.drawable.ic_exit_to_app_black_24dp
-                iconTinted = true
-                identifier = SETTING_LOGOUT
-            }
-        }
-        for ((id, _, titleRes, iconRes) in fragmentRepository.fragmentInfoList) {
-            primaryItem {
-                nameRes = titleRes
-                icon = iconRes
-                iconTintingEnabled = true
-                onClick { _ ->
-                    fragmentRepository.setCurrentFragment(id)
-                    false
-                }
-            }
-        }
-        footer {
-            primaryItem(R.string.settings) {
-                icon = R.drawable.ic_settings_black_24dp
-                selectable = true
-                iconTintingEnabled = true
-                onClick { _ ->
-                    logger.info { "onClick: settings" }
-                    switchFragment(SettingsFragment.newInstance())
-                    false
-                }
+            fragmentRepository.mainFragments.forEach { fragmentInfo -> attachItem(fragmentInfo.toDrawerItem()) }
+            footer {
+                attachItem(fragmentRepository.settingsFragment.toDrawerItem())
             }
         }
     }
 
-    private fun switchFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.content_main, fragment)
-                .commit()
+    private fun switchFragment(fragmentInfo: FragmentInfo) {
+        Handler().post({
+            fragmentRepository.currentFragment = fragmentInfo
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.content_main, fragmentInfo.kClass.java.newInstance())
+                    .commitAllowingStateLoss()
+        })
+
     }
+
+    private fun FragmentInfo.toDrawerItem() = PrimaryDrawerItem()
+            .withIdentifier(drawerId)
+            .withName(title)
+            .withIcon(icon)
+            .withIconTintingEnabled(true)
+            .withOnDrawerItemClickListener { _, _, _ ->
+                switchFragment(this)
+                false
+            }
 
     private fun redirectToLogin() {
         startActivity(Intent(this, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT))
