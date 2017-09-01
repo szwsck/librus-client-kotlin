@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleActivity
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.view.View
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.api.*
@@ -42,12 +43,20 @@ class LoginActivity : LifecycleActivity() {
                 passwordInputLayout.error = getString(R.string.enter_password)
             }
             if (username.isNotEmpty() && password.isNotEmpty()) {
+
+                logInButton.isClickable = false
+                logInButton.isEnabled = false
+                activity_login_progress.visibility = View.VISIBLE
+
                 performLogin(username, password)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             //success
                             startMainActivity()
                         }, { exception ->
+                            logInButton.isEnabled = true
+                            logInButton.isClickable = true
+                            activity_login_progress.visibility = View.GONE
                             if (exception is HttpException.Authorization) {
                                 passwordInputLayout.error = getString(R.string.incorrect_password)
                             } else if (exception is IllegalStateException && (exception.message?.contains("already logged in") == true)) {
