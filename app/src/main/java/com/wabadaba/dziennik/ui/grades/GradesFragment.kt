@@ -70,12 +70,14 @@ class GradesFragment : LifecycleFragment() {
             subjectGradeMap[grade.subject]?.add(grade)
         }
 
-        subjectGradeMap.entries.forEach { entry: MutableMap.MutableEntry<Subject, MutableList<Grade>> ->
-            val header = GradeHeaderItem(entry.key)
-            entry.value.map { GradeItem(it, header) }
-                    .forEach(header::addSubItem)
-            items.add(header)
-        }
+        subjectGradeMap.entries
+                .forEach { entry: MutableMap.MutableEntry<Subject, MutableList<Grade>> ->
+                    val header = GradeHeaderItem(entry.key)
+                    entry.value.sortedBy(Grade::date)
+                            .map { GradeItem(it, header) }
+                            .forEach(header::addSubItem)
+                    items.add(header)
+                }
 
         val adapter = FlexibleAdapter<IFlexible<*>>(items)
         adapter.setDisplayHeadersAtStartUp(true)
