@@ -11,11 +11,6 @@
             android:defaultValue="1"
             android:key="enable_notifications"
             android:title="@string/show_notifications" />
-        <android.support.v14.preference.MultiSelectListPreference
-            android:entries="@array/enabledNotificationsPreferenceEntries"
-            android:entryValues="@array/enabledNotificationsPreferenceEntryValues"
-            android:key="enabled_notification_types"
-            android:title="@string/received_notifications" />
     </android.support.v7.preference.PreferenceCategory>
     <android.support.v7.preference.PreferenceCategory android:title="@string/more">
         <android.support.v7.preference.Preference android:title="@string/about_app">

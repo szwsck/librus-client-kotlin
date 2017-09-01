@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.NotificationCompat
 import com.google.android.gms.gcm.GcmListenerService
 import com.wabadaba.dziennik.R
@@ -14,7 +15,15 @@ import com.wabadaba.dziennik.ui.MainActivity
 @Suppress("DEPRECATION")
 class LibrusGcmListenerService : GcmListenerService() {
     override fun onMessageReceived(p0: String, data: Bundle) {
-        println("Received GCM message")
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        if (!prefs.getBoolean("enable_notifications", true)) {
+            println("received message but notifications are disabled")
+            return
+        }
+
+        println("received message, sending notification...")
+
         val message = data.getString("message")
         val user = data.getString("userId")
 
