@@ -1,7 +1,6 @@
 package com.wabadaba.dziennik.di
 
 import com.wabadaba.dziennik.MainApplication
-import com.wabadaba.dziennik.api.notification.LibrusRegistrationIntentService
 import com.wabadaba.dziennik.ui.MainActivity
 import com.wabadaba.dziennik.ui.SettingsFragment
 import com.wabadaba.dziennik.ui.attendance.AttendancesFragment
@@ -19,7 +18,6 @@ interface MainComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(gradesFragment: GradesFragment)
     fun inject(timetableFragment: TimetableFragment)
-    fun inject(librusRegistrationIntentService: LibrusRegistrationIntentService)
     fun inject(attendancesFragment: AttendancesFragment)
     fun inject(settingsFragment: SettingsFragment)
 }

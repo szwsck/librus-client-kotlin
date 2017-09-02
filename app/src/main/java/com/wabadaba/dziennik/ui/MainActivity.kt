@@ -14,14 +14,18 @@ import co.zsmb.materialdrawerkt.draweritems.profile.profile
 import co.zsmb.materialdrawerkt.draweritems.profile.profileSetting
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
+import com.wabadaba.dziennik.BuildConfig
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.api.RxHttpClient
 import com.wabadaba.dziennik.api.User
 import com.wabadaba.dziennik.api.UserRepository
+import com.wabadaba.dziennik.api.notification.LibrusGCMRegistrationManager
 import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.login.LoginActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -29,7 +33,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import mu.KotlinLogging
 import javax.inject.Inject
 
+
 class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
+
+    private val senderId = BuildConfig.SENDER_ID
 
     private val registry = LifecycleRegistry(this)
 
@@ -70,19 +77,41 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
-        userRepository.allUsers.observeOn(AndroidSchedulers.mainThread())
-                .subscribe { users ->
-                    if (users.isEmpty()) {
-                        logger.info { "No users, redirecting to login" }
-                        redirectToLogin()
-                        finish()
-                    } else {
-                        logger.info { "${users.size} users logged in" }
-                        setupDrawer(users)
-                        switchFragment(fragmentRepository.currentFragment)
-                        drawer.setSelection(fragmentRepository.currentFragment.drawerId)
+        if (checkGooglePlayServicesAvailable()) {
+            userRepository.allUsers.observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { users ->
+                        if (users.isEmpty()) {
+                            logger.info { "No users, redirecting to login" }
+                            redirectToLogin()
+                            finish()
+                        } else {
+                            registerGCM()
+                            logger.info { "${users.size} users logged in" }
+                            setupDrawer(users)
+                            switchFragment(fragmentRepository.currentFragment)
+                            drawer.setSelection(fragmentRepository.currentFragment.drawerId)
+                        }
                     }
-                }
+        }
+    }
+
+    private fun registerGCM() {
+        userRepository.currentUser.subscribe {
+            LibrusGCMRegistrationManager(it, rxHttpClient, this)
+                    .register()
+        }
+    }
+
+    private fun checkGooglePlayServicesAvailable(): Boolean {
+        val googleApiAvailability = GoogleApiAvailability.getInstance()
+        val status = googleApiAvailability.isGooglePlayServicesAvailable(this)
+        if (status != ConnectionResult.SUCCESS) {
+            if (googleApiAvailability.isUserResolvableError(status)) {
+                googleApiAvailability.getErrorDialog(this, status, 2404).show()
+            }
+            return false
+        }
+        return true
     }
 
     @Suppress("DEPRECATION")

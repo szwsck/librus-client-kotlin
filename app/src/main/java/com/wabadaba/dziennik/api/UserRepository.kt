@@ -2,9 +2,7 @@ package com.wabadaba.dziennik.api
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.preference.PreferenceManager
-import com.wabadaba.dziennik.api.notification.LibrusRegistrationIntentService
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Singleton
@@ -68,9 +66,6 @@ class UserRepository(
         saveUsers(newUsers)
 
         saveAuthInfo(fullUser.login, fullUser.authInfo)
-
-        val intent = Intent(context, LibrusRegistrationIntentService::class.java)
-        context.startService(intent)
 
         //set the newly added user as current
         userSubject.onNext(fullUser)
