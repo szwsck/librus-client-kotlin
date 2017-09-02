@@ -13,7 +13,6 @@ import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.github.debop.kodatimes.days
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
@@ -23,7 +22,6 @@ import com.wabadaba.dziennik.vo.Teacher
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_timetable.*
-import org.joda.time.LocalDate
 import javax.inject.Inject
 
 class TimetableFragment : LifecycleFragment() {
@@ -47,41 +45,23 @@ class TimetableFragment : LifecycleFragment() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(TimetableViewModel::class.java)
 
-        viewModel.lessons.observe(this, Observer { lessonData ->
-            if (lessonData != null && lessonData.isNotEmpty()) {
+        viewModel.timetableData.observe(this, Observer { timetableData ->
+            if (timetableData != null) {
                 fragment_timetable_recyclerview.visibility = View.VISIBLE
                 fragment_timetable_message.visibility = View.GONE
 
                 val items = mutableListOf<IFlexible<*>>()
 
-                val weekStart: LocalDate = lessonData.keys.min()!!
-                val endDate = weekStart + 7.days()
-                var date = weekStart
-
-                while (date < endDate) {
+                for ((date, schoolDay) in timetableData) {
                     val header = LessonHeaderItem(date)
-                    if (lessonData.containsKey(date)) {
-                        val lessonList: List<Lesson> = lessonData[date]!!
-                        if (lessonList.isNotEmpty()) {
-                            val lessonMap = lessonList
-                                    .associateBy { it.lessonNumber }
-
-                            val startLesson = minOf(lessonMap.keys.min()!!, 1)
-                            val endLesson = lessonMap.keys.max()!!
-
-                            for (lessonNumber in startLesson..endLesson) {
-                                val lesson = lessonMap[lessonNumber]
-                                items.add(
-                                        if (lesson != null) LessonItem(header, lesson)
-                                        else EmptyLessonItem(header, lessonNumber))
-                            }
-                        } else {
-                            items.add(NoLessonsItem(header))
-                        }
-                    } else {
+                    if (schoolDay == null) {
                         items.add(NoLessonsItem(header))
+                    } else {
+                        items.addAll(schoolDay.entries.map { (lessonNumber, timetableLesson) ->
+                            if (timetableLesson == null) EmptyLessonItem(header, lessonNumber)
+                            else LessonItem(header, timetableLesson)
+                        })
                     }
-                    date += 1.days()
                 }
 
                 val adapter = FlexibleAdapter(items)
@@ -99,7 +79,6 @@ class TimetableFragment : LifecycleFragment() {
 
                 fragment_timetable_recyclerview.layoutManager = LinearLayoutManager(activity)
                 fragment_timetable_recyclerview.adapter = adapter
-
             } else {
                 fragment_timetable_recyclerview.visibility = View.GONE
                 fragment_timetable_message.visibility = View.VISIBLE

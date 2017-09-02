@@ -8,14 +8,16 @@ import com.wabadaba.dziennik.ui.disabled
 import com.wabadaba.dziennik.ui.gone
 import com.wabadaba.dziennik.ui.primary
 import com.wabadaba.dziennik.ui.secondary
-import com.wabadaba.dziennik.vo.Lesson
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 
-class LessonItem(header: LessonHeaderItem, val lesson: Lesson)
+class LessonItem(header: LessonHeaderItem, timetableLesson: TimetableLesson)
     : AbstractSectionableItem<LessonItem.ViewHolder, LessonHeaderItem>(header) {
+
+    val lesson = timetableLesson.lesson
+    val event = timetableLesson.event
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -71,12 +73,19 @@ class LessonItem(header: LessonHeaderItem, val lesson: Lesson)
             holder.subtitle.secondary()
             holder.number.primary()
 
-            if (lesson.substitution) {
-                holder.badgeIcon.secondary().setImageResource(R.drawable.ic_swap_horiz_black_24dp)
-                holder.badgeTitle.secondary().text = context.getString(R.string.substitution)
-            } else {
-                holder.badgeIcon.gone()
-                holder.badgeTitle.gone()
+            when {
+                event != null -> {
+                    holder.badgeIcon.secondary().setImageResource(R.drawable.ic_event_black_24dp)
+                    holder.badgeTitle.secondary().text = event.category?.name
+                }
+                lesson.substitution -> {
+                    holder.badgeIcon.secondary().setImageResource(R.drawable.ic_swap_horiz_black_24dp)
+                    holder.badgeTitle.secondary().text = context.getString(R.string.substitution)
+                }
+                else -> {
+                    holder.badgeIcon.gone()
+                    holder.badgeTitle.gone()
+                }
             }
         }
     }

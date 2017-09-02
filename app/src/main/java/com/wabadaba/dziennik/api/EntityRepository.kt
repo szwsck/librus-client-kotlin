@@ -23,8 +23,11 @@ class EntityRepository(userObservable: Observable<FullUser>,
     private val attendancesSubject: BehaviorSubject<List<Attendance>> = BehaviorSubject.create()
     val attendances: Observable<List<Attendance>> = attendancesSubject
 
-    private val lessonsSubject: BehaviorSubject<Map<LocalDate, List<Lesson>>> = BehaviorSubject.create()
-    val lessons: Observable<Map<LocalDate, List<Lesson>>> = lessonsSubject
+    private val lessonsSubject: BehaviorSubject<List<Lesson>> = BehaviorSubject.create()
+    val lessons: Observable<List<Lesson>> = lessonsSubject
+
+    private val eventsSubject: BehaviorSubject<List<Event>> = BehaviorSubject.create()
+    val events: Observable<List<Event>> = eventsSubject
 
     private val refreshSubject = BehaviorSubject.createDefault<Unit>(Unit)
 
@@ -85,30 +88,22 @@ class EntityRepository(userObservable: Observable<FullUser>,
                 .get()
                 .observable()
                 .toList()
-                .subscribeOn(Schedulers.io())
                 .subscribe(gradesSubject::onNext)
         datastore.select(Attendance::class)
                 .get()
                 .observable()
                 .toList()
-                .subscribeOn(Schedulers.io())
                 .subscribe(attendancesSubject::onNext)
         datastore.select(Lesson::class)
                 .get()
                 .observable()
                 .toList()
-                .map { loadedLessons ->
-                    val result = mutableMapOf<LocalDate, MutableList<Lesson>>()
-                    for (lesson in loadedLessons) {
-                        if (!result.contains(lesson.date))
-                            result.put(lesson.date, mutableListOf())
-                        result[lesson.date]?.add(lesson)
-                    }
-                    result.values.forEach { list -> list.sortBy(Lesson::lessonNumber) }
-                    result
-                }
-                .subscribeOn(Schedulers.io())
                 .subscribe(lessonsSubject::onNext)
+        datastore.select(Event::class)
+                .get()
+                .observable()
+                .toList()
+                .subscribe(eventsSubject::onNext)
     }
 
     private fun getDefaultWeekStart() = LocalDate.now().plusDays(2).withDayOfWeek(MONDAY)
