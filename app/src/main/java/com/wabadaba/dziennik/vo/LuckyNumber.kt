@@ -6,7 +6,7 @@ import org.joda.time.LocalDate
 
 @LibrusEntity("LuckyNumbers")
 //@Entity
-//@JsonDeserialize(`as` = LuckyNumberEntity::class)     //FIXME handle disabled
+//@JsonDeserialize(`as` = LuckyNumberEntity::class)
 interface LuckyNumber : Identifiable {
 
     @get:JsonProperty("LuckyNumber")

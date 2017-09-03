@@ -60,7 +60,8 @@ open class RxHttpClient @Inject constructor(
             if (root.hasChildWithText("error", "invalid_grant")) {
                 return HttpException.Authorization(url)
             }
-            if (root.hasChildWithText("Code", "NotActive")) {
+            if (root.hasChildWithText("Code", "NotActive") ||
+                    root.hasChildWithText("Code", "Disabled")) {
                 return HttpException.NotActive(url)
             }
             if (root.hasChildWithText("Status", "Maintenance")) {

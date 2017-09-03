@@ -69,6 +69,12 @@ class EntityRepository(userObservable: Observable<FullUser>,
         return apiClientCreator(user)
                 .fetchEntities(kClass, queryParams)
                 .toList()
+                .onErrorResumeNext {
+                    if (it is HttpException.NotActive) {
+                        println("${kClass.simpleName} is disabled, returning empty list")
+                        Single.just(emptyList())
+                    } else Single.error(it)
+                }
                 .subscribeOn(Schedulers.io())
     }
 
