@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="72dp"
     android:background="@color/md_light_cards"
-    android:foreground="?attr/selectableItemBackground"
-    android:elevation="2dp">
+    android:elevation="2dp"
+    android:foreground="?attr/selectableItemBackground">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -25,6 +25,7 @@
                 android:layout_alignParentTop="false"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
+                android:maxLength="2"
                 android:textColor="@android:color/black"
                 android:textSize="40sp" />
         </RelativeLayout>
@@ -39,15 +40,18 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/item_lesson_title"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="bottom|start"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:minLines="1"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
@@ -55,6 +59,7 @@
                     android:id="@+id/item_lesson_badge_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_gravity="bottom"
                     android:layout_weight="0"
                     android:padding="4dp"
                     android:tint="@android:color/black"
@@ -63,7 +68,8 @@
                 <TextView
                     android:id="@+id/item_lesson_badge_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_gravity="bottom"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
                     android:paddingEnd="16dp"
@@ -75,6 +81,10 @@
                 android:id="@+id/item_lesson_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:minLines="1"
                 android:textColor="@android:color/black" />
         </LinearLayout>
 
