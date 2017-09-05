@@ -6,13 +6,18 @@ android:
   components:
     - tools
     - platform-tools
-    - build-tools-25.0.3
-    - android-25
+    - build-tools-26.0.1
+    - android-21
     - sys-img-armeabi-v7a-android-21
     - extra-android-m2repository
     - extra-google-m2repository
     - extra-android-support
     - extra-google-google_play_services
+  licenses:
+      - 'android-sdk-preview-license-.+'
+      - 'android-sdk-license-.+'
+      - 'google-gdk-license-.+'
+
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
