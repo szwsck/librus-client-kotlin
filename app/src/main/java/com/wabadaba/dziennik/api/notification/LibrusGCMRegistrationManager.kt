@@ -18,6 +18,7 @@ class LibrusGCMRegistrationManager(private val currentUser: FullUser,
 
     private val senderId = BuildConfig.SENDER_ID
 
+    private val pref_key = "gcm_registered_users"
     private val apiClient = APIClient(currentUser.authInfo, rxHttpClient)
 
     fun register() {
@@ -39,7 +40,6 @@ class LibrusGCMRegistrationManager(private val currentUser: FullUser,
         }
     }
 
-    private val pref_key = "gcm_registered_users"
 
     private fun isRegistered(): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)

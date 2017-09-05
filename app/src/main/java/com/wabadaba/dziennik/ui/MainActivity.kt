@@ -116,7 +116,6 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
                             redirectToLogin()
                             finish()
                         } else {
-                            registerGCM()
                             logger.info { "${users.size} users logged in" }
                             setupDrawer(users)
                             RxJavaPlugins.setErrorHandler(errorHandler)
@@ -125,10 +124,12 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
                         }
                     }
         }
+        registerGCM()
     }
 
     private fun registerGCM() {
         userRepository.currentUser.subscribe {
+            println("Registering user $it for GCM")
             LibrusGCMRegistrationManager(it, rxHttpClient, this)
                     .register()
         }
