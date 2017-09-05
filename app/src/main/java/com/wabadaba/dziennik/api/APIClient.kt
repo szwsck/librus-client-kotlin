@@ -1,10 +1,10 @@
 package com.wabadaba.dziennik.api
 
 import com.wabadaba.dziennik.BuildConfig
-import com.wabadaba.dziennik.vo.Identifiable
 import com.wabadaba.dziennik.vo.LibrusEntity
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.requery.Persistable
 import okhttp3.*
 import org.json.JSONObject
 import kotlin.reflect.KClass
@@ -17,14 +17,14 @@ open class APIClient(private val authInfo: AuthInfo, private val httpClient: RxH
 
     private val jsonMediaType = MediaType.parse("application/json; charset=utf-8")
 
-    open fun <T : Identifiable> fetchEntities(clazz: KClass<T>, queryParams: List<Pair<String, String>>): Observable<T> {
+    open fun <T : Persistable> fetchEntities(clazz: KClass<T>, queryParams: List<Pair<String, String>>): Observable<T> {
         val librusEntity = clazz.findAnnotation<LibrusEntity>() ?:
                 throw IllegalStateException("Class ${clazz.simpleName} not annotated with LibrusEntity annotation")
         return fetchRawData(librusEntity.endpoint, queryParams)
                 .flatMapObservable { Parser.parseEntityList(it, clazz.java) }
     }
 
-    open fun <T : Identifiable> fetchEntities(clazz: KClass<T>) = fetchEntities(clazz, emptyList())
+    open fun <T : Persistable> fetchEntities(clazz: KClass<T>) = fetchEntities(clazz, emptyList())
 
 
     private fun fetchRawData(endpoint: String, queryParams: List<Pair<String, String>>): Single<String> {

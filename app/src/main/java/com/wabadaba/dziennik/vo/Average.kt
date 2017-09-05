@@ -4,16 +4,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import io.requery.Entity
 import io.requery.ForeignKey
 import io.requery.OneToOne
-import io.requery.Transient
+import io.requery.Persistable
 
 @Entity
 @LibrusEntity("Grades/Averages")
 @JsonDeserialize(`as` = AverageEntity::class)
-interface Average : Identifiable {
-
-    override val id: String
-        @Transient
-        get() = subject.id
+interface Average : Persistable {
 
     @get:OneToOne
     @get:ForeignKey

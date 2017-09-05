@@ -1,0 +1,54 @@
+{
+  "Types": [
+    {
+      "Id": 1,
+      "Name": "Nieobecność",
+      "Short": "nb",
+      "Standard": true,
+      "ColorRGB": "F7F8AA",
+      "IsPresenceKind": false,
+      "Order": 3
+    },
+    {
+      "Id": 2,
+      "Name": "Spóźnienie",
+      "Short": "sp",
+      "Standard": true,
+      "IsPresenceKind": true,
+      "Order": 2
+    },
+    {
+      "Id": 3,
+      "Name": "Nieobecność uspr.",
+      "Short": "u",
+      "Standard": true,
+      "ColorRGB": "AAF888",
+      "IsPresenceKind": false,
+      "Order": 4
+    },
+    {
+      "Id": 4,
+      "Name": "Zwolnienie",
+      "Short": "zw",
+      "Standard": true,
+      "ColorRGB": "A0A0A0",
+      "IsPresenceKind": true,
+      "Order": 5
+    },
+    {
+      "Id": 100,
+      "Name": "Obecność",
+      "Short": "ob",
+      "Standard": true,
+      "ColorRGB": "C6E0FF",
+      "IsPresenceKind": true,
+      "Order": 1
+    }
+  ],
+  "Resources": {
+    "..": {
+      "Url": "https://api.librus.pl/2.0/Attendances"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/Attendances/Types"
+}

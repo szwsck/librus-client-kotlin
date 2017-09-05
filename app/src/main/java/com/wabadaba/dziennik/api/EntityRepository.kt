@@ -52,7 +52,7 @@ class EntityRepository(userObservable: Observable<FullUser>,
     @Suppress("UNCHECKED_CAST")
     private fun refreshAll(user: FullUser) {
         Observable.fromIterable(Models.DEFAULT.types)
-                .map { it.baseType.kotlin as KClass<Identifiable> }
+                .map { it.baseType.kotlin as KClass<Persistable> }
                 .flatMapSingle { kClass ->
                     download(user, kClass, when (kClass) {
                         Lesson::class -> listOf(Pair("weekStart", getDefaultWeekStart().toString("yyyy-MM-dd")))
@@ -65,7 +65,7 @@ class EntityRepository(userObservable: Observable<FullUser>,
                 .subscribe { loadBaseEntities() }
     }
 
-    private fun download(user: FullUser, kClass: KClass<Identifiable>, queryParams: List<Pair<String, String>>): Single<MutableList<Identifiable>>? {
+    private fun download(user: FullUser, kClass: KClass<Persistable>, queryParams: List<Pair<String, String>>): Single<MutableList<Persistable>>? {
         return apiClientCreator(user)
                 .fetchEntities(kClass, queryParams)
                 .toList()
@@ -78,10 +78,10 @@ class EntityRepository(userObservable: Observable<FullUser>,
                 .subscribeOn(Schedulers.io())
     }
 
-    private fun delete(kClass: List<Identifiable>): Single<List<Identifiable>>?
+    private fun delete(kClass: List<Persistable>): Single<List<Persistable>>?
             = datastore.delete(kClass).toSingle().map { kClass }
 
-    private fun upsert(it: List<Identifiable>)
+    private fun upsert(it: List<Persistable>)
             = datastore.upsert(it).subscribeOn(Schedulers.io())
 
     /**

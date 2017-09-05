@@ -6,10 +6,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.wabadaba.dziennik.BaseTest
 import com.wabadaba.dziennik.vo.Grade
 import io.reactivex.Single
-import org.amshove.kluent.shouldBeLessThan
 import org.amshove.kluent.shouldEqualTo
-import org.joda.time.LocalDateTime
-import org.joda.time.Seconds
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -43,6 +40,5 @@ class ApiClientTest : BaseTest() {
         result.accessToken shouldEqualTo "ACCESS_TOKEN"
         result.refreshToken shouldEqualTo "REFRESH_TOKEN"
         result.expiresIn shouldEqualTo 2592000
-        Seconds.secondsBetween(LocalDateTime.now(), result.validFrom).seconds shouldBeLessThan 5
     }
 }

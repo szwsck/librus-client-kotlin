@@ -1,0 +1,73 @@
+{
+  "Attendances": [
+    {
+      "Id": "t403208",
+      "Lesson": {
+        "Id": 2727123,
+        "Url": "https://api.librus.pl/2.0/Lessons/2727123"
+      },
+      "Student": {
+        "Id": 1402361,
+        "Url": "https://api.librus.pl/2.0/Users/1402361"
+      },
+      "Trip": {
+        "Id": 5416,
+        "Url": "https://api.librus.pl/2.0/Trips/5416"
+      },
+      "Date": "2016-09-29",
+      "AddDate": "2016-09-28 16:19:21",
+      "LessonNo": 2,
+      "Semester": 1,
+      "Type": {
+        "Id": 100,
+        "Url": "https://api.librus.pl/2.0/Attendances/Types/100"
+      },
+      "AddedBy": {
+        "Id": 1234988,
+        "Url": "https://api.librus.pl/2.0/Users/1234988"
+      }
+    },
+    {
+      "Id": "t403209",
+      "Lesson": {
+        "Id": 2714880,
+        "Url": "https://api.librus.pl/2.0/Lessons/2714880"
+      },
+      "Student": {
+        "Id": 1402361,
+        "Url": "https://api.librus.pl/2.0/Users/1402361"
+      },
+      "Trip": {
+        "Id": 5416,
+        "Url": "https://api.librus.pl/2.0/Trips/5416"
+      },
+      "Date": "2016-09-29",
+      "AddDate": "2016-09-28 16:19:22",
+      "LessonNo": 3,
+      "Semester": 1,
+      "Type": {
+        "Id": 100,
+        "Url": "https://api.librus.pl/2.0/Attendances/Types/100"
+      },
+      "AddedBy": {
+        "Id": 1234988,
+        "Url": "https://api.librus.pl/2.0/Users/1234988"
+      }
+    }
+  ],
+  "Resources": {
+    "Attendances\\Types": {
+      "Url": "https://api.librus.pl/2.0/Attendances/Types"
+    },
+    "Attendances\\LessonsStatistics": {
+      "Url": "https://api.librus.pl/2.0/Attendances/LessonsStatistics"
+    },
+    "Attendances\\FilledByTeacher": {
+      "Url": "https://api.librus.pl/2.0/Attendances/FilledByTeacher"
+    },
+    "..": {
+      "Url": "https://api.librus.pl/2.0/Root"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/Attendances"
+}

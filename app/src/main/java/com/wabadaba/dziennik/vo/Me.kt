@@ -4,16 +4,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.wabadaba.dziennik.api.AccountDeserializer
 import io.requery.Embedded
 import io.requery.Entity
-import io.requery.Key
+import io.requery.Persistable
 
 @Entity
 @LibrusEntity("Me")
 @JsonDeserialize(`as` = MeEntity::class)
-interface Me : Identifiable {
-
-    override val id: String
-        @Key
-        get() = account.login
+interface Me : Persistable {
 
     @get:Embedded
     @get:JsonDeserialize(using = AccountDeserializer::class)

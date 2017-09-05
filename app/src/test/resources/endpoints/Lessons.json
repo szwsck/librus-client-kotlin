@@ -1,0 +1,32 @@
+{
+  "Lessons": [
+    {
+      "Id": 2714330,
+      "Teacher": {
+        "Id": 1235106,
+        "Url": "https://api.librus.pl/2.0/Users/1235106"
+      },
+      "Subject": {
+        "Id": 44569,
+        "Url": "https://api.librus.pl/2.0/Subjects/44569"
+      }
+    },
+    {
+      "Id": 2729409,
+      "Teacher": {
+        "Id": 1235090,
+        "Url": "https://api.librus.pl/2.0/Users/1235090"
+      },
+      "Subject": {
+        "Id": 44565,
+        "Url": "https://api.librus.pl/2.0/Subjects/44565"
+      }
+    }
+  ],
+  "Resources": {
+    "..": {
+      "Url": "https://api.librus.pl/2.0/Root"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/Lessons"
+}

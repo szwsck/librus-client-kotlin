@@ -1,0 +1,55 @@
+{
+  "HomeWorks": [
+    {
+      "Id": 1775479,
+      "Content": "Srodki artystycznego wyrazu; wskaż- podkreśl, nazwij, określ funkcję",
+      "Date": "2017-01-30",
+      "Category": {
+        "Id": 7323,
+        "Url": "https://api.librus.pl/2.0/HomeWorks/Categories/7323"
+      },
+      "LessonNo": "3",
+      "TimeFrom": null,
+      "TimeTo": null,
+      "CreatedBy": {
+        "Id": 1235106,
+        "Url": "https://api.librus.pl/2.0/Users/1235106"
+      },
+      "Class": {
+        "Id": 56790,
+        "Url": "https://api.librus.pl/2.0/Classes/56790"
+      },
+      "AddDate": "2016-09-07 23:34:23"
+    },
+    {
+      "Id": 1810676,
+      "Content": "Węglowodory.",
+      "Date": "2016-10-07",
+      "Category": {
+        "Id": 7323,
+        "Url": "https://api.librus.pl/2.0/HomeWorks/Categories/7323"
+      },
+      "LessonNo": "5",
+      "TimeFrom": null,
+      "TimeTo": null,
+      "CreatedBy": {
+        "Id": 1235072,
+        "Url": "https://api.librus.pl/2.0/Users/1235072"
+      },
+      "Class": {
+        "Id": 56790,
+        "Url": "https://api.librus.pl/2.0/Classes/56790"
+      },
+      "AddDate": "2016-09-23 12:16:00"
+    }
+  ],
+  "Resources": {
+    "HomeWorks\\Categories": {
+      "Url": "https://api.librus.pl/2.0/HomeWorks/Categories"
+    },
+    "..": {
+      "Url": "https://api.librus.pl/2.0/Root"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/HomeWorks"
+}

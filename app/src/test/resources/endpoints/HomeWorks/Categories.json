@@ -1,0 +1,138 @@
+{
+  "Categories": [
+    {
+      "Id": 7323,
+      "Name": "sprawdzian",
+      "Color": {
+        "Id": 26,
+        "Url": "https://api.librus.pl/2.0//Colors/26"
+      }
+    },
+    {
+      "Id": 7788,
+      "Name": "kartkówka",
+      "Color": {
+        "Id": 16,
+        "Url": "https://api.librus.pl/2.0//Colors/16"
+      }
+    },
+    {
+      "Id": 7789,
+      "Name": "praca klasowa",
+      "Color": {
+        "Id": 27,
+        "Url": "https://api.librus.pl/2.0//Colors/27"
+      }
+    },
+    {
+      "Id": 7790,
+      "Name": "praca domowa",
+      "Color": {
+        "Id": 9,
+        "Url": "https://api.librus.pl/2.0//Colors/9"
+      }
+    },
+    {
+      "Id": 7791,
+      "Name": "lektura",
+      "Color": {
+        "Id": 21,
+        "Url": "https://api.librus.pl/2.0//Colors/21"
+      }
+    },
+    {
+      "Id": 7792,
+      "Name": "konkurs",
+      "Color": {
+        "Id": 29,
+        "Url": "https://api.librus.pl/2.0//Colors/29"
+      }
+    },
+    {
+      "Id": 7793,
+      "Name": "inne",
+      "Color": {
+        "Id": 5,
+        "Url": "https://api.librus.pl/2.0//Colors/5"
+      }
+    },
+    {
+      "Id": 7794,
+      "Name": "prezentacja",
+      "Color": {
+        "Id": 13,
+        "Url": "https://api.librus.pl/2.0//Colors/13"
+      }
+    },
+    {
+      "Id": 7795,
+      "Name": "wycieczka",
+      "Color": {
+        "Id": 25,
+        "Url": "https://api.librus.pl/2.0//Colors/25"
+      }
+    },
+    {
+      "Id": 7796,
+      "Name": "dyskoteka",
+      "Color": {
+        "Id": 15,
+        "Url": "https://api.librus.pl/2.0//Colors/15"
+      }
+    },
+    {
+      "Id": 7797,
+      "Name": "zebranie z rodzicami",
+      "Color": {
+        "Id": 23,
+        "Url": "https://api.librus.pl/2.0//Colors/23"
+      }
+    },
+    {
+      "Id": 7798,
+      "Name": "podręcznik",
+      "Color": {
+        "Id": 19,
+        "Url": "https://api.librus.pl/2.0//Colors/19"
+      }
+    },
+    {
+      "Id": 7799,
+      "Name": "materiały",
+      "Color": {
+        "Id": 31,
+        "Url": "https://api.librus.pl/2.0//Colors/31"
+      }
+    },
+    {
+      "Id": 7806,
+      "Name": "dzień otwarty dla rodziców",
+      "Color": {
+        "Id": 2,
+        "Url": "https://api.librus.pl/2.0//Colors/2"
+      }
+    },
+    {
+      "Id": 7822,
+      "Name": "poprawa",
+      "Color": {
+        "Id": 28,
+        "Url": "https://api.librus.pl/2.0//Colors/28"
+      }
+    },
+    {
+      "Id": 10391,
+      "Name": "zajęcia dodatkowe",
+      "Color": {
+        "Id": 12,
+        "Url": "https://api.librus.pl/2.0//Colors/12"
+      }
+    }
+  ],
+  "Resources": {
+    "..": {
+      "Url": "https://api.librus.pl/2.0/HomeWorks"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/HomeWorks/Categories"
+}
