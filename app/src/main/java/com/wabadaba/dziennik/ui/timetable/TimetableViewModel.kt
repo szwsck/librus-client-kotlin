@@ -66,6 +66,13 @@ class TimetableViewModel(entityRepo: EntityRepository) : ViewModel() {
 
 data class TimetableLesson(val lesson: Lesson, val event: Event?)
 
-class Timetable : LinkedHashMap<LocalDate, SchoolDay?>()
+class Timetable : LinkedHashMap<LocalDate, SchoolDay?>() {
+    var empty = true
+
+    override fun put(key: LocalDate, value: SchoolDay?): SchoolDay? {
+        empty = false
+        return super.put(key, value)
+    }
+}
 
 class SchoolDay : LinkedHashMap<Int, TimetableLesson?>()

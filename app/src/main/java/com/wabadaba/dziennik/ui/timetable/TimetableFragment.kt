@@ -46,7 +46,7 @@ class TimetableFragment : LifecycleFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(TimetableViewModel::class.java)
 
         viewModel.timetableData.observe(this, Observer { timetableData ->
-            if (timetableData != null) {
+            if (timetableData != null && !timetableData.empty) {
                 fragment_timetable_recyclerview.visibility = View.VISIBLE
                 fragment_timetable_message.visibility = View.GONE
 
