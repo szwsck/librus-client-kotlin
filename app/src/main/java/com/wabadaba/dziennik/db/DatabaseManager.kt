@@ -1,6 +1,7 @@
 package com.wabadaba.dziennik.db
 
 import android.content.Context
+import com.wabadaba.dziennik.BuildConfig
 import com.wabadaba.dziennik.api.FullUser
 import com.wabadaba.dziennik.vo.Models
 import io.requery.Persistable
@@ -20,7 +21,7 @@ open class DatabaseManager(
     val dataStore: KotlinReactiveEntityStore<Persistable>
 
     init {
-        val source = DatabaseSource(context, Models.DEFAULT, user.login.databaseName, 1)
+        val source = DatabaseSource(context, Models.DEFAULT, user.login.databaseName, BuildConfig.VERSION_CODE)
         source.setTableCreationMode(TableCreationMode.DROP_CREATE)
         source.setLoggingEnabled(true)
 
