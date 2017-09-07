@@ -61,7 +61,8 @@ open class RxHttpClient @Inject constructor(
                 return HttpException.Authorization(url)
             }
             if (root.hasChildWithText("Code", "NotActive") ||
-                    root.hasChildWithText("Code", "Disabled")) {
+                    root.hasChildWithText("Code", "Disabled") ||
+                    root.hasChildWithText("Message", "is not public")) {
                 return HttpException.NotActive(url)
             }
             if (root.hasChildWithText("Status", "Maintenance")) {
