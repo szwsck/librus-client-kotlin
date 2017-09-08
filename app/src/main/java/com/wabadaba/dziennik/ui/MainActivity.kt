@@ -254,7 +254,7 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
 
     private fun showLuckyNumber(luckyNumber: LuckyNumber) {
         if (luckyNumber.date != null)
-            Toast.makeText(this, luckyNumber.date.toString(), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, (luckyNumber.date)!!.toString("EEEE, d MMMM"), Toast.LENGTH_LONG).show()
     }
 
     private fun switchFragment(fragmentInfo: FragmentInfo) {
