@@ -3,6 +3,7 @@ package com.wabadaba.dziennik.ui
 import android.view.View
 import com.github.debop.kodatimes.days
 import org.joda.time.LocalDate
+import java.util.*
 
 fun <T : View> T.primary(): T {
     this.visibility = View.VISIBLE
@@ -27,6 +28,30 @@ fun <T : View> T.gone(): T {
     return this
 }
 
+fun <K, V> TreeMap<K, List<V>>.multiPut(key: K, value: V) {
+    if (!this.containsKey(key))
+        this.put(key, kotlin.collections.emptyList())
+    val newList = this[key]!!.plus(value)
+    this.put(key, newList)
+}
+
+fun LocalDate.monthNameNominative() =
+        when (this.monthOfYear) {
+            1 -> "styczeń"
+            2 -> "luty"
+            3 -> "marzec"
+            4 -> "kwiecień"
+            5 -> "maj"
+            6 -> "czerwiec"
+            7 -> "lipiec"
+            8 -> "sierpień"
+            9 -> "wrzesień"
+            10 -> "październik"
+            11 -> "listopad"
+            12 -> "grudzień"
+            else -> throw IllegalArgumentException("Invalid date $this")
+        }
+
 fun forDateRange(dateStart: LocalDate, dateEnd: LocalDate, consumer: (LocalDate) -> Unit) {
     var date = dateStart
 
@@ -36,13 +61,10 @@ fun forDateRange(dateStart: LocalDate, dateEnd: LocalDate, consumer: (LocalDate)
     }
 }
 
-fun dateRange(dateStart: LocalDate, dateEnd: LocalDate): Iterable<LocalDate> {
-    var date = dateStart
-    val result = mutableListOf<LocalDate>()
+fun weekEnd(): LocalDate = LocalDate.now().dayOfWeek().withMaximumValue()
 
-    while (date < dateEnd) {
-        result.add(date)
-        date += 1.days()
-    }
-    return result
-}
+fun monthEnd(): LocalDate = LocalDate.now().dayOfMonth().withMaximumValue()
+
+fun weekStart(): LocalDate = LocalDate.now().dayOfWeek().withMinimumValue()
+
+fun monthStart(): LocalDate = LocalDate.now().dayOfMonth().withMinimumValue()

@@ -21,7 +21,7 @@ class AttendanceItem(val attendance: Attendance, header: AttendanceHeaderItem)
         holder.shortName.text = attendance.type?.shortName ?: ""
         holder.title.text = attendance.lesson?.subject?.name ?: ""
         holder.subtitle.text =
-                if (attendance.lessonNumber != null) "Lekcja ${attendance.lessonNumber!!}"
+                if (attendance.lessonNumber != null) "lekcja ${attendance.lessonNumber!!}"
                 else ""
     }
 

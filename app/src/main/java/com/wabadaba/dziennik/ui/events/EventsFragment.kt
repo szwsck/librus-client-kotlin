@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
+import com.wabadaba.dziennik.ui.HeaderItem
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_events.*
@@ -33,14 +34,24 @@ class EventsFragment : LifecycleFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = viewModelFactory.create(EventsViewModel::class.java)
-        viewModel.eventsData.observe(this, Observer { events ->
-            if (events != null) {
+        viewModel.eventData.observe(this, Observer { eventData ->
+            if (eventData != null) {
                 val items = mutableListOf<IFlexible<*>>()
-                items.addAll(events.map(::EventItem))
+
+                eventData.entries.forEach { (header, events) ->
+                    val headerItem = HeaderItem(header.order, header.title)
+                    val sectionItems = events.map { EventItem(it, headerItem) }
+                            .sorted()
+                    items.addAll(sectionItems)
+                }
+
                 val adapter = FlexibleAdapter(items)
+                adapter.setDisplayHeadersAtStartUp(true)
 
                 fragment_events_recyclerview.layoutManager = LinearLayoutManager(activity)
                 fragment_events_recyclerview.adapter = adapter
+            } else {
+                //TODO add empty state
             }
         })
 

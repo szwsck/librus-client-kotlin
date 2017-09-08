@@ -3,13 +3,15 @@ package com.wabadaba.dziennik.ui.events
 import android.view.View
 import android.widget.TextView
 import com.wabadaba.dziennik.R
+import com.wabadaba.dziennik.ui.HeaderItem
 import com.wabadaba.dziennik.vo.Event
 import eu.davidea.flexibleadapter.FlexibleAdapter
-import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
+import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import org.joda.time.LocalDate
 
-class EventItem(private val event: Event) : AbstractFlexibleItem<EventItem.ViewHolder>() {
+class EventItem(val event: Event, header: HeaderItem) : AbstractSectionableItem<EventItem.ViewHolder, HeaderItem>(header), Comparable<EventItem> {
 
     override fun getLayoutRes() = R.layout.item_event
 
@@ -18,14 +20,37 @@ class EventItem(private val event: Event) : AbstractFlexibleItem<EventItem.ViewH
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
         holder.title.text = event.category?.name
+        val date = event.date!!
         holder.subtitle.text =
-                if (event.lessonNumber != null) "Lekcja ${event.lessonNumber}"
-                else ""
+                when (date) {
+                    LocalDate.now(), LocalDate.now().plusDays(1) -> {
+                        if (event.lessonNumber != null)
+                            "lekcja ${event.lessonNumber}"
+                        else ""
+                    }
+                    else -> {
+                        val context = holder.itemView.context
+                        val dateFormat = context.getString(R.string.date_format_full)
+                        date.toString(dateFormat)
+                    }
+                }
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter) {
         val title: TextView = view.findViewById(R.id.item_event_title)
         val subtitle: TextView = view.findViewById(R.id.item_event_subtitle)
+    }
+
+    override fun compareTo(other: EventItem): Int {
+        if (event.date != null && other.event.date != null) {
+            val compare1 = event.date!!.compareTo(other.event.date!!)
+            if (compare1 == 0) {
+                if (event.lessonNumber != null && other.event.lessonNumber != null) {
+                    return event.lessonNumber!!.compareTo(other.event.lessonNumber!!)
+                }
+            } else return compare1
+        }
+        return 0
     }
 
     override fun equals(other: Any?): Boolean {
