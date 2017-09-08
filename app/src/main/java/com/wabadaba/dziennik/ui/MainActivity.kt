@@ -1,16 +1,18 @@
 package com.wabadaba.dziennik.ui
 
-import android.arch.lifecycle.LifecycleRegistry
-import android.arch.lifecycle.LifecycleRegistryOwner
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.*
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.PersistableBundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import co.zsmb.materialdrawerkt.builders.accountHeader
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.builders.footer
+import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
+import co.zsmb.materialdrawerkt.draweritems.divider
 import co.zsmb.materialdrawerkt.draweritems.profile.profile
 import co.zsmb.materialdrawerkt.draweritems.profile.profileSetting
 import com.amulyakhare.textdrawable.TextDrawable
@@ -24,18 +26,20 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.wabadaba.dziennik.BuildConfig
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
-import com.wabadaba.dziennik.api.HttpException
-import com.wabadaba.dziennik.api.RxHttpClient
-import com.wabadaba.dziennik.api.User
-import com.wabadaba.dziennik.api.UserRepository
+import com.wabadaba.dziennik.api.*
 import com.wabadaba.dziennik.api.notification.LibrusGCMRegistrationManager
 import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.login.LoginActivity
+import com.wabadaba.dziennik.vo.LuckyNumber
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.exceptions.OnErrorNotImplementedException
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.functions.Consumer
 import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.rxkotlin.toSingle
+import io.requery.Persistable
+import io.requery.reactivex.KotlinReactiveEntityStore
+import io.requery.reactivex.ReactiveSupport
 import kotlinx.android.synthetic.main.activity_main.*
 import mu.KotlinLogging
 import javax.inject.Inject
@@ -64,6 +68,11 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
 
     @Inject
     lateinit var fragmentRepository: FragmentRepository
+
+    @Inject
+    lateinit var entityRepository: EntityRepository
+
+    lateinit var luckyNumber: LuckyNumber
 
     private val logger = KotlinLogging.logger { }
 
@@ -201,10 +210,30 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
                 }
             }
             fragmentRepository.mainFragments.forEach { fragmentInfo -> attachItem(fragmentInfo.toDrawerItem()) }
+
+            entityRepository.luckyNumber.subscribe { luckyNumber = it }
+            if (luckyNumber.number != null) {
+                divider {  }
+                primaryItem {
+                    name = "Szczęśliwy numerek: " + luckyNumber.number.toString()
+                    icon = R.drawable.ic_sentiment_very_satisfied_black_24dp
+                    iconTintingEnabled = true
+                    selectable = false
+                    onClick { _, _, _ ->
+                        showLuckyNumber(luckyNumber)
+                        false}
+                }
+            }
+
             footer {
                 attachItem(fragmentRepository.settingsFragment.toDrawerItem())
             }
         }
+    }
+
+    private fun showLuckyNumber(luckyNumber: LuckyNumber) {
+        if (luckyNumber.date != null)
+            Toast.makeText(this, luckyNumber.date.toString(), Toast.LENGTH_LONG).show()
     }
 
     private fun switchFragment(fragmentInfo: FragmentInfo) {

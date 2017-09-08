@@ -29,6 +29,9 @@ class EntityRepository(userObservable: Observable<FullUser>,
     private val eventsSubject: BehaviorSubject<List<Event>> = BehaviorSubject.create()
     val events: Observable<List<Event>> = eventsSubject
 
+    private val luckyNumberSubject: BehaviorSubject<LuckyNumber> = BehaviorSubject.create()
+    val luckyNumber: Observable<LuckyNumber> = luckyNumberSubject
+
     private val refreshSubject = BehaviorSubject.createDefault<Unit>(Unit)
 
     private lateinit var datastore: KotlinReactiveEntityStore<Persistable>
@@ -110,6 +113,10 @@ class EntityRepository(userObservable: Observable<FullUser>,
                 .observable()
                 .toList()
                 .subscribe(eventsSubject::onNext)
+        datastore.select(LuckyNumber::class)
+                .get()
+                .observable()
+                .subscribe(luckyNumberSubject::onNext)
     }
 
     private fun getDefaultWeekStart() = LocalDate.now().plusDays(2).withDayOfWeek(MONDAY)
