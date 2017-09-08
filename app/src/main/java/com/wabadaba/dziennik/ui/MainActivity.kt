@@ -1,10 +1,11 @@
 package com.wabadaba.dziennik.ui
 
-import android.arch.lifecycle.*
+import android.arch.lifecycle.LifecycleRegistry
+import android.arch.lifecycle.LifecycleRegistryOwner
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.os.PersistableBundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
@@ -21,9 +22,9 @@ import com.bugsnag.android.Bugsnag
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.mikepenz.materialdrawer.Drawer
+import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
-import com.wabadaba.dziennik.BuildConfig
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.api.*
@@ -36,18 +37,12 @@ import io.reactivex.exceptions.OnErrorNotImplementedException
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.functions.Consumer
 import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.rxkotlin.toSingle
-import io.requery.Persistable
-import io.requery.reactivex.KotlinReactiveEntityStore
-import io.requery.reactivex.ReactiveSupport
 import kotlinx.android.synthetic.main.activity_main.*
 import mu.KotlinLogging
 import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
-
-    private val senderId = BuildConfig.SENDER_ID
 
     private val registry = LifecycleRegistry(this)
 
@@ -72,12 +67,13 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
     @Inject
     lateinit var entityRepository: EntityRepository
 
-    lateinit var luckyNumber: LuckyNumber
-
     private val logger = KotlinLogging.logger { }
 
     private val SETTING_ADD_ACCOUNT = 934L
     private val SETTING_LOGOUT = 935L
+    private val ITEM_DIVIDER = 936L
+    private val ITEM_LUCKY_NUMBER = 937L
+
 
     private lateinit var drawer: Drawer
 
@@ -211,22 +207,47 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
             }
             fragmentRepository.mainFragments.forEach { fragmentInfo -> attachItem(fragmentInfo.toDrawerItem()) }
 
-            entityRepository.luckyNumber.subscribe { luckyNumber = it }
-            if (luckyNumber.number != null) {
-                divider {  }
-                primaryItem {
-                    name = "Szczęśliwy numerek: " + luckyNumber.number.toString()
-                    icon = R.drawable.ic_sentiment_very_satisfied_black_24dp
-                    iconTintingEnabled = true
-                    selectable = false
-                    onClick { _, _, _ ->
-                        showLuckyNumber(luckyNumber)
-                        false}
-                }
+            entityRepository.luckyNumber.observeOn(AndroidSchedulers.mainThread()).subscribe {
+
+            }
+
+            divider { identifier = ITEM_DIVIDER }
+            primaryItem {
+                icon = R.drawable.ic_sentiment_very_satisfied_black_24dp
+                iconTintingEnabled = true
+                selectable = false
+                identifier = ITEM_LUCKY_NUMBER
             }
 
             footer {
                 attachItem(fragmentRepository.settingsFragment.toDrawerItem())
+            }
+        }
+        entityRepository.luckyNumber.observeOn(AndroidSchedulers.mainThread())
+                .map { luckyNumbers -> luckyNumbers.sortedBy(LuckyNumber::date).firstOrNull() }
+                .subscribe(this::addLuckyNumberSection)
+    }
+
+    private fun addLuckyNumberSection(luckyNumber: LuckyNumber?) {
+        with(drawer) {
+            if (luckyNumber?.number != null) {
+                val dividerItem = DividerDrawerItem().withIdentifier(ITEM_DIVIDER)
+                val luckyNumberItem = PrimaryDrawerItem().withIdentifier(ITEM_LUCKY_NUMBER)
+                        .withIcon(R.drawable.ic_sentiment_very_satisfied_black_24dp)
+                        .withIconTintingEnabled(true)
+                        .withName("Szczęśliwy numerek: ${luckyNumber.number}")
+                        .withSelectable(false)
+                        .withOnDrawerItemClickListener { _, _, _ ->
+                            showLuckyNumber(luckyNumber)
+                            false
+                        }
+                if (getDrawerItem(ITEM_DIVIDER) == null) addItem(dividerItem)
+                else updateItem(dividerItem)
+                if (getDrawerItem(ITEM_LUCKY_NUMBER) == null) addItem(luckyNumberItem)
+                else updateItem(luckyNumberItem)
+            } else {
+                removeItem(ITEM_DIVIDER)
+                removeItem(ITEM_LUCKY_NUMBER)
             }
         }
     }

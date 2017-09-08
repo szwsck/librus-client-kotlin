@@ -29,8 +29,8 @@ class EntityRepository(userObservable: Observable<FullUser>,
     private val eventsSubject: BehaviorSubject<List<Event>> = BehaviorSubject.create()
     val events: Observable<List<Event>> = eventsSubject
 
-    private val luckyNumberSubject: BehaviorSubject<LuckyNumber> = BehaviorSubject.create()
-    val luckyNumber: Observable<LuckyNumber> = luckyNumberSubject
+    private val luckyNumberSubject: BehaviorSubject<List<LuckyNumber>> = BehaviorSubject.create()
+    val luckyNumber: Observable<List<LuckyNumber>> = luckyNumberSubject
 
     private val refreshSubject = BehaviorSubject.createDefault<Unit>(Unit)
 
@@ -116,6 +116,7 @@ class EntityRepository(userObservable: Observable<FullUser>,
         datastore.select(LuckyNumber::class)
                 .get()
                 .observable()
+                .toList()
                 .subscribe(luckyNumberSubject::onNext)
     }
 
