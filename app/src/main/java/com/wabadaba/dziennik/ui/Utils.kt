@@ -2,6 +2,7 @@ package com.wabadaba.dziennik.ui
 
 import android.view.View
 import com.github.debop.kodatimes.days
+import com.wabadaba.dziennik.vo.Teacher
 import org.joda.time.LocalDate
 import java.util.*
 
@@ -66,10 +67,20 @@ fun forDateRange(dateStart: LocalDate, dateEnd: LocalDate, consumer: (LocalDate)
     }
 }
 
+fun Teacher.fullName(): String? {
+    val addedBy = StringBuilder()
+    val firstName = this.firstName
+    val lastName = this.lastName
+
+    if (!(firstName == null && lastName == null)) {
+        if (firstName != null) addedBy.append(firstName)
+        if (firstName != null && lastName != null) addedBy.append(' ')
+        if (lastName != null) addedBy.append(lastName)
+        return addedBy.toString()
+    }
+    return null
+}
+
 fun weekEnd(): LocalDate = LocalDate.now().dayOfWeek().withMaximumValue()
 
 fun monthEnd(): LocalDate = LocalDate.now().dayOfMonth().withMaximumValue()
-
-fun weekStart(): LocalDate = LocalDate.now().dayOfWeek().withMinimumValue()
-
-fun monthStart(): LocalDate = LocalDate.now().dayOfMonth().withMinimumValue()

@@ -12,6 +12,7 @@ import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.DetailsDialogBuilder
+import com.wabadaba.dziennik.ui.fullName
 import com.wabadaba.dziennik.vo.Grade
 import com.wabadaba.dziennik.vo.Subject
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -116,16 +117,8 @@ class GradesFragment : LifecycleFragment() {
         if (grade.date != null)
             ddb.addField(getString(R.string.date), grade.date?.toString(getString(R.string.date_format_full)))
 
-        val addedBy = StringBuilder()
-        val firstName = grade.addedBy?.firstName
-        val lastName = grade.addedBy?.lastName
-
-        if (!(firstName == null && lastName == null)) {
-            if (firstName != null) addedBy.append(firstName)
-            if (firstName != null && lastName != null) addedBy.append(' ')
-            if (lastName != null) addedBy.append(lastName)
-            ddb.addField(getString(R.string.added_by), addedBy.toString())
-        }
+        if (grade.addedBy?.fullName() != null)
+            ddb.addField(getString(R.string.added_by), grade.addedBy?.fullName())
 
         for (comment in grade.comments) {
             ddb.addField(getString(R.string.comment), comment.text)

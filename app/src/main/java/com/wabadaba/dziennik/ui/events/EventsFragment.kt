@@ -10,9 +10,8 @@ import android.view.ViewGroup
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
-import com.wabadaba.dziennik.ui.HeaderItem
-import com.wabadaba.dziennik.ui.gone
-import com.wabadaba.dziennik.ui.visible
+import com.wabadaba.dziennik.ui.*
+import com.wabadaba.dziennik.vo.Event
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_events.*
@@ -52,6 +51,11 @@ class EventsFragment : LifecycleFragment() {
 
                 val adapter = FlexibleAdapter(items)
                 adapter.setDisplayHeadersAtStartUp(true)
+                adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+                    val item = adapter.getItem(position)
+                    if (item is EventItem) showDetailsDialog(item.event)
+                    false
+                }
 
                 fragment_events_recyclerview.layoutManager = LinearLayoutManager(activity)
                 fragment_events_recyclerview.adapter = adapter
@@ -61,6 +65,26 @@ class EventsFragment : LifecycleFragment() {
             }
         })
 
+    }
+
+    private fun showDetailsDialog(event: Event) {
+        val dateTimeFormat = activity.getString(R.string.date_format_full) + ' ' + getString(R.string.timeFormat)
+
+        val ddb = DetailsDialogBuilder(activity)
+                .withTitle("Szczegóły wpisu")
+
+        if (event.subject?.name != null)
+            ddb.addField("Przedmiot", event.subject?.name)
+        if (event.category?.name != null)
+            ddb.addField("Kategoria", event.category?.name)
+        if (event.content != null)
+            ddb.addField("Opis", event.content)
+        if (event.addedBy?.fullName() != null)
+            ddb.addField("Dodano przez", event.addedBy?.fullName())
+        if (event.addDate != null)
+            ddb.addField("Data dodania", event.addDate?.toString(dateTimeFormat))
+
+        ddb.build().show()
     }
 
 }

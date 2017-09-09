@@ -85,10 +85,12 @@ class AttendancesFragment : LifecycleFragment() {
                 .withTitle("Szczegóły nieobecności")
 
         val typeName = attendance.type?.name
-        if (typeName != null) ddb.addField("Typ", typeName)
+        if (typeName != null)
+            ddb.addField("Typ", typeName)
 
         val subject = attendance.lesson?.subject?.name
-        if (subject != null) ddb.addField("Przedmiot", subject)
+        if (subject != null)
+            ddb.addField("Przedmiot", subject)
 
         val date = attendance.date
         val lessonNumber = attendance.lessonNumber
@@ -96,10 +98,12 @@ class AttendancesFragment : LifecycleFragment() {
             ddb.addField("Data", "Lekcja $lessonNumber, ${date.toString(activity.getString(R.string.date_format_full))}")
 
         val addedBy = attendance.addedBy
-        if (addedBy?.firstName != null && addedBy.lastName != null) ddb.addField("Dodana przez", "${addedBy.firstName} ${addedBy.lastName}")
+        if (addedBy?.firstName != null && addedBy.lastName != null)
+            ddb.addField("Dodano przez", "${addedBy.firstName} ${addedBy.lastName}")
 
         val addDate = attendance.addDate
-        if (addDate != null) ddb.addField("Data dodania", addDate.toString(activity.getString(R.string.date_format_full) + " HH:mm:ss"))
+        if (addDate != null)
+            ddb.addField("Data dodania", addDate.toString(activity.getString(R.string.date_format_full) + " HH:mm:ss"))
 
         ddb.build().show()
     }

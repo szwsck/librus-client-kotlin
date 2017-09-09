@@ -40,7 +40,7 @@
     <string name="category">Kategoria</string>
     <string name="grade">Ocena</string>
     <string name="grade_details">Szczegóły oceny</string>
-    <string name="added_by">Dodana przez</string>
+    <string name="added_by">Dodano przez</string>
     <string name="date_format_full">EEEE, d MMMM yyyy</string>
     <string name="comment">Komentarz</string>
     <string name="no_lessons">Brak lekcji. ¯\\\_(ツ)_/¯</string>
@@ -53,4 +53,5 @@
     <string name="attendances">Nieobecności</string>
     <string name="no_events">Brak wpisów</string>
     <string name="no_attendances">Brak nieobecności</string>
+    <string name="timeFormat">HH:mm:ss</string>
 </resources>
