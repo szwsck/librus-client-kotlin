@@ -11,6 +11,8 @@ import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.DetailsDialogBuilder
+import com.wabadaba.dziennik.ui.gone
+import com.wabadaba.dziennik.ui.visible
 import com.wabadaba.dziennik.vo.Attendance
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -37,7 +39,14 @@ class AttendancesFragment : LifecycleFragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = viewModelFactory.create(AttendancesViewModel::class.java)
         viewModel.attendances.observe(this, Observer { attendances ->
-            if (attendances == null) return@Observer     //if null, do nothing
+            if (attendances == null || attendances.isEmpty()) {
+                fragment_attendances_recyclerview.gone()
+                fragment_attendances_message.visible()
+                return@Observer
+            } else {
+                fragment_attendances_recyclerview.visible()
+                fragment_attendances_message.gone()
+            }
 
             val items = mutableListOf<IFlexible<*>>()
 

@@ -51,4 +51,6 @@
     <string name="time">Godzina</string>
     <string name="empty_lesson">Okienko</string>
     <string name="attendances">Nieobecności</string>
+    <string name="no_events">Brak wpisów</string>
+    <string name="no_attendances">Brak nieobecności</string>
 </resources>

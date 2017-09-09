@@ -5,6 +5,11 @@ import com.github.debop.kodatimes.days
 import org.joda.time.LocalDate
 import java.util.*
 
+fun <T : View> T.visible(): T {
+    this.visibility = View.VISIBLE
+    return this
+}
+
 fun <T : View> T.primary(): T {
     this.visibility = View.VISIBLE
     this.alpha = 0.87F

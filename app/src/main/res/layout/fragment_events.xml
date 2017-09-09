@@ -6,5 +6,14 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_events_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/fragment_events_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_events"
+        android:visibility="gone" />
 </FrameLayout>

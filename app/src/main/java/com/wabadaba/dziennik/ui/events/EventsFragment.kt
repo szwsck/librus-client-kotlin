@@ -11,6 +11,8 @@ import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.HeaderItem
+import com.wabadaba.dziennik.ui.gone
+import com.wabadaba.dziennik.ui.visible
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_events.*
@@ -35,7 +37,10 @@ class EventsFragment : LifecycleFragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = viewModelFactory.create(EventsViewModel::class.java)
         viewModel.eventData.observe(this, Observer { eventData ->
-            if (eventData != null) {
+            if (eventData != null && eventData.isNotEmpty()) {
+                fragment_events_message.gone()
+                fragment_events_recyclerview.visible()
+
                 val items = mutableListOf<IFlexible<*>>()
 
                 eventData.entries.forEach { (header, events) ->
@@ -51,7 +56,8 @@ class EventsFragment : LifecycleFragment() {
                 fragment_events_recyclerview.layoutManager = LinearLayoutManager(activity)
                 fragment_events_recyclerview.adapter = adapter
             } else {
-                //TODO add empty state
+                fragment_events_message.visible()
+                fragment_events_recyclerview.gone()
             }
         })
 
