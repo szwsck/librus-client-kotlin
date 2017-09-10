@@ -31,4 +31,7 @@ interface Announcement : Identifiable {
     @get:JsonProperty("CreationDate")
     @get:JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")
     val addDate: LocalDateTime?
+
+    @get:JsonProperty("WasRead")
+    val isRead: Boolean?
 }
