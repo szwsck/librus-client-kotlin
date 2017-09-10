@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import io.requery.Entity
 import io.requery.Key
 import io.requery.ManyToOne
-import java.time.LocalDate
-import java.time.LocalDateTime
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 
 @Entity
 @LibrusEntity("SchoolNotices")
