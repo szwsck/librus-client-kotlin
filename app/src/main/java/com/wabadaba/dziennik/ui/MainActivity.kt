@@ -207,10 +207,6 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
             }
             fragmentRepository.mainFragments.forEach { fragmentInfo -> attachItem(fragmentInfo.toDrawerItem()) }
 
-            entityRepository.luckyNumber.observeOn(AndroidSchedulers.mainThread()).subscribe {
-
-            }
-
             divider { identifier = ITEM_DIVIDER }
             primaryItem {
                 icon = R.drawable.ic_sentiment_very_satisfied_black_24dp
