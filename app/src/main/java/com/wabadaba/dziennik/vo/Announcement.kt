@@ -21,7 +21,8 @@ interface Announcement : Identifiable {
 
     val endDate: LocalDate?
 
-    val subject: String?
+    @get:JsonProperty("Subject")
+    val title: String?
 
     val content: String?
 

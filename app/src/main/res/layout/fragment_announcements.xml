@@ -16,5 +16,4 @@
         android:gravity="center"
         android:text="@string/no_announcements"
         android:visibility="gone" />
-
 </FrameLayout>

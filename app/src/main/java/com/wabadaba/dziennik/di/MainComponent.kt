@@ -3,6 +3,7 @@ package com.wabadaba.dziennik.di
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.ui.MainActivity
 import com.wabadaba.dziennik.ui.SettingsFragment
+import com.wabadaba.dziennik.ui.announcements.AnnouncementsFragment
 import com.wabadaba.dziennik.ui.attendance.AttendancesFragment
 import com.wabadaba.dziennik.ui.events.EventsFragment
 import com.wabadaba.dziennik.ui.grades.GradesFragment
@@ -22,4 +23,5 @@ interface MainComponent {
     fun inject(attendancesFragment: AttendancesFragment)
     fun inject(settingsFragment: SettingsFragment)
     fun inject(eventsFragment: EventsFragment)
+    fun inject(announcementsFragment: AnnouncementsFragment)
 }

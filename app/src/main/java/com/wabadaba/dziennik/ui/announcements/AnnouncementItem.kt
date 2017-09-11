@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.TextView
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.ui.HeaderItem
-import com.wabadaba.dziennik.ui.events.EventItem
 import com.wabadaba.dziennik.vo.Announcement
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
@@ -19,7 +18,8 @@ class AnnouncementItem(val announcement: Announcement, header: HeaderItem) : Abs
             = AnnouncementItem.ViewHolder(view, adapter)
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-
+        holder.title.text = announcement.title
+        holder.addedBy.text = announcement.addedBy?.firstName + " " + announcement.addedBy?.lastName
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter) {
