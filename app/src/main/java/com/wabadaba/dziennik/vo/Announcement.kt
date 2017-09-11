@@ -29,7 +29,7 @@ interface Announcement : Identifiable {
     val addedBy: Teacher?
 
     @get:JsonProperty("CreationDate")
-    @get:JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")
+    @get:JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     val addDate: LocalDateTime?
 
     @get:JsonProperty("WasRead")
