@@ -53,5 +53,6 @@
     <string name="attendances">Nieobecności</string>
     <string name="no_events">Brak wpisów</string>
     <string name="no_attendances">Brak nieobecności</string>
+    <string name="no_announcements">Brak ogłoszeń</string>
     <string name="timeFormat">HH:mm:ss</string>
 </resources>
