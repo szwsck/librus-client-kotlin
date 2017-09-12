@@ -220,8 +220,10 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
             }
         }
         entityRepository.luckyNumber.observeOn(AndroidSchedulers.mainThread())
-                .map { luckyNumbers -> luckyNumbers.sortedBy(LuckyNumber::date).firstOrNull() }
-                .subscribe(this::addLuckyNumberSection)
+                .subscribe { luckyNumbers ->
+                    val luckyNumber = luckyNumbers.sortedBy(LuckyNumber::date).singleOrNull()
+                    addLuckyNumberSection(luckyNumber)
+                }
     }
 
     private fun addLuckyNumberSection(luckyNumber: LuckyNumber?) {
