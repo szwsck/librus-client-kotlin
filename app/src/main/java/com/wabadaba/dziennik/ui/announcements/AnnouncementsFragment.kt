@@ -10,9 +10,8 @@ import android.view.ViewGroup
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
-import com.wabadaba.dziennik.ui.HeaderItem
-import com.wabadaba.dziennik.ui.gone
-import com.wabadaba.dziennik.ui.visible
+import com.wabadaba.dziennik.ui.*
+import com.wabadaba.dziennik.vo.Announcement
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_announcements.*
@@ -53,7 +52,7 @@ class AnnouncementsFragment : LifecycleFragment() {
                 adapter.setDisplayHeadersAtStartUp(true)
                 adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
                     val item = adapter.getItem(position)
-                    //if (item is AnnouncementItem) showDetailsDialog(item.announcement)
+                    if (item is AnnouncementItem) showDetailsDialog(item.announcement)
                     false
                 }
 
@@ -64,5 +63,23 @@ class AnnouncementsFragment : LifecycleFragment() {
                 fragment_announcements_recyclerview.gone()
             }
         })
+    }
+
+    fun showDetailsDialog(announcement: Announcement) {
+        val dateTimeFormat = activity.getString(R.string.date_format_full) + ' ' + getString(R.string.timeFormat)
+
+        val ddb = DetailsDialogBuilder(activity)
+                .withTitle("Szczegóły ogłoszenia")
+
+        if (announcement.title != null)
+            ddb.addField("Tytuł", announcement.title)
+        if (announcement.content != null)
+            ddb.addField("Treść", announcement.content)
+        if (announcement.addedBy != null)
+            ddb.addField("Dodane przez", announcement.addedBy?.fullName())
+        if (announcement.addDate != null)
+            ddb.addField("Data dodania", announcement.addDate?.toString(dateTimeFormat))
+
+        ddb.build().show()
     }
 }
