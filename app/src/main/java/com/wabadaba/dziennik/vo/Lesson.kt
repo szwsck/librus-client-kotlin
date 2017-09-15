@@ -37,9 +37,14 @@ interface Lesson : Identifiable {
     @get:ManyToOne
     val orgSubject: Subject?
 
+    @get:ManyToOne
+    @get:JsonProperty("TimetableEntry")
+    val entry: TimetableEntry?
+
     var date: LocalDate
 
     val hourFrom: LocalTime
 
     val hourTo: LocalTime
 }
+

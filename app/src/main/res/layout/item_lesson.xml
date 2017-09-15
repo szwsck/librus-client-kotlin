@@ -42,7 +42,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingEnd="16dp"
+                android:paddingStart="0dp">
 
                 <TextView
                     android:id="@+id/item_lesson_title"
@@ -72,20 +74,37 @@
                     android:layout_gravity="bottom"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="0dp"
+                    android:maxLines="1"
+                    android:maxWidth="72dp"
                     android:textColor="@android:color/black" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/item_lesson_subtitle"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:minLines="1"
-                android:textColor="@android:color/black" />
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:paddingEnd="16dp"
+                android:paddingStart="0dp">
+
+                <TextView
+                    android:id="@+id/item_lesson_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/item_lesson_classroom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:maxLines="1" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </RelativeLayout>

@@ -17,6 +17,7 @@ import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.DetailsDialogBuilder
+import com.wabadaba.dziennik.ui.ifNotNull
 import com.wabadaba.dziennik.vo.Lesson
 import com.wabadaba.dziennik.vo.Teacher
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -121,6 +122,7 @@ class TimetableFragment : LifecycleFragment() {
             }
         }
 
+        lesson.entry?.classroom?.name.ifNotNull { ddb.addField("Sala", it) }
         ddb.addField(getString(R.string.date), lesson.date.toString(getString(R.string.date_format_full)))
         ddb.addField(getString(R.string.time), lesson.hourFrom.toString("HH:mm") + " - " + lesson.hourTo.toString("HH:mm"))
         ddb.build().show()

@@ -81,6 +81,10 @@ fun Teacher.fullName(): String? {
     return null
 }
 
+fun <T, R> T?.ifNotNull(func: (T) -> R) {
+    this?.run(func)
+}
+
 fun weekEnd(): LocalDate = LocalDate.now().dayOfWeek().withMaximumValue()
 
 fun monthEnd(): LocalDate = LocalDate.now().dayOfMonth().withMaximumValue()
