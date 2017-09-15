@@ -3,6 +3,7 @@ package com.wabadaba.dziennik.api
 import android.annotation.SuppressLint
 import android.content.Context
 import android.preference.PreferenceManager
+import com.wabadaba.dziennik.ui.ifNotNull
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Singleton
@@ -13,21 +14,29 @@ class UserRepository(
         val context: Context) {
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     private val usersPrefKey = "logged_in_users"
+    private val defaultUserKey = "default_user"
 
     private val userSubject: BehaviorSubject<FullUser> = BehaviorSubject.create<FullUser>()
     private val allUsersSubject: BehaviorSubject<List<User>> = BehaviorSubject.create<List<User>>()
 
     val currentUser: Observable<FullUser> = userSubject
+            .doOnNext(this::saveDefaultUser)
     val allUsers: Observable<List<User>> = allUsersSubject
 
     init {
-        val users = loadUsers()
-        allUsersSubject.onNext(users)
-        if (users.isNotEmpty()) {
-            val defaultUser = users[0]
-            val defaultUserFull = getFullUser(defaultUser)
-            userSubject.onNext(defaultUserFull)
+        val users = loadUsers().toMutableList()
+        val defaultUser = prefs.getString(defaultUserKey, null)
+                .ifNotNull(this::getUser)
+                ?: if (users.isNotEmpty()) users[0]
+        else null
+        defaultUser.ifNotNull { user ->
+            users.remove(user)
+            users.add(0, user)
         }
+
+        allUsersSubject.onNext(users)
+        defaultUser.ifNotNull(this::getFullUser)
+                .ifNotNull { userSubject.onNext(it) }
     }
 
     private fun saveUsers(users: List<User>) {
@@ -126,4 +135,7 @@ class UserRepository(
                 .remove(authInfoKey(login))
                 .commit()
     }
+
+    private fun saveDefaultUser(fullUser: FullUser) =
+            prefs.edit().putString(defaultUserKey, fullUser.login).apply()
 }
