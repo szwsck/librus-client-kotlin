@@ -31,6 +31,8 @@ class TimetableFragment : LifecycleFragment() {
 
     private lateinit var viewModel: TimetableViewModel
 
+    private var adapter: FlexibleAdapter<IFlexible<*>>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val mainApplication = activity.application as MainApplication
@@ -65,11 +67,11 @@ class TimetableFragment : LifecycleFragment() {
                     }
                 }
 
-                val adapter = FlexibleAdapter(items)
-                adapter.setDisplayHeadersAtStartUp(true)
+                adapter = FlexibleAdapter(items)
+                adapter!!.setDisplayHeadersAtStartUp(true)
 
-                adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
-                    val item = adapter.getItem(position)
+                adapter!!.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+                    val item = adapter!!.getItem(position)
                     if (item is LessonItem && !item.lesson.canceled) {
                         showDialog(item.lesson)
                         false
@@ -79,6 +81,7 @@ class TimetableFragment : LifecycleFragment() {
                 }
 
                 fragment_timetable_recyclerview.layoutManager = LinearLayoutManager(activity)
+                fragment_timetable_recyclerview.itemAnimator = null
                 fragment_timetable_recyclerview.adapter = adapter
             } else {
                 fragment_timetable_recyclerview.visibility = View.GONE
@@ -126,6 +129,11 @@ class TimetableFragment : LifecycleFragment() {
         ddb.addField(getString(R.string.date), lesson.date.toString(getString(R.string.date_format_full)))
         ddb.addField(getString(R.string.time), lesson.hourFrom.toString("HH:mm") + " - " + lesson.hourTo.toString("HH:mm"))
         ddb.build().show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adapter.ifNotNull { it.notifyItemRangeChanged(0, it.itemCount) }
     }
 
     private fun Teacher.getFullName(): CharSequence? {

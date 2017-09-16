@@ -1,5 +1,6 @@
 package com.wabadaba.dziennik.ui.timetable
 
+import android.graphics.Typeface
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,6 +10,8 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import org.joda.time.LocalDate
+import org.joda.time.LocalTime
 
 class LessonItem(header: LessonHeaderItem, timetableLesson: TimetableLesson)
     : AbstractSectionableItem<LessonItem.ViewHolder, LessonHeaderItem>(header) {
@@ -76,7 +79,14 @@ class LessonItem(header: LessonHeaderItem, timetableLesson: TimetableLesson)
                     holder.badgeIcon.gone()
                     holder.badgeTitle.gone()
                 }
+
             }
+        }
+
+        if (LocalDate.now() == lesson.date && LocalTime.now() in lesson.hourFrom..lesson.hourTo) {
+            holder.title.setTypeface(holder.title.typeface, Typeface.BOLD)
+        } else {
+            holder.title.setTypeface(null, Typeface.NORMAL)
         }
     }
 
