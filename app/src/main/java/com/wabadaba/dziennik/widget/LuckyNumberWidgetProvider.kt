@@ -18,26 +18,27 @@ class LuckyNumberWidgetProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var entityRepository: EntityRepository
-    lateinit var luckyNumber: LuckyNumber
 
     override fun onUpdate(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetIds: IntArray?) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
 
         appWidgetIds?.forEach { id ->
             val widget = RemoteViews(context?.packageName, R.layout.widget_lucky_number)
-
             entityRepository.luckyNumber.observeOn(AndroidSchedulers.mainThread())
-                    .map { luckyNumbers -> luckyNumbers.sortedBy(LuckyNumber::date).firstOrNull() }
-                    .subscribe {luckyNumber = it!! }
-            if (luckyNumber.number != null) {
-                widget.setTextViewText(R.id.lucky_number_date, luckyNumber.date!!.toString("EEEE, d MMMM"))
-                widget.setTextViewText(R.id.lucky_number, luckyNumber.number.toString())
-                appWidgetManager?.updateAppWidget(id, widget)
-            }
+                    .subscribe { luckyNumbers ->
+                        val luckyNumber = luckyNumbers.sortedBy(LuckyNumber::date).firstOrNull()
+                        if (luckyNumber != null) {
+                            widget.setTextViewText(
+                                    R.id.lucky_number_date,
+                                    luckyNumber.date!!.toString("EEEE, d MMMM")
+                            )
+                            widget.setTextViewText(
+                                    R.id.lucky_number,
+                                    luckyNumber.number.toString()
+                            )
+                            appWidgetManager?.updateAppWidget(id, widget)
+                        }
+                    }
         }
-
-
     }
-
-
 }
