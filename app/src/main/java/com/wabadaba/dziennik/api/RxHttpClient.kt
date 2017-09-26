@@ -57,16 +57,13 @@ open class RxHttpClient @Inject constructor(
     private fun createException(code: Int, message: String, url: String): HttpException {
         try {
             val root = Parser.mapper.readTree(message) ?: return HttpException.Unknown(url, code, message)
-            if (root.hasChildWithText("error", "invalid_grant")) {
-                return HttpException.Authorization(url)
-            }
-            if (root.hasChildWithText("Code", "NotActive") ||
-                    root.hasChildWithText("Code", "Disabled") ||
-                    root.hasChildWithText("Message", "is not public")) {
-                return HttpException.NotActive(url)
-            }
-            if (root.hasChildWithText("Status", "Maintenance")) {
-                return HttpException.Maintenance(url)
+            when {
+                root.hasChildWithText("Code", "TokenIsExpired") -> return HttpException.TokenExpired(url)
+                root.hasChildWithText("error", "invalid_grant") -> return HttpException.Authorization(url)
+                root.hasChildWithText("Code", "NotActive") ||
+                        root.hasChildWithText("Code", "Disabled") ||
+                        root.hasChildWithText("Message", "is not public") -> return HttpException.NotActive(url)
+                root.hasChildWithText("Status", "Maintenance") -> return HttpException.Maintenance(url)
             }
         } catch (e: JsonParseException) {
             //message is not a valid json, ignore

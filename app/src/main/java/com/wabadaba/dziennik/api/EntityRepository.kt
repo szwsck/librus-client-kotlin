@@ -15,7 +15,11 @@ import kotlin.reflect.KClass
 
 class EntityRepository(userObservable: Observable<FullUser>,
                        private val datastoreCreator: ((FullUser) -> KotlinReactiveEntityStore<Persistable>),
-                       private val apiClientCreator: ((FullUser) -> APIClient)) {
+                       private val apiClient: RefreshableAPIClient) {
+
+    @Suppress("UNCHECKED_CAST")
+    private val allEntityTypes = Observable.fromIterable(Models.DEFAULT.types)
+            .map { it.baseType.kotlin as KClass<Persistable> }
 
     private val gradesSubject: BehaviorSubject<List<Grade>> = BehaviorSubject.create()
     val grades: Observable<List<Grade>> = gradesSubject
@@ -40,39 +44,42 @@ class EntityRepository(userObservable: Observable<FullUser>,
     private lateinit var datastore: KotlinReactiveEntityStore<Persistable>
 
     init {
-
         val dbLoad = userObservable
                 .doOnNext { datastore = datastoreCreator(it) }
                 .doOnNext { loadBaseEntities() }
 
-        Observables.combineLatest(dbLoad, refreshSubject) { user: FullUser, _: Unit ->
-            user
-
-        }.subscribeOn(Schedulers.io())
-                .subscribe { user -> refreshAll(user) }
+        Observables.combineLatest(dbLoad, refreshSubject) { user: FullUser, _: Unit -> user }
+                .subscribeOn(Schedulers.io())
+                .subscribe { refreshAll() }
 
     }
 
     fun refresh() = refreshSubject.onNext(Unit)
 
-    @Suppress("UNCHECKED_CAST")
-    private fun refreshAll(user: FullUser) {
-        Observable.fromIterable(Models.DEFAULT.types)
-                .map { it.baseType.kotlin as KClass<Persistable> }
-                .flatMapSingle { kClass ->
-                    download(user, kClass, when (kClass) {
-                        Lesson::class -> listOf(Pair("weekStart", getDefaultWeekStart().toString("yyyy-MM-dd")))
-                        Attendance::class -> listOf(Pair("showPresences", "false"))
-                        else -> emptyList()
-                    })
-                }.waitForAll()
-                .flatMapSingle(this::delete).waitForAll()
-                .flatMapSingle(this::upsert).waitForAll()
-                .subscribe { loadBaseEntities() }
+    private fun refreshAll() {
+        apiClient.refreshIfNeeded()
+                .subscribe {
+                    allEntityTypes
+                            .flatMapSingle { kClass ->
+                                download(kClass, when (kClass) {
+                                    Lesson::class -> listOf(Pair("weekStart", getDefaultWeekStart().toString("yyyy-MM-dd")))
+                                    Attendance::class -> listOf(Pair("showPresences", "false"))
+                                    else -> emptyList()
+                                })
+                            }.toList()
+                            .flatMapObservable { lists -> this.delete().andThen(Observable.fromIterable(lists)) }
+                            .flatMapSingle(this::upsert)
+                            .ignoreElements()
+                            .subscribeOn(Schedulers.io())
+                            .subscribe {
+                                println("Loading entities")
+                                loadBaseEntities()
+                            }
+                }
     }
 
-    private fun download(user: FullUser, kClass: KClass<Persistable>, queryParams: List<Pair<String, String>>): Single<MutableList<Persistable>>? {
-        return apiClientCreator(user)
+    private fun download(kClass: KClass<Persistable>, queryParams: List<Pair<String, String>>): Single<MutableList<Persistable>>? {
+        return apiClient
                 .fetchEntities(kClass, queryParams)
                 .toList()
                 .onErrorResumeNext {
@@ -81,14 +88,20 @@ class EntityRepository(userObservable: Observable<FullUser>,
                         Single.just(emptyList())
                     } else Single.error(it)
                 }
+                .doOnSuccess { println("downloaded $it") }
                 .subscribeOn(Schedulers.io())
     }
 
-    private fun delete(kClass: List<Persistable>): Single<List<Persistable>>?
-            = datastore.delete(kClass).toSingle().map { kClass }
+    private fun delete() = allEntityTypes
+            .flatMapSingle { datastore.delete(it).toSingle() }
+            .ignoreElements()
 
-    private fun upsert(it: List<Persistable>)
-            = datastore.upsert(it).subscribeOn(Schedulers.io())
+
+    private fun upsert(it: List<Persistable>): Single<Iterable<Persistable>>? {
+        println("saving $it")
+        return datastore.upsert(it).subscribeOn(Schedulers.io())
+    }
+
 
     /**
      * Waits until source observable completes, then emits all items at once

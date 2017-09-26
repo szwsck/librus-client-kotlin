@@ -10,24 +10,22 @@ import org.json.JSONObject
 import kotlin.reflect.KClass
 import kotlin.reflect.full.findAnnotation
 
-
 open class APIClient(private val authInfo: AuthInfo, private val httpClient: RxHttpClient) {
 
     private val HOST = BuildConfig.HOST
 
     private val jsonMediaType = MediaType.parse("application/json; charset=utf-8")
 
-    open fun <T : Persistable> fetchEntities(clazz: KClass<T>, queryParams: List<Pair<String, String>>): Observable<T> {
+    open fun <T : Persistable> fetchEntities(
+            clazz: KClass<T>,
+            queryParams: List<Pair<String, String>> = emptyList()): Observable<T> {
         val librusEntity = clazz.findAnnotation<LibrusEntity>() ?:
                 throw IllegalStateException("Class ${clazz.simpleName} not annotated with LibrusEntity annotation")
         return fetchRawData(librusEntity.endpoint, queryParams)
                 .flatMapObservable { Parser.parseEntityList(it, clazz.java) }
     }
 
-    open fun <T : Persistable> fetchEntities(clazz: KClass<T>) = fetchEntities(clazz, emptyList())
-
-
-    private fun fetchRawData(endpoint: String, queryParams: List<Pair<String, String>>): Single<String> {
+    fun fetchRawData(endpoint: String, queryParams: List<Pair<String, String>> = emptyList()): Single<String> {
         val urlBuilder = HttpUrl.Builder()
                 .scheme("https")
                 .host(HOST)

@@ -42,7 +42,7 @@ class UserRepository(
     private fun saveUsers(users: List<User>) {
         //serialize users as a string set
         val rawUsers = users
-                .map { Parser.mapper.writeValueAsString(it) }
+                .map { user -> Parser.mapper.writeValueAsString(user) }
                 .toSet()
         //save to prefs
         prefs.edit()
@@ -123,7 +123,7 @@ class UserRepository(
         return Parser.parse(stringValue, AuthInfo::class)
     }
 
-    private fun saveAuthInfo(login: String, authInfo: AuthInfo) {
+    fun saveAuthInfo(login: String, authInfo: AuthInfo) {
         val stringValue = Parser.mapper.writeValueAsString(authInfo)
         prefs.edit()
                 .putString(authInfoKey(login), stringValue)

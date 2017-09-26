@@ -39,9 +39,10 @@ class ApplicationModule(private val mainApplication: Application) {
 
     @Provides
     @Singleton
-    fun provideEntityRepository(context: Context, userRepository: UserRepository, httpClient: RxHttpClient): EntityRepository = EntityRepository(userRepository.currentUser,
+    fun provideEntityRepository(context: Context, userRepository: UserRepository, httpClient: RxHttpClient): EntityRepository
+            = EntityRepository(userRepository.currentUser,
             { user -> DatabaseManager(context, user).dataStore },
-            { user -> APIClient(user.authInfo, httpClient) })
+            RefreshableAPIClient(userRepository, httpClient))
 
     @Provides
     @Singleton
