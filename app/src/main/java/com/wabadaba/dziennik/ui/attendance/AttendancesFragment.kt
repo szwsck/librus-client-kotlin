@@ -51,7 +51,7 @@ class AttendancesFragment : LifecycleFragment() {
             val items = mutableListOf<IFlexible<*>>()
 
             val attendanceMap = attendances.groupBy { it.date }
-                    .toSortedMap(Comparator { o1, o2 -> o1?.compareTo(o2) ?: 0 })
+                    .toSortedMap(Comparator { o1, o2 -> o2?.compareTo(o1) ?: 0 })
 
             attendanceMap.forEach { entry ->
                 val header = AttendanceHeaderItem(entry.key!!)
