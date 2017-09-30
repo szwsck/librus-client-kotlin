@@ -20,13 +20,13 @@ class EntityRepositoryTest : BaseDBTest() {
             "user1",
             "user1FirstName",
             "user1FirstName",
-            5, AuthInfo("aToken1", "rToken1", 12))
+            5, AuthInfo("aToken1", "rToken1"))
     private val user2Full = FullUser(
             "user2",
             "user2FirstName",
             "user2FirstName",
             5,
-            AuthInfo("aToken2", "rToken2", 12))
+            AuthInfo("aToken2", "rToken2"))
 
     private val userSubject: BehaviorSubject<FullUser> = BehaviorSubject.create<FullUser>()
 
@@ -42,16 +42,14 @@ class EntityRepositoryTest : BaseDBTest() {
     @Test
     fun shouldReadFromDatabase() {
         val datastore = spy(DatabaseManager(RuntimeEnvironment.application, user1Full).dataStore)
-        val apiClientMock = mock<APIClient> {
+        val apiClientMock = mock<RefreshableAPIClient> {
             on { fetchEntities(Grade::class) } doReturn (Observable.just(grade1, grade2))
         }
         val entityRepository = EntityRepository(userSubject,
                 {
                     datastore
                 },
-                {
-                    apiClientMock
-                })
+                apiClientMock)
 
         val testObserver1 = entityRepository.grades.test()
 
@@ -71,13 +69,12 @@ class EntityRepositoryTest : BaseDBTest() {
 
     @Test
     fun shouldReceiveListOnSubscribeAndAfterUserChange() {
-        val apiClientMock = mock<APIClient> {
+        val apiClientMock = mock<RefreshableAPIClient> {
             on { fetchEntities(Grade::class) } doReturn (Observable.just(grade1, grade2))
         }
-        val entityRepository = EntityRepository(userSubject, {
-            fullUser ->
+        val entityRepository = EntityRepository(userSubject, { fullUser ->
             DatabaseManager(RuntimeEnvironment.application, fullUser).dataStore
-        }, { apiClientMock })
+        }, apiClientMock)
         val testObserver = entityRepository.grades.test()
         userSubject.onNext(user2Full)
         verify(apiClientMock, times(2)).fetchEntities(Grade::class)

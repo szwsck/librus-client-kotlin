@@ -14,7 +14,7 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class ApiClientTest : BaseTest() {
 
-    private val authInfo = AuthInfo("", "", 900000)
+    private val authInfo = AuthInfo("", "")
 
     @Test
     fun shouldFetchEntities() {
@@ -39,6 +39,5 @@ class ApiClientTest : BaseTest() {
         val result = client.refreshAccess().blockingGet()
         result.accessToken shouldEqualTo "ACCESS_TOKEN"
         result.refreshToken shouldEqualTo "REFRESH_TOKEN"
-        result.expiresIn shouldEqualTo 2592000
     }
 }

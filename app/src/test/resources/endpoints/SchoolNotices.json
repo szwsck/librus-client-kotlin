@@ -1,0 +1,32 @@
+{
+  "SchoolNotices": [
+    {
+      "Id": 163353,
+      "StartDate": "2016-09-01",
+      "EndDate": "2017-06-23",
+      "Subject": "Darmowe audiobooki",
+      "Content": "Darmowe audiobooki w bibliotece Wolne Lektury",
+      "AddedBy": {
+        "Id": 1234716,
+        "Url": "https://api.librus.pl/2.0/Users/1234716"
+      }
+    },
+    {
+      "Id": 167110,
+      "StartDate": "2016-09-21",
+      "EndDate": "2017-06-14",
+      "Subject": "Konsultacje z \"matematyki\"",
+      "Content": "Konsultacje z matematyki dla uczniów klas: 1B  2D2A 3A3D",
+      "AddedBy": {
+        "Id": 1575831,
+        "Url": "https://api.librus.pl/2.0/Users/1575831"
+      }
+    }
+  ],
+  "Resources": {
+    "..": {
+      "Url": "https://api.librus.pl/2.0/Root"
+    }
+  },
+  "Url": "https://api.librus.pl/2.0/SchoolNotices"
+}

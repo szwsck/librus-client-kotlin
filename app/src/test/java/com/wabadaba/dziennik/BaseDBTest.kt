@@ -19,7 +19,7 @@ abstract class BaseDBTest : BaseTest() {
                 "testFirstName",
                 "testLastName",
                 5,
-                AuthInfo("aToken", "rToken", 22)))
+                AuthInfo("aToken", "rToken")))
         dataStore = dbManager.dataStore.toBlocking()
     }
 

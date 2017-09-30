@@ -24,13 +24,13 @@ class UserRepositoryTest {
             "user1",
             "user1FirstName",
             "user1FirstName",
-            5, AuthInfo("aToken1", "rToken1", 12))
+            5, AuthInfo("aToken1", "rToken1"))
     private val user2Full = FullUser(
             "user2",
             "user2FirstName",
             "user2FirstName",
             5,
-            AuthInfo("aToken2", "rToken2", 12))
+            AuthInfo("aToken2", "rToken2"))
 
     @Test
     fun shouldCreateUser() {

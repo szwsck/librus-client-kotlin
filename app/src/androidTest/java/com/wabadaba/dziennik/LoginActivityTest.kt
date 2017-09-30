@@ -38,7 +38,7 @@ class LoginActivityTest : BaseInstrumentedTest() {
 
     @Test
     fun shouldLogIn() {
-        val authInfo = AuthInfo("AToken", "RToken", 9000000)
+        val authInfo = AuthInfo("AToken", "RToken")
         `when`(loginClient.login(username, password)).thenReturn(Single.just(authInfo))
         val login = "testlogin"
         val me = MeEntity().apply {
