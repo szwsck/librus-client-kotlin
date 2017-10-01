@@ -1,30 +1,24 @@
 package com.wabadaba.dziennik.api
 
-import com.wabadaba.dziennik.BaseTest
-import com.wabadaba.dziennik.di.ApplicationModule
-import com.wabadaba.dziennik.di.DaggerTestMainComponent
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
+import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.mock
 import org.amshove.kluent.shouldNotBe
-import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
-import org.robolectric.annotation.Config
-import javax.inject.Inject
 
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = intArrayOf(23))
-class LiveLoginClientTest : BaseTest() {
-
-    @Inject lateinit var client: LoginClient
-
-    @Before
-    fun setup() {
-        DaggerTestMainComponent.builder()
-                .applicationModule(ApplicationModule(RuntimeEnvironment.application))
-                .build()
-                .inject(this)
+class LiveLoginClientTest {
+    private val networkInfoMock = mock<NetworkInfo> {
+        on { isConnectedOrConnecting } doReturn true
     }
+    private val connectivityManagerMock = mock<ConnectivityManager> {
+        on { activeNetworkInfo } doReturn networkInfoMock
+    }
+    private val contextMock = mock<Context> {
+        on { getSystemService(Context.CONNECTIVITY_SERVICE) } doReturn connectivityManagerMock
+    }
+    val client: LoginClient = LoginClient(RxHttpClient(contextMock, 60))
 
     private val username = "13335"
     private val password = "librus11"
