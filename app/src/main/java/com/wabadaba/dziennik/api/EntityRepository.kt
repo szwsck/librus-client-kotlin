@@ -4,7 +4,6 @@ import com.wabadaba.dziennik.vo.*
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Observables
-import io.reactivex.rxkotlin.toSingle
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.requery.Persistable
@@ -78,7 +77,7 @@ class EntityRepository(userObservable: Observable<FullUser>,
                 }
     }
 
-    private fun download(kClass: KClass<Persistable>, queryParams: List<Pair<String, String>>): Single<MutableList<Persistable>>? {
+    private fun download(kClass: KClass<Persistable>, queryParams: List<Pair<String, String>>): Single<MutableList<Persistable>> {
         return apiClient
                 .fetchEntities(kClass, queryParams)
                 .toList()
@@ -88,14 +87,14 @@ class EntityRepository(userObservable: Observable<FullUser>,
                         Single.just(emptyList())
                     } else Single.error(it)
                 }
-                .doOnSuccess { println("downloaded $it") }
+                .doOnSuccess { println("downloaded $kClass : $it") }
                 .subscribeOn(Schedulers.io())
+
     }
 
     private fun delete() = allEntityTypes
-            .flatMapSingle { datastore.delete(it).toSingle() }
+            .flatMapSingle { datastore.delete(it).get().single() }
             .ignoreElements()
-
 
     private fun upsert(it: List<Persistable>): Single<Iterable<Persistable>>? {
         println("saving $it")

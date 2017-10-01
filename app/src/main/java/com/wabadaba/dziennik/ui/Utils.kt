@@ -41,6 +41,20 @@ fun <K, V> TreeMap<K, List<V>>.multiPut(key: K, value: V) {
     this.put(key, newList)
 }
 
+fun <K, V> MutableMap<K, List<V>>.multiPut(key: K, value: V) {
+    if (!this.containsKey(key))
+        this.put(key, kotlin.collections.emptyList())
+    val newList = this[key]!!.plus(value)
+    this.put(key, newList)
+}
+
+fun <K, V> MutableMap<K, List<V>>.multiPutAll(key: K, values: List<V>) {
+    if (!this.containsKey(key))
+        this.put(key, kotlin.collections.emptyList())
+    val newList = this[key]!!.plus(values)
+    this.put(key, newList)
+}
+
 fun LocalDate.monthNameNominative() =
         when (this.monthOfYear) {
             1 -> "styczeń"

@@ -1,20 +1,18 @@
 package com.wabadaba.dziennik.api
 
 import com.nhaarman.mockito_kotlin.*
-import com.wabadaba.dziennik.BaseDBTest
-import com.wabadaba.dziennik.db.DatabaseManager
+import com.wabadaba.dziennik.InMemoryEntityStore
 import com.wabadaba.dziennik.vo.Grade
 import com.wabadaba.dziennik.vo.GradeEntity
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import io.requery.Persistable
 import org.joda.time.LocalDate
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
+import kotlin.reflect.KClass
 
-@RunWith(RobolectricTestRunner::class)
-class EntityRepositoryTest : BaseDBTest() {
+class EntityRepositoryTest {
 
     private val user1Full = FullUser(
             "user1",
@@ -41,15 +39,15 @@ class EntityRepositoryTest : BaseDBTest() {
 
     @Test
     fun shouldReadFromDatabase() {
-        val datastore = spy(DatabaseManager(RuntimeEnvironment.application, user1Full).dataStore)
         val apiClientMock = mock<RefreshableAPIClient> {
-            on { fetchEntities(Grade::class) } doReturn (Observable.just(grade1, grade2))
+            on { fetchEntities(any<KClass<out Persistable>>(), any()) } doReturn Observable.empty<Persistable>()
+            on { fetchEntities(Grade::class) } doReturn Observable.just(grade1, grade2)
+            on { refreshIfNeeded() } doReturn Completable.complete()
         }
         val entityRepository = EntityRepository(userSubject,
-                {
-                    datastore
-                },
-                apiClientMock)
+                { InMemoryEntityStore.getDatastore() },
+                apiClientMock
+        )
 
         val testObserver1 = entityRepository.grades.test()
 
@@ -63,22 +61,26 @@ class EntityRepositoryTest : BaseDBTest() {
 
         testObserver2.assertValue(listOf(grade1, grade2))
 
-        verify(datastore, times(1)).select(Grade::class)
         verify(apiClientMock, times(1)).fetchEntities(Grade::class)
     }
 
     @Test
     fun shouldReceiveListOnSubscribeAndAfterUserChange() {
         val apiClientMock = mock<RefreshableAPIClient> {
+            on { fetchEntities(any<KClass<out Persistable>>(), any()) } doReturn (Observable.empty<Persistable>())
             on { fetchEntities(Grade::class) } doReturn (Observable.just(grade1, grade2))
+            on { refreshIfNeeded() } doReturn Completable.complete()
         }
-        val entityRepository = EntityRepository(userSubject, { fullUser ->
-            DatabaseManager(RuntimeEnvironment.application, fullUser).dataStore
-        }, apiClientMock)
+        val entityRepository = EntityRepository(userSubject,
+                { InMemoryEntityStore.getDatastore() },
+                apiClientMock
+        )
         val testObserver = entityRepository.grades.test()
+        userSubject.onNext(user1Full)
+        testObserver.awaitCount(2)
         userSubject.onNext(user2Full)
+        testObserver.awaitCount(4)
         verify(apiClientMock, times(2)).fetchEntities(Grade::class)
-        println(testObserver.values())
-        testObserver.assertValues(listOf(grade1, grade2), listOf(grade1, grade2))
+        testObserver.assertValues(emptyList(), listOf(grade1, grade2), emptyList(), listOf(grade1, grade2))
     }
 }
