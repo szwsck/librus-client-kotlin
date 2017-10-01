@@ -6,8 +6,10 @@ import android.net.NetworkInfo
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import org.amshove.kluent.shouldNotBe
+import org.junit.Ignore
 import org.junit.Test
 
+@Ignore
 class LiveLoginClientTest {
     private val networkInfoMock = mock<NetworkInfo> {
         on { isConnectedOrConnecting } doReturn true
