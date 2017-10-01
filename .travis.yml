@@ -9,7 +9,6 @@ android:
     - build-tools-26.0.1
     - android-21
     - android-26
-    - sys-img-armeabi-v7a-android-21
     - extra-android-m2repository
     - extra-google-m2repository
     - extra-android-support
@@ -27,11 +26,6 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
-before_script:
-  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a --skin 480x800
-  - emulator -avd test -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
 script:
   - ./gradlew clean jacocoTestReport lintDevDebug
 notifications:
