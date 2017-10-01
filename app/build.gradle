@@ -74,7 +74,10 @@ dependencies {
 
     testImplementation "com.nhaarman:mockito-kotlin:1.5.0"
     testImplementation 'org.amshove.kluent:kluent:1.27'
-    testImplementation 'org.robolectric:robolectric:3.4.2'
+    testImplementation 'org.bouncycastle:bcprov-jdk15on:1.57'
+    testImplementation('org.robolectric:robolectric:3.4.2', {
+        exclude group: 'org.bouncycastle'
+    })
     //testImplementation 'org.robolectric:shadows-multidex:3.3.2'
 
     implementation 'com.bugsnag:bugsnag-android:4.0.0'
