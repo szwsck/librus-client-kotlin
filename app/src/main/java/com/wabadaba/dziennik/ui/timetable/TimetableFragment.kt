@@ -23,6 +23,8 @@ import com.wabadaba.dziennik.vo.Teacher
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_timetable.*
+import org.joda.time.DateTime
+import java.util.*
 import javax.inject.Inject
 
 class TimetableFragment : LifecycleFragment() {
@@ -53,16 +55,28 @@ class TimetableFragment : LifecycleFragment() {
                 fragment_timetable_recyclerview.visibility = View.VISIBLE
                 fragment_timetable_message.visibility = View.GONE
 
+                var _n = 0  // increases with every element
                 val items = mutableListOf<IFlexible<*>>()
+                val today_day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+                var today_header = 0
 
                 for ((date, schoolDay) in timetableData) {
                     val header = LessonHeaderItem(date)
+                    val c = Calendar.getInstance()
+                    c.set(date.year, date.monthOfYear, date.dayOfMonth)
+                    if (c.get(Calendar.DAY_OF_WEEK) == today_day)
+                        today_header = _n
+
+                    _n++
                     if (schoolDay == null) {
-                        items.add(NoLessonsItem(header))
+                        items.add(NoLessonsItem(header)); _n++
                     } else {
                         items.addAll(schoolDay.entries.map { (lessonNumber, timetableLesson) ->
-                            if (timetableLesson == null) EmptyLessonItem(header, lessonNumber)
-                            else LessonItem(header, timetableLesson)
+                            _n++
+                            if (timetableLesson == null)
+                                EmptyLessonItem(header, lessonNumber)
+                            else
+                                LessonItem(header, timetableLesson)
                         })
                     }
                 }
@@ -83,6 +97,7 @@ class TimetableFragment : LifecycleFragment() {
                 fragment_timetable_recyclerview.layoutManager = LinearLayoutManager(activity)
                 fragment_timetable_recyclerview.itemAnimator = null
                 fragment_timetable_recyclerview.adapter = adapter
+                fragment_timetable_recyclerview.scrollToPosition(today_header)
             } else {
                 fragment_timetable_recyclerview.visibility = View.GONE
                 fragment_timetable_message.visibility = View.VISIBLE
