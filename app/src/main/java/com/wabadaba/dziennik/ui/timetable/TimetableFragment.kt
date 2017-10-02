@@ -23,6 +23,7 @@ import com.wabadaba.dziennik.vo.Teacher
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_timetable.*
+import org.joda.time.DateTime
 import java.util.*
 import javax.inject.Inject
 
@@ -54,20 +55,24 @@ class TimetableFragment : LifecycleFragment() {
                 fragment_timetable_recyclerview.visibility = View.VISIBLE
                 fragment_timetable_message.visibility = View.GONE
 
+                var _n = 0  // increases with every element
                 val items = mutableListOf<IFlexible<*>>()
-                val days_n = mutableListOf<Int>()
-                var current_n = 0
+                val today_day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+                var today_header = 0
 
                 for ((date, schoolDay) in timetableData) {
-                    days_n.add(current_n)
                     val header = LessonHeaderItem(date)
-                    current_n += 1
+                    val c = Calendar.getInstance()
+                    c.set(date.year, date.monthOfYear, date.dayOfMonth)
+                    if (c.get(Calendar.DAY_OF_WEEK) == today_day)
+                        today_header = _n
+
+                    _n++
                     if (schoolDay == null) {
-                        items.add(NoLessonsItem(header))
-                        current_n += 1
+                        items.add(NoLessonsItem(header)); _n++
                     } else {
                         items.addAll(schoolDay.entries.map { (lessonNumber, timetableLesson) ->
-                            current_n += 1
+                            _n++
                             if (timetableLesson == null)
                                 EmptyLessonItem(header, lessonNumber)
                             else
@@ -89,15 +94,10 @@ class TimetableFragment : LifecycleFragment() {
                     }
                 }
 
-                val calendar = Calendar.getInstance()
-                val _day = calendar.get(Calendar.DAY_OF_WEEK)
-                val day = if (_day == 1) (6) else (_day - 2)  // Calendar counts sunday as first day
-
                 fragment_timetable_recyclerview.layoutManager = LinearLayoutManager(activity)
                 fragment_timetable_recyclerview.itemAnimator = null
                 fragment_timetable_recyclerview.adapter = adapter
-
-                adapter!!.recyclerView!!.scrollToPosition(days_n.get(day))
+                fragment_timetable_recyclerview.scrollToPosition(today_header)
             } else {
                 fragment_timetable_recyclerview.visibility = View.GONE
                 fragment_timetable_message.visibility = View.VISIBLE
