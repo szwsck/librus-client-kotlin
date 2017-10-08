@@ -1,7 +1,5 @@
 package com.wabadaba.dziennik.ui
 
-import android.arch.lifecycle.LifecycleRegistry
-import android.arch.lifecycle.LifecycleRegistryOwner
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
@@ -42,13 +40,7 @@ import mu.KotlinLogging
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
-
-    private val registry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): LifecycleRegistry {
-        return registry
-    }
+class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory

@@ -5,11 +5,8 @@ import android.support.v7.preference.ListPreference
 import android.support.v7.preference.PreferenceFragmentCompat
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
-import javax.inject.Inject
 
 class SettingsFragment : PreferenceFragmentCompat() {
-
-    @Inject lateinit var fragmentRepository: FragmentRepository
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)

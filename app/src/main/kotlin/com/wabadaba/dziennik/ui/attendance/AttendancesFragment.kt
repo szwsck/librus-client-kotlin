@@ -1,8 +1,8 @@
 package com.wabadaba.dziennik.ui.attendance
 
-import android.arch.lifecycle.LifecycleFragment
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +19,7 @@ import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_attendances.*
 import javax.inject.Inject
 
-class AttendancesFragment : LifecycleFragment() {
+class AttendancesFragment : Fragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelFactory
 

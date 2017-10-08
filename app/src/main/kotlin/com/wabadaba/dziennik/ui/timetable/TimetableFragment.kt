@@ -1,11 +1,11 @@
 package com.wabadaba.dziennik.ui.timetable
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.LifecycleFragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Typeface
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -25,7 +25,7 @@ import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_timetable.*
 import javax.inject.Inject
 
-class TimetableFragment : LifecycleFragment() {
+class TimetableFragment : Fragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelFactory
 

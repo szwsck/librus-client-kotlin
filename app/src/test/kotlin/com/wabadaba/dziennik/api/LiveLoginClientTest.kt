@@ -20,7 +20,7 @@ class LiveLoginClientTest {
     private val contextMock = mock<Context> {
         on { getSystemService(Context.CONNECTIVITY_SERVICE) } doReturn connectivityManagerMock
     }
-    val client: LoginClient = LoginClient(RxHttpClient(contextMock, 60))
+    private val client: LoginClient = LoginClient(RxHttpClient(contextMock, 60))
 
     private val username = "13335"
     private val password = "librus11"

@@ -1,8 +1,8 @@
 package com.wabadaba.dziennik.ui.events
 
-import android.arch.lifecycle.LifecycleFragment
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +17,7 @@ import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_events.*
 import javax.inject.Inject
 
-class EventsFragment : LifecycleFragment() {
+class EventsFragment : Fragment() {
     @Inject lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: EventsViewModel

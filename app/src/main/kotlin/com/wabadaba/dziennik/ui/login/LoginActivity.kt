@@ -1,9 +1,9 @@
 package com.wabadaba.dziennik.ui.login
 
-import android.arch.lifecycle.LifecycleActivity
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
@@ -15,7 +15,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
-class LoginActivity : LifecycleActivity() {
+class LoginActivity : AppCompatActivity() {
 
     @Inject lateinit var userRepository: UserRepository
 

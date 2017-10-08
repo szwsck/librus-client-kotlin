@@ -17,7 +17,7 @@ class LessonItem(header: LessonHeaderItem, timetableLesson: TimetableLesson)
     : AbstractSectionableItem<LessonItem.ViewHolder, LessonHeaderItem>(header) {
 
     val lesson = timetableLesson.lesson
-    val event = timetableLesson.event
+    private val event = timetableLesson.event
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

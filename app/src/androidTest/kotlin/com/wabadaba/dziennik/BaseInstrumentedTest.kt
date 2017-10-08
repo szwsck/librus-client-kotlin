@@ -6,7 +6,6 @@ import com.nhaarman.mockito_kotlin.KStubbing
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import com.wabadaba.dziennik.api.notification.LibrusGCMRegistrationManager
 import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.GPServicesChecker
 import org.junit.Before
@@ -20,8 +19,6 @@ abstract class BaseInstrumentedTest {
     val rule = EspressoDaggerMockRule()
 
     @Mock lateinit var viewModelFactory: ViewModelFactory
-
-    @Mock lateinit var gcmRegistrationManager: LibrusGCMRegistrationManager
 
     @Mock lateinit var servicesChecker: GPServicesChecker
     @Before

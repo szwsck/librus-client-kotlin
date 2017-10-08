@@ -7,7 +7,7 @@ import kotlin.reflect.KClass
 
 class RefreshableAPIClient(private val userRepository: UserRepository, private val rxHttpClient: RxHttpClient) {
 
-    lateinit var delegate: APIClient
+    private lateinit var delegate: APIClient
     lateinit var login: String
 
     init {

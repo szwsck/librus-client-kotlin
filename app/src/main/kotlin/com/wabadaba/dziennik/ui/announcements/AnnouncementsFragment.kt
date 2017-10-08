@@ -1,8 +1,8 @@
 package com.wabadaba.dziennik.ui.announcements
 
-import android.arch.lifecycle.LifecycleFragment
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +17,7 @@ import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_announcements.*
 import javax.inject.Inject
 
-class AnnouncementsFragment : LifecycleFragment() {
+class AnnouncementsFragment : Fragment() {
     @Inject lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: AnnouncementsViewModel
@@ -65,7 +65,7 @@ class AnnouncementsFragment : LifecycleFragment() {
         })
     }
 
-    fun showDetailsDialog(announcement: Announcement) {
+    private fun showDetailsDialog(announcement: Announcement) {
         val dateTimeFormat = activity.getString(R.string.date_format_full) + ' ' + getString(R.string.timeFormat)
 
         val ddb = DetailsDialogBuilder(activity)
