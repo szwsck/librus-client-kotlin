@@ -135,7 +135,7 @@ dependencies {
     testImplementation "com.squareup.okhttp3:mockwebserver:$versions.okHttp"
 
     // Android Test
-    androidTestImplementation("org.amshove.kluent:kluent:$versions.kluent", {
+    androidTestImplementation("org.amshove.kluent:kluent-android:$versions.kluent",{
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-reflect'
     })
     androidTestImplementation "com.github.fabioCollini:DaggerMock:$versions.daggerMock"
