@@ -67,7 +67,7 @@ class LoginActivityTest : BaseInstrumentedTest() {
 
         Intents.intended(allOf(toPackage(packageName), hasComponent(MainActivity::class.java.name)))
         verify(userRepository, times(1)).addUser(FullUser(login, "Tomasz", "Problem", 5, authInfo))
-
+        Intents.release()
     }
 
 }
