@@ -7,6 +7,7 @@ import android.text.style.StyleSpan
 import android.view.View
 import android.widget.TextView
 import com.wabadaba.dziennik.R
+import com.wabadaba.dziennik.ui.*
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractExpandableHeaderItem
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
@@ -36,7 +37,16 @@ class LessonHeaderItem(val date: LocalDate)
     override fun getLayoutRes() = R.layout.item_lesson_header
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.title.text = getDateText()
+        with(holder) {
+            title.text = getDateText()
+            if (isExpanded) {
+                arrow.rotate(180f).disabled()
+                divider.gone()
+            } else {
+                arrow.rotate(0f).secondary()
+                divider.visible()
+            }
+        }
     }
 
     private fun getDateText(): SpannableStringBuilder {
@@ -55,6 +65,9 @@ class LessonHeaderItem(val date: LocalDate)
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : ExpandableViewHolder(view, adapter) {
         val title: TextView = view.findViewById(R.id.item_lesson_header_title)
+        val arrow: View = view.findViewById(R.id.item_lesson_header_arrow)
+        val divider: View = view.findViewById(R.id.item_lesson_header_divider)
+        override fun shouldNotifyParentOnClick() = true
     }
 
 }

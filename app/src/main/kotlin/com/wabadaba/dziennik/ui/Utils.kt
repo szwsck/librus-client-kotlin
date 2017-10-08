@@ -34,6 +34,11 @@ fun <T : View> T.gone(): T {
     return this
 }
 
+fun <T : View> T.rotate(deg: Float): T {
+    this.rotation = deg
+    return this
+}
+
 fun <K, V> TreeMap<K, List<V>>.multiPut(key: K, value: V) {
     if (!this.containsKey(key))
         this.put(key, kotlin.collections.emptyList())
