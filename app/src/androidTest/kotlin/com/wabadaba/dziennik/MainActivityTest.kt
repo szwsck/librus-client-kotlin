@@ -23,6 +23,8 @@ class MainActivityTest : BaseInstrumentedTest() {
     fun shouldRedirectToLoginActivity() {
         Intents.init()
         `when`(userRepository.allUsers).thenReturn(Observable.just(emptyList()))
+        `when`(userRepository.currentUser).thenReturn(Observable.empty())
+
         val result = Instrumentation.ActivityResult(Activity.RESULT_OK, null)
         Intents.intending(hasComponent(LoginActivity::class.java.name)).respondWith(result)
 

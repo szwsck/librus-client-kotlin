@@ -23,6 +23,7 @@ class LoginActivity : LifecycleActivity() {
 
     @Inject lateinit var httpClient: RxHttpClient
 
+    @Inject lateinit var apiClientFactory: APIClientFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +80,7 @@ class LoginActivity : LifecycleActivity() {
     private fun performLogin(username: String, password: String): Completable {
         return loginClient.login(username, password)
                 .flatMap { authInfo ->
-                    val apiClient = APIClient(authInfo, httpClient)
+                    val apiClient = apiClientFactory.create(authInfo, httpClient)
                     apiClient.fetchEntities(Me::class)
                             .singleOrError()
                             .doOnSuccess { me ->

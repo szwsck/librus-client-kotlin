@@ -1,6 +1,7 @@
 package com.wabadaba.dziennik.api
 
 import io.reactivex.Completable
+import io.reactivex.Single
 import io.requery.Persistable
 import kotlin.reflect.KClass
 
@@ -44,4 +45,5 @@ class RefreshableAPIClient(private val userRepository: UserRepository, private v
             queryParams: List<Pair<String, String>> = emptyList())
             = delegate.fetchEntities(clazz, queryParams)
 
+    fun pushDevices(token: String): Single<String> = delegate.pushDevices(token)
 }

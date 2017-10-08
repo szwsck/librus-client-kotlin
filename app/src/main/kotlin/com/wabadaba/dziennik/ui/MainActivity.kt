@@ -19,16 +19,16 @@ import co.zsmb.materialdrawerkt.draweritems.profile.profileSetting
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bugsnag.android.Bugsnag
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
-import com.wabadaba.dziennik.api.*
-import com.wabadaba.dziennik.api.notification.LibrusGCMRegistrationManager
+import com.wabadaba.dziennik.api.EntityRepository
+import com.wabadaba.dziennik.api.HttpException
+import com.wabadaba.dziennik.api.User
+import com.wabadaba.dziennik.api.UserRepository
 import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.login.LoginActivity
 import com.wabadaba.dziennik.vo.LuckyNumber
@@ -59,13 +59,13 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
     lateinit var userRepository: UserRepository
 
     @Inject
-    lateinit var rxHttpClient: RxHttpClient
-
-    @Inject
     lateinit var fragmentRepository: FragmentRepository
 
     @Inject
     lateinit var entityRepository: EntityRepository
+
+    @Inject
+    lateinit var servicesChecker: GPServicesChecker
 
     private val logger = KotlinLogging.logger { }
 
@@ -113,7 +113,9 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
-        if (checkGooglePlayServicesAvailable()) {
+        val servicesAvailable = servicesChecker.check(this)
+
+        if (servicesAvailable) {
             userRepository.allUsers.observeOn(AndroidSchedulers.mainThread())
                     .subscribe { users ->
                         if (users.isEmpty()) {
@@ -129,27 +131,6 @@ class MainActivity : AppCompatActivity(), LifecycleRegistryOwner {
                         }
                     }
         }
-        registerGCM()
-    }
-
-    private fun registerGCM() {
-        userRepository.currentUser.subscribe {
-            println("Registering user $it for GCM")
-            LibrusGCMRegistrationManager(it, rxHttpClient, this)
-                    .register()
-        }
-    }
-
-    private fun checkGooglePlayServicesAvailable(): Boolean {
-        val googleApiAvailability = GoogleApiAvailability.getInstance()
-        val status = googleApiAvailability.isGooglePlayServicesAvailable(this)
-        if (status != ConnectionResult.SUCCESS) {
-            if (googleApiAvailability.isUserResolvableError(status)) {
-                googleApiAvailability.getErrorDialog(this, status, 2404).show()
-            }
-            return false
-        }
-        return true
     }
 
     @Suppress("DEPRECATION")

@@ -6,26 +6,22 @@ import com.bugsnag.android.Bugsnag
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.google.android.gms.iid.InstanceID
 import com.wabadaba.dziennik.BuildConfig
-import com.wabadaba.dziennik.api.APIClient
 import com.wabadaba.dziennik.api.FullUser
-import com.wabadaba.dziennik.api.RxHttpClient
+import com.wabadaba.dziennik.api.RefreshableAPIClient
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
-class LibrusGCMRegistrationManager(private val currentUser: FullUser,
-                                   rxHttpClient: RxHttpClient,
-                                   val context: Context) {
+class LibrusGCMRegistrationManager(val context: Context, private val apiClient: RefreshableAPIClient) {
 
     private val senderId = BuildConfig.SENDER_ID
 
     private val pref_key = "gcm_registered_users"
-    private val apiClient = APIClient(currentUser.authInfo, rxHttpClient)
 
-    fun register() {
-        if (!isRegistered()) {
+    fun register(currentUser: FullUser) {
+        if (!isRegistered(currentUser)) {
             getRegistrationToken()
                     .flatMap { regToken -> apiClient.pushDevices(regToken) }
-                    .doOnSuccess { this.setRegistered() }
+                    .doOnSuccess { this.setRegistered(currentUser) }
                     .subscribeOn(Schedulers.io())
                     .subscribe(
                             {
@@ -35,19 +31,17 @@ class LibrusGCMRegistrationManager(private val currentUser: FullUser,
                                 println("GCM registration failed")
                                 Bugsnag.notify(e)
                             })
-        } else {
-            println("User $currentUser already registered for GCM")
         }
     }
 
 
-    private fun isRegistered(): Boolean {
+    private fun isRegistered(currentUser: FullUser): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getStringSet(pref_key, emptySet())
                 .contains(currentUser.login)
     }
 
-    private fun setRegistered() {
+    private fun setRegistered(currentUser: FullUser) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val registered = prefs.getStringSet(pref_key, emptySet())
         prefs.edit().putStringSet(pref_key, registered.plus(currentUser.login))
