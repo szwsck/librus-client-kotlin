@@ -23,6 +23,7 @@ import com.wabadaba.dziennik.vo.Teacher
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_timetable.*
+import org.joda.time.LocalDate
 import javax.inject.Inject
 
 class TimetableFragment : Fragment() {
@@ -54,6 +55,7 @@ class TimetableFragment : Fragment() {
                 fragment_timetable_message.visibility = View.GONE
 
                 val items = mutableListOf<IFlexible<*>>()
+                val itemsToExpand = mutableListOf<IFlexible<*>>()
 
                 for ((date, schoolDay) in timetableData) {
                     val header = LessonHeaderItem(date)
@@ -68,10 +70,13 @@ class TimetableFragment : Fragment() {
                                 .forEach { header.addSubItem(it) }
                     }
                     items.add(header)
+                    if (!date.isBefore(LocalDate.now())) itemsToExpand.add(header)
                 }
 
                 adapter = FlexibleAdapter(items)
-                adapter!!.expandItemsAtStartUp()
+
+                adapter!!.collapseAll()
+                itemsToExpand.forEach { adapter!!.expand(it) }
 
                 adapter!!.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
                     val item = adapter!!.getItem(position)
