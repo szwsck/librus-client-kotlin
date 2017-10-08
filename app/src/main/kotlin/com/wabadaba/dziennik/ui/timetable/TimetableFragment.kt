@@ -58,17 +58,20 @@ class TimetableFragment : Fragment() {
                 for ((date, schoolDay) in timetableData) {
                     val header = LessonHeaderItem(date)
                     if (schoolDay == null) {
-                        items.add(NoLessonsItem(header))
+                        header.addSubItem(NoLessonsItem(header))
                     } else {
-                        items.addAll(schoolDay.entries.map { (lessonNumber, timetableLesson) ->
-                            if (timetableLesson == null) EmptyLessonItem(header, lessonNumber)
-                            else LessonItem(header, timetableLesson)
-                        })
+                        schoolDay.entries
+                                .map { (lessonNumber, timetableLesson) ->
+                                    if (timetableLesson == null) EmptyLessonItem(header, lessonNumber)
+                                    else LessonItem(header, timetableLesson)
+                                }
+                                .forEach { header.addSubItem(it) }
                     }
+                    items.add(header)
                 }
 
                 adapter = FlexibleAdapter(items)
-                adapter!!.setDisplayHeadersAtStartUp(true)
+                adapter!!.expandItemsAtStartUp()
 
                 adapter!!.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
                     val item = adapter!!.getItem(position)

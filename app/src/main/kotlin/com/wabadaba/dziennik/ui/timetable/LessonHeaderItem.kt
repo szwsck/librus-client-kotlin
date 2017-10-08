@@ -8,13 +8,15 @@ import android.view.View
 import android.widget.TextView
 import com.wabadaba.dziennik.R
 import eu.davidea.flexibleadapter.FlexibleAdapter
-import eu.davidea.flexibleadapter.items.AbstractHeaderItem
+import eu.davidea.flexibleadapter.items.AbstractExpandableHeaderItem
+import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
-import eu.davidea.viewholders.FlexibleViewHolder
+import eu.davidea.viewholders.ExpandableViewHolder
 import org.joda.time.LocalDate
 import java.util.*
 
-class LessonHeaderItem(val date: LocalDate) : AbstractHeaderItem<LessonHeaderItem.ViewHolder>() {
+class LessonHeaderItem(val date: LocalDate)
+    : AbstractExpandableHeaderItem<LessonHeaderItem.ViewHolder, AbstractSectionableItem<*, *>>() {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -51,7 +53,7 @@ class LessonHeaderItem(val date: LocalDate) : AbstractHeaderItem<LessonHeaderIte
                 .append(subtitle)
     }
 
-    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter) {
+    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : ExpandableViewHolder(view, adapter) {
         val title: TextView = view.findViewById(R.id.item_lesson_header_title)
     }
 
