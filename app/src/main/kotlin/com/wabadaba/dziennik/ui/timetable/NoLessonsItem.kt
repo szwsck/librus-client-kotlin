@@ -15,7 +15,6 @@ class NoLessonsItem(header: LessonHeaderItem) : AbstractSectionableItem<NoLesson
     override fun getLayoutRes(): Int = R.layout.item_no_lessons
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder?, position: Int, payloads: MutableList<Any?>?) {
-
     }
 
     override fun equals(other: Any?): Boolean {

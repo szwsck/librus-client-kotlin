@@ -12,6 +12,7 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractExpandableHeaderItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.ExpandableViewHolder
+import kotlinx.android.synthetic.main.grade_header_item.view.*
 
 class GradeHeaderItem(val subject: Subject)
     : AbstractExpandableHeaderItem<GradeHeaderItem.ViewHolder, GradeItem>() {
@@ -37,18 +38,20 @@ class GradeHeaderItem(val subject: Subject)
             = ViewHolder(view, adapter)
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.title.text = subject.name
-        if (isExpanded) {
-            holder.subtitle.text =
-                    if (subject.average != null && subject.average!!.fullYear > 0) {
-                        SpannableStringBuilder()
-                                .append("Średnia: ")
-                                .append(subject.average!!.fullYear.toString(), StyleSpan(Typeface.BOLD), Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
-                    } else {
-                        "Brak średniej"
-                    }
-        } else {
-            holder.subtitle.text = getSubtitle(subItemsCount)
+        holder.itemView.apply {
+            grade_header_item_title.text = subject.name
+            if (isExpanded) {
+                grade_header_item_subtitle.text =
+                        if (subject.average != null && subject.average!!.fullYear > 0) {
+                            SpannableStringBuilder()
+                                    .append("Średnia: ")
+                                    .append(subject.average!!.fullYear.toString(), StyleSpan(Typeface.BOLD), Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                        } else {
+                            "Brak średniej"
+                        }
+            } else {
+                grade_header_item_subtitle.text = getSubtitle(subItemsCount)
+            }
         }
     }
 
@@ -59,8 +62,6 @@ class GradeHeaderItem(val subject: Subject)
             else "ocen"
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : ExpandableViewHolder(view, adapter) {
-        val title: TextView = view.findViewById(R.id.grade_header_item_title)
-        val subtitle: TextView = view.findViewById(R.id.grade_header_item_subtitle)
         override fun shouldNotifyParentOnClick() = true
     }
 }

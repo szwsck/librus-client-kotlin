@@ -8,6 +8,7 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import kotlinx.android.synthetic.main.grade_item.view.*
 import java.util.*
 
 class GradeItem(val grade: Grade, header: GradeHeaderItem)
@@ -34,16 +35,14 @@ class GradeItem(val grade: Grade, header: GradeHeaderItem)
     override fun getLayoutRes(): Int = R.layout.grade_item
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.grade.text = grade.grade
-        holder.title.text = grade.category?.name
-        holder.subtitle.text = grade.date?.toString("EEEE, d MMMM", Locale("pl"))
+        holder.itemView.apply {
+            grade_item_grade.text = grade.grade
+            grade_item_title.text = grade.category?.name
+            grade_item_subtitle.text = grade.date?.toString("EEEE, d MMMM", Locale("pl"))
+        }
     }
 
-    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter) {
-        val title: TextView = view.findViewById(R.id.grade_item_title)
-        val subtitle: TextView = view.findViewById(R.id.grade_item_subtitle)
-        val grade: TextView = view.findViewById(R.id.grade_item_grade)
-    }
+    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter)
 
 }
 

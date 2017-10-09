@@ -9,6 +9,7 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import kotlinx.android.synthetic.main.item_event.view.*
 import org.joda.time.LocalDate
 
 class EventItem(val event: Event, header: HeaderItem) : AbstractSectionableItem<EventItem.ViewHolder, HeaderItem>(header), Comparable<EventItem> {
@@ -19,27 +20,26 @@ class EventItem(val event: Event, header: HeaderItem) : AbstractSectionableItem<
             = ViewHolder(view, adapter)
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.title.text = event.category?.name
         val date = event.date!!
-        holder.subtitle.text =
-                when (date) {
-                    LocalDate.now(), LocalDate.now().plusDays(1) -> {
-                        if (event.lessonNumber != null)
-                            "lekcja ${event.lessonNumber}"
-                        else ""
+        holder.itemView.apply {
+            item_event_title.text = event.category?.name
+            item_event_subtitle.text =
+                    when (date) {
+                        LocalDate.now(), LocalDate.now().plusDays(1) -> {
+                            if (event.lessonNumber != null)
+                                "lekcja ${event.lessonNumber}"
+                            else ""
+                        }
+                        else -> {
+                            val dateFormat = context.getString(R.string.date_format_full)
+                            date.toString(dateFormat)
+                        }
                     }
-                    else -> {
-                        val context = holder.itemView.context
-                        val dateFormat = context.getString(R.string.date_format_full)
-                        date.toString(dateFormat)
-                    }
-                }
+        }
+
     }
 
-    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter) {
-        val title: TextView = view.findViewById(R.id.item_event_title)
-        val subtitle: TextView = view.findViewById(R.id.item_event_subtitle)
-    }
+    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter)
 
     override fun compareTo(other: EventItem): Int {
         if (event.date != null && other.event.date != null) {
