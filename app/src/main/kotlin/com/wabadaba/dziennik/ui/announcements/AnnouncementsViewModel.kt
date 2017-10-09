@@ -20,7 +20,6 @@ class AnnouncementsViewModel(entityRepo: EntityRepository) : ViewModel() {
                 .subscribe { announcements ->
                     val result = AnnouncementData()
                     announcements.filter { it.addDate != null }
-                            //.filter { !it.addDate!!.toLocalDate().isBefore(LocalDate.now()) }
                             .forEach { announcement ->
                                 val date = announcement.addDate!!.toLocalDate()
                                 val header = when (date) {

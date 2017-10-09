@@ -11,6 +11,7 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractHeaderItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import kotlinx.android.synthetic.main.item_header.view.*
 
 class HeaderItem(val order: Int = 0, val title: String) : AbstractHeaderItem<HeaderItem.ViewHolder>(), Comparable<HeaderItem> {
 
@@ -20,13 +21,11 @@ class HeaderItem(val order: Int = 0, val title: String) : AbstractHeaderItem<Hea
             = ViewHolder(view, adapter)
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.title.text = SpannableStringBuilder()
+        holder.itemView.item_header_title.text = SpannableStringBuilder()
                 .append(title, StyleSpan(Typeface.BOLD), Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
     }
 
-    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter) {
-        val title: TextView = view.findViewById(R.id.item_header_title)
-    }
+    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter)
 
     override fun compareTo(other: HeaderItem) = order.compareTo(other.order)
 

@@ -11,6 +11,7 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractHeaderItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import kotlinx.android.synthetic.main.item_lesson_header.view.*
 import org.joda.time.LocalDate
 import java.util.*
 
@@ -34,7 +35,7 @@ class LessonHeaderItem(val date: LocalDate) : AbstractHeaderItem<LessonHeaderIte
     override fun getLayoutRes() = R.layout.item_lesson_header
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.title.text = getDateText()
+        holder.itemView.item_lesson_header_title.text = getDateText()
     }
 
     private fun getDateText(): SpannableStringBuilder {
@@ -51,8 +52,6 @@ class LessonHeaderItem(val date: LocalDate) : AbstractHeaderItem<LessonHeaderIte
                 .append(subtitle)
     }
 
-    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter) {
-        val title: TextView = view.findViewById(R.id.item_lesson_header_title)
-    }
+    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter)
 
 }

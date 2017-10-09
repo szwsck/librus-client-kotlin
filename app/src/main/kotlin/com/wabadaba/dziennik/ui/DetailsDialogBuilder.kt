@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.wabadaba.dziennik.R
+import kotlinx.android.synthetic.main.detail_field.view.*
 
 class DetailsDialogBuilder(private val activity: Activity) {
 
@@ -48,8 +49,8 @@ class DetailsDialogBuilder(private val activity: Activity) {
         val rootView = dialogLayout.findViewById<ViewGroup>(R.id.dialog_details_root)
         for ((index, field) in fields.withIndex()) {
             val fieldLayout = inflater.inflate(R.layout.detail_field, rootView, false)
-            fieldLayout.findViewById<TextView>(R.id.detail_field_title).text = field.first
-            fieldLayout.findViewById<TextView>(R.id.detail_field_value).text = field.second
+            fieldLayout.detail_field_title.text = field.first
+            fieldLayout.detail_field_value.text = field.second
             rootView.addView(fieldLayout)
             if (index < fields.size - 1) {
                 val dividerView = inflater.inflate(R.layout.dialog_details_divider, rootView, false)

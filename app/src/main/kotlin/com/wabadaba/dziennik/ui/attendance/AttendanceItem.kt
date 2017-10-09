@@ -8,6 +8,7 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import kotlinx.android.synthetic.main.item_attendance.view.*
 
 class AttendanceItem(val attendance: Attendance, header: AttendanceHeaderItem)
     : AbstractSectionableItem<AttendanceItem.ViewHolder, AttendanceHeaderItem>(header) {
@@ -18,11 +19,11 @@ class AttendanceItem(val attendance: Attendance, header: AttendanceHeaderItem)
             = ViewHolder(view, adapter)
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.shortName.text = attendance.type?.shortName ?: ""
-        holder.title.text = attendance.lesson?.subject?.name ?: ""
-        holder.subtitle.text =
-                if (attendance.lessonNumber != null) "lekcja ${attendance.lessonNumber!!}"
-                else ""
+        holder.itemView.apply {
+            item_attendance_name_short.text = attendance.type?.shortName ?: ""
+            item_attendance_title.text = attendance.lesson?.subject?.name ?: ""
+            item_attendance_subtitle.text = if (attendance.lessonNumber != null) "lekcja ${attendance.lessonNumber!!}" else ""
+        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -40,11 +41,7 @@ class AttendanceItem(val attendance: Attendance, header: AttendanceHeaderItem)
         return attendance.hashCode()
     }
 
-    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter) {
-        val shortName: TextView = view.findViewById(R.id.item_attendance_name_short)
-        val title: TextView = view.findViewById(R.id.item_attendance_title)
-        val subtitle: TextView = view.findViewById(R.id.item_attendance_subtitle)
-    }
+    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter)
 }
 
 
