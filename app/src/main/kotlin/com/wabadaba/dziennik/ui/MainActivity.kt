@@ -2,6 +2,7 @@ package com.wabadaba.dziennik.ui
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
@@ -189,6 +190,16 @@ class MainActivity : AppCompatActivity() {
             }
 
             footer {
+                primaryItem {
+                    nameRes = R.string.suggest_an_idea
+                    icon = R.drawable.ic_lightbulb_outline_black_24dp
+                    iconTintingEnabled = true
+                    selectable = false
+                    onClick { _ ->
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://dziennik.idea.informer.com/")))
+                        true
+                    }
+                }
                 attachItem(fragmentRepository.settingsFragment.toDrawerItem())
             }
         }
