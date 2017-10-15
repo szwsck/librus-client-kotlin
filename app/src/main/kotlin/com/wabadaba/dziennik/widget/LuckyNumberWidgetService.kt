@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import android.widget.RemoteViews
+import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.api.EntityRepository
 import com.wabadaba.dziennik.vo.LuckyNumber
@@ -26,6 +27,8 @@ class LuckyNumberWidgetService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
+        val mainApplication = applicationContext as MainApplication
+        mainApplication.mainComponent.inject(this)
 
         if (intent != null && intent.hasExtra("widgetId")) {
             val appWidgetId = intent.getIntExtra("widgetId", 0)
@@ -49,7 +52,7 @@ class LuckyNumberWidgetService : Service() {
                     val luckyNumber = luckyNumbers.sortedBy(LuckyNumber::date).reversed().firstOrNull()
                     when {
                         luckyNumber?.date != null && luckyNumber.number != null -> {
-                            Log.i(TAG, "date:${luckyNumber.date!!.toString("EEEE, d MMMM")}, number:${luckyNumber.number}")
+                            Log.i(TAG, "date: ${luckyNumber.date!!.toString("EEEE, d MMMM")}, number: ${luckyNumber.number}")
                             with(remoteViews, {
                                 setTextViewText(
                                         R.id.lucky_number_date,
