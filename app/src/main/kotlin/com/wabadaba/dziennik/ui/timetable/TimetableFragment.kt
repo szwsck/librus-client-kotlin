@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
@@ -21,6 +20,7 @@ import com.wabadaba.dziennik.ui.ifNotNull
 import com.wabadaba.dziennik.vo.Lesson
 import com.wabadaba.dziennik.vo.Teacher
 import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_timetable.*
 import org.joda.time.LocalDate
@@ -55,7 +55,6 @@ class TimetableFragment : Fragment() {
                 fragment_timetable_message.visibility = View.GONE
 
                 val items = mutableListOf<IFlexible<*>>()
-                val itemsToExpand = mutableListOf<IFlexible<*>>()
 
                 for ((date, schoolDay) in timetableData) {
                     val header = LessonHeaderItem(date)
@@ -69,14 +68,15 @@ class TimetableFragment : Fragment() {
                                 }
                                 .forEach { header.addSubItem(it) }
                     }
+                    header.isExpanded = (date == LocalDate.now())
                     items.add(header)
-                    if (!date.isBefore(LocalDate.now())) itemsToExpand.add(header)
                 }
 
                 adapter = FlexibleAdapter(items)
 
-                adapter!!.collapseAll()
-                itemsToExpand.forEach { adapter!!.expand(it) }
+                adapter!!.expandItemsAtStartUp()
+                adapter!!.isAutoCollapseOnExpand = true
+                adapter!!.isAutoScrollOnExpand = true
 
                 adapter!!.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
                     val item = adapter!!.getItem(position)
@@ -88,8 +88,7 @@ class TimetableFragment : Fragment() {
                     }
                 }
 
-                fragment_timetable_recyclerview.layoutManager = LinearLayoutManager(activity)
-                fragment_timetable_recyclerview.itemAnimator = null
+                fragment_timetable_recyclerview.layoutManager = SmoothScrollLinearLayoutManager(activity)
                 fragment_timetable_recyclerview.adapter = adapter
             } else {
                 fragment_timetable_recyclerview.visibility = View.GONE
