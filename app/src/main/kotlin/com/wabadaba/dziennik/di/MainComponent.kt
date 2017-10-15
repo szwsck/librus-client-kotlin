@@ -9,6 +9,8 @@ import com.wabadaba.dziennik.ui.events.EventsFragment
 import com.wabadaba.dziennik.ui.grades.GradesFragment
 import com.wabadaba.dziennik.ui.login.LoginActivity
 import com.wabadaba.dziennik.ui.timetable.TimetableFragment
+import com.wabadaba.dziennik.widget.LuckyNumberWidgetProvider
+import com.wabadaba.dziennik.widget.LuckyNumberWidgetService
 import dagger.Component
 import javax.inject.Singleton
 
@@ -24,4 +26,6 @@ interface MainComponent {
     fun inject(settingsFragment: SettingsFragment)
     fun inject(eventsFragment: EventsFragment)
     fun inject(announcementsFragment: AnnouncementsFragment)
+    fun inject(luckyNumberWidgetService: LuckyNumberWidgetService)
+    fun inject(luckyNumberWidgetProvider: LuckyNumberWidgetProvider)
 }

@@ -62,6 +62,10 @@
                 android:resource="@xml/widget_lucky_number_info" />
         </receiver>
 
+        <service
+            android:name=".widget.LuckyNumberWidgetService"
+            android:process=":LuckyNumberWidgetService" />
+
     </application>
 
 </manifest>
