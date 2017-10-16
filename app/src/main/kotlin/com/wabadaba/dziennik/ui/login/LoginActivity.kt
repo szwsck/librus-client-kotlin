@@ -27,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (applicationContext as MainApplication).mainComponent.inject(this)
+        MainApplication.mainComponent.inject(this)
         setContentView(R.layout.activity_login)
 
         logInButton.setOnClickListener {

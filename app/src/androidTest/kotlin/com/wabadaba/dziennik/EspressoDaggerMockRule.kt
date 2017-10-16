@@ -8,6 +8,6 @@ class EspressoDaggerMockRule : DaggerMockRule<MainComponent>(
         MainComponent::class.java,
         ApplicationModule(BaseInstrumentedTest.getApp())) {
     init {
-        set { component -> BaseInstrumentedTest.getApp().mainComponent = component }
+        set { component -> MainApplication.mainComponent = component }
     }
 }

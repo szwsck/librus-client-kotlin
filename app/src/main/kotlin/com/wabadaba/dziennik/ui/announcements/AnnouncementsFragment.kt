@@ -27,8 +27,7 @@ class AnnouncementsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val mainApplication = activity.application as MainApplication
-        mainApplication.mainComponent.inject(this)
+        MainApplication.mainComponent.inject(this)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

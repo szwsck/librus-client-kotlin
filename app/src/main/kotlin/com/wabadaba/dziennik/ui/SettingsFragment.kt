@@ -15,8 +15,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val mainApplication = activity.applicationContext as MainApplication
-        mainApplication.mainComponent.inject(this)
+        MainApplication.mainComponent.inject(this)
 
         val defaultFragmentPreference: ListPreference = findPreference("defaultFragment") as ListPreference
 

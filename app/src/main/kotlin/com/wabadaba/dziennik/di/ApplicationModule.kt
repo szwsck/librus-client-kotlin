@@ -1,11 +1,13 @@
 package com.wabadaba.dziennik.di
 
 import android.app.Application
+import android.app.NotificationManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.wabadaba.dziennik.api.*
 import com.wabadaba.dziennik.api.notification.LibrusGCMRegistrationManager
+import com.wabadaba.dziennik.api.notification.NotificationSender
 import com.wabadaba.dziennik.db.DatabaseManager
 import com.wabadaba.dziennik.ui.FragmentRepository
 import com.wabadaba.dziennik.ui.GPServicesChecker
@@ -67,4 +69,7 @@ class ApplicationModule(private val mainApplication: Application) {
     @Provides
     @Singleton
     fun provideGPServicesChecker(): GPServicesChecker = GPServicesChecker()
+
+    @Provides
+    fun provideNotificationHelper(context: Context) = NotificationSender(context)
 }
