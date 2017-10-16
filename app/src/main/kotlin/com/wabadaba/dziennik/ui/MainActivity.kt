@@ -101,8 +101,7 @@ class MainActivity : AppCompatActivity() {
         title = getString(R.string.app_name)
         setSupportActionBar(toolbar_main)
 
-        val mainApplication = applicationContext as MainApplication
-        mainApplication.mainComponent.inject(this)
+        MainApplication.mainComponent.inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 

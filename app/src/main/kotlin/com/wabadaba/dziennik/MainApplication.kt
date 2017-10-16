@@ -10,8 +10,9 @@ import com.wabadaba.dziennik.di.MainComponent
 import javax.inject.Inject
 
 open class MainApplication : MultiDexApplication() {
-
-    lateinit var mainComponent: MainComponent
+    companion object {
+        lateinit var mainComponent: MainComponent
+    }
 
     @Inject
     lateinit var gcmRegistrationManager: LibrusGCMRegistrationManager
