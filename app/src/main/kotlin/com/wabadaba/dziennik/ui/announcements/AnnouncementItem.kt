@@ -4,11 +4,13 @@ import android.view.View
 import android.widget.TextView
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.ui.HeaderItem
+import com.wabadaba.dziennik.ui.fullName
 import com.wabadaba.dziennik.vo.Announcement
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import kotlinx.android.synthetic.main.item_announcement.view.*
 
 class AnnouncementItem(val announcement: Announcement, header: HeaderItem) : AbstractSectionableItem<AnnouncementItem.ViewHolder, HeaderItem>(header), Comparable<AnnouncementItem> {
 
@@ -18,14 +20,13 @@ class AnnouncementItem(val announcement: Announcement, header: HeaderItem) : Abs
             = AnnouncementItem.ViewHolder(view, adapter)
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.title.text = announcement.title
-        holder.addedBy.text = announcement.addedBy?.firstName + " " + announcement.addedBy?.lastName
+        holder.itemView.apply {
+            item_announcement_title.text = announcement.title
+            item_announcement_addedBy.text = announcement.addedBy?.fullName()
+        }
     }
 
-    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter) {
-        val title: TextView = view.findViewById(R.id.item_announcement_title)
-        val addedBy: TextView = view.findViewById(R.id.item_announcement_addedBy)
-    }
+    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter)
 
     override fun compareTo(other: AnnouncementItem): Int {
         if (announcement.addDate != null && other.announcement.addDate != null) {

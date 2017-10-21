@@ -8,6 +8,7 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import kotlinx.android.synthetic.main.item_empty_lesson.view.*
 
 class EmptyLessonItem(header: LessonHeaderItem, private val lessonNumber: Int)
     : AbstractSectionableItem<EmptyLessonItem.ViewHolder, LessonHeaderItem>(header) {
@@ -18,8 +19,10 @@ class EmptyLessonItem(header: LessonHeaderItem, private val lessonNumber: Int)
     override fun createViewHolder(view: View, adapter: FlexibleAdapter<out IFlexible<*>>) = ViewHolder(view, adapter)
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.number.disabled().text = lessonNumber.toString()
-        holder.message.disabled()
+        holder.itemView.apply {
+            item_empty_lesson_number.disabled().text = lessonNumber.toString()
+            item_empty_lesson_message.disabled()
+        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -37,8 +40,5 @@ class EmptyLessonItem(header: LessonHeaderItem, private val lessonNumber: Int)
         return lessonNumber
     }
 
-    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter) {
-        val number: TextView = view.findViewById(R.id.item_empty_lesson_number)
-        val message: TextView = view.findViewById(R.id.item_empty_lesson_message)
-    }
+    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter)
 }
