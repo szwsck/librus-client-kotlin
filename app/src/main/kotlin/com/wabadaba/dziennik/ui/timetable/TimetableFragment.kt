@@ -68,14 +68,14 @@ class TimetableFragment : Fragment() {
                                 }
                                 .forEach { header.addSubItem(it) }
                     }
-                    header.isExpanded = (date == LocalDate.now())
+                    header.isExpanded = !date.isBefore(LocalDate.now())
                     items.add(header)
                 }
 
                 adapter = FlexibleAdapter(items)
 
                 adapter!!.expandItemsAtStartUp()
-                adapter!!.isAutoCollapseOnExpand = true
+                adapter!!.isAutoCollapseOnExpand = false
                 adapter!!.isAutoScrollOnExpand = true
 
                 adapter!!.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
