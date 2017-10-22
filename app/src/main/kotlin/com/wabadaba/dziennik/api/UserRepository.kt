@@ -54,7 +54,12 @@ class UserRepository(
 
     private fun loadUsers(): List<User> {
         val loadedRawUsers = prefs.getStringSet(usersPrefKey, null)
-        return loadedRawUsers?.map { Parser.parse(it, User::class) } ?: emptyList()
+        return try {
+            loadedRawUsers?.map { Parser.parse(it, User::class) } ?: emptyList()
+        } catch (e: ParseException) {
+            prefs.edit().clear().apply()
+            emptyList()
+        }
     }
 
     fun addUser(fullUser: FullUser) {
