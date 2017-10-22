@@ -88,6 +88,8 @@ class LoginActivity : AppCompatActivity() {
                                         me.account.login,
                                         me.account.firstName,
                                         me.account.lastName,
+                                        me.user.firstName,
+                                        me.user.lastName,
                                         me.account.groupId,
                                         authInfo))
                             }

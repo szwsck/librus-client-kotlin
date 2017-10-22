@@ -49,6 +49,8 @@ class LoginActivityTest : BaseInstrumentedTest() {
             account.setLogin(login)
             account.setFirstName("Tomasz")
             account.setLastName("Problem")
+            user.setFirstName("Tomek")
+            user.setLastName("Problem")
             account.setGroupId(5)
         } as Me
         val mockApiClient = mock<APIClient> {
@@ -66,7 +68,12 @@ class LoginActivityTest : BaseInstrumentedTest() {
         onView(withId(R.id.logInButton)).perform(click())
 
         Intents.intended(allOf(toPackage(packageName), hasComponent(MainActivity::class.java.name)))
-        verify(userRepository, times(1)).addUser(FullUser(login, "Tomasz", "Problem", 5, authInfo))
+        verify(userRepository, times(1)).addUser(FullUser(
+                login,
+                "Tomasz", "Problem",
+                "Tomek", "Problem",
+                5,
+                authInfo))
         Intents.release()
     }
 

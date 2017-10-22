@@ -7,4 +7,7 @@ data class User @JsonCreator constructor(
         val login: String,
         val firstName: String,
         val lastName: String,
-        val groupId: Int)
+        val studentFirstName: String,
+        val studentLastName: String,
+        val groupId: Int
+)

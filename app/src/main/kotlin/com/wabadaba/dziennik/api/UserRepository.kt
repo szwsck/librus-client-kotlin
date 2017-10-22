@@ -70,6 +70,8 @@ class UserRepository(
                         User(fullUser.login,
                                 fullUser.firstName,
                                 fullUser.lastName,
+                                fullUser.studentFirstName,
+                                fullUser.studentLastName,
                                 fullUser.groupId)) +
                         loadUsers()
         saveUsers(newUsers)
@@ -112,6 +114,8 @@ class UserRepository(
             user.login,
             user.firstName,
             user.lastName,
+            user.studentFirstName,
+            user.studentLastName,
             user.groupId,
             loadAuthInfo(user.login))
 

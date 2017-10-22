@@ -13,22 +13,30 @@ class UserRepositoryTest {
     private val user1 = User(
             "user1",
             "user1FirstName",
-            "user1FirstName",
+            "user1LastName",
+            "user1StudentFirstName",
+            "user1StudentLastName",
             5)
     private val user2 = User(
             "user2",
             "user2FirstName",
-            "user2FirstName",
+            "user2LastName",
+            "user2StudentFirstName",
+            "user2StudentLastName",
             5)
     private val user1Full = FullUser(
             "user1",
             "user1FirstName",
-            "user1FirstName",
+            "user1LastName",
+            "user1StudentFirstName",
+            "user1StudentLastName",
             5, AuthInfo("aToken1", "rToken1"))
     private val user2Full = FullUser(
             "user2",
             "user2FirstName",
-            "user2FirstName",
+            "user2LastName",
+            "user2StudentFirstName",
+            "user2StudentLastName",
             5,
             AuthInfo("aToken2", "rToken2"))
 

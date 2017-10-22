@@ -7,5 +7,7 @@ data class FullUser @JsonCreator constructor(
         val login: String,
         val firstName: String,
         val lastName: String,
+        val studentFirstName: String,
+        val studentLastName: String,
         val groupId: Int,
         val authInfo: AuthInfo)

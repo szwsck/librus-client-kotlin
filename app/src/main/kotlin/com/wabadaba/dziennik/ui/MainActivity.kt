@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
                         return@onProfileChanged false
                     } else (return@onProfileChanged false)
                 }
-                for ((login, firstName, lastName, groupId) in users) {
+                for ((login, _, _, studentFirstName, studentLastName) in users) {
                     profile {
                         val generator = ColorGenerator.MATERIAL
                         val color = generator.getColor(login)
@@ -155,14 +155,10 @@ class MainActivity : AppCompatActivity() {
                                 .height(48)
                                 .width(48)
                                 .endConfig()
-                                .buildRect(firstName.substring(0, 1), color)
-                        email = when (groupId) {
-                            8 -> getString(R.string.student)
-                            5 -> getString(R.string.parent)
-                            else -> login
-                        }
+                                .buildRect(studentFirstName.substring(0, 1), color)
+                        email = login
                         nameShown = true
-                        name = "$firstName $lastName"
+                        name = "$studentFirstName $studentLastName"
                         tag = login
                     }
                 }
