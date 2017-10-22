@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
@@ -20,7 +21,6 @@ import com.wabadaba.dziennik.ui.ifNotNull
 import com.wabadaba.dziennik.vo.Lesson
 import com.wabadaba.dziennik.vo.Teacher
 import eu.davidea.flexibleadapter.FlexibleAdapter
-import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_timetable.*
 import org.joda.time.LocalDate
@@ -32,7 +32,7 @@ class TimetableFragment : Fragment() {
 
     private lateinit var viewModel: TimetableViewModel
 
-    private var adapter: FlexibleAdapter<IFlexible<*>>? = null
+    private var adapter: FlexibleAdapter<IFlexible<*>> = FlexibleAdapter(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,28 +58,25 @@ class TimetableFragment : Fragment() {
 
                 for ((date, schoolDay) in timetableData) {
                     val header = LessonHeaderItem(date)
-                    if (schoolDay == null) {
-                        header.addSubItem(NoLessonsItem(header))
-                    } else {
-                        schoolDay.entries
-                                .map { (lessonNumber, timetableLesson) ->
-                                    if (timetableLesson == null) EmptyLessonItem(header, lessonNumber)
-                                    else LessonItem(header, timetableLesson)
-                                }
-                                .forEach { header.addSubItem(it) }
-                    }
+                    schoolDay?.entries
+                            ?.map { (lessonNumber, timetableLesson) ->
+                                if (timetableLesson == null) EmptyLessonItem(header, lessonNumber)
+                                else LessonItem(header, timetableLesson)
+                            }
+                            ?.forEach { header.addSubItem(it) }
                     header.isExpanded = !date.isBefore(LocalDate.now())
                     items.add(header)
                 }
 
                 adapter = FlexibleAdapter(items)
 
-                adapter!!.expandItemsAtStartUp()
-                adapter!!.isAutoCollapseOnExpand = false
-                adapter!!.isAutoScrollOnExpand = true
+                adapter.setDisplayHeadersAtStartUp(true)
+                adapter.expandItemsAtStartUp()
+                adapter.isAutoCollapseOnExpand = false
+                adapter.isAutoScrollOnExpand = false
 
-                adapter!!.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
-                    val item = adapter!!.getItem(position)
+                adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+                    val item = adapter.getItem(position)
                     if (item is LessonItem && !item.lesson.canceled) {
                         showDialog(item.lesson)
                         false
@@ -88,7 +85,7 @@ class TimetableFragment : Fragment() {
                     }
                 }
 
-                fragment_timetable_recyclerview.layoutManager = SmoothScrollLinearLayoutManager(activity)
+                fragment_timetable_recyclerview.layoutManager = LinearLayoutManager(activity)
                 fragment_timetable_recyclerview.adapter = adapter
             } else {
                 fragment_timetable_recyclerview.visibility = View.GONE

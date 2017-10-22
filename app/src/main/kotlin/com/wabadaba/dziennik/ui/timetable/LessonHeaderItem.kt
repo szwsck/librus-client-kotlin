@@ -39,6 +39,7 @@ class LessonHeaderItem(val date: LocalDate)
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
         with(holder.itemView) {
             item_lesson_header_title.text = getDateText()
+            item_lesson_header_summary.text = getSummaryText()
             if (isExpanded) {
                 item_lesson_header_arrow.rotate(180f).disabled()
                 item_lesson_header_divider.gone()
@@ -47,6 +48,13 @@ class LessonHeaderItem(val date: LocalDate)
                 item_lesson_header_divider.visible()
             }
         }
+    }
+
+    private fun getSummaryText(): String = when {
+        subItemsCount == 0 -> "Brak lekcji"
+        subItemsCount == 1 -> "$subItemsCount lekcja"
+        subItemsCount % 10 in 2..4 && subItemsCount % 100 !in 12..14 -> "$subItemsCount lekcje"
+        else -> "$subItemsCount lekcji"
     }
 
     private fun getDateText(): SpannableStringBuilder {
