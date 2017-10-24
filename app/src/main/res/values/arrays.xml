@@ -27,4 +27,12 @@
         <item>3</item>
         <item>4</item>
     </string-array>
+    <string-array name="gradesDisplayTypeEntries">
+        <item>Przedmiotu</item>
+        <item>Daty</item>
+    </string-array>
+    <string-array name="gradesDisplayTypeEntryValues">
+        <item>SUBJECT</item>
+        <item>DATE</item>
+    </string-array>
 </resources>

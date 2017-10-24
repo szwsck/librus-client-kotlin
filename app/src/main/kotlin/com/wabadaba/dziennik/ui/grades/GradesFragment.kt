@@ -2,6 +2,7 @@ package com.wabadaba.dziennik.ui.grades
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -11,14 +12,15 @@ import android.view.ViewGroup
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
-import com.wabadaba.dziennik.ui.DetailsDialogBuilder
-import com.wabadaba.dziennik.ui.fullName
+import com.wabadaba.dziennik.ui.*
 import com.wabadaba.dziennik.vo.Grade
 import com.wabadaba.dziennik.vo.Subject
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_grades.*
 import mu.KotlinLogging
+import org.joda.time.LocalDate
+import java.util.*
 import javax.inject.Inject
 
 
@@ -26,13 +28,18 @@ class GradesFragment : Fragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelFactory
 
+    @Inject lateinit var sharedPrefs: SharedPreferences
+
     private lateinit var viewModel: GradesViewModel
 
     private val logger = KotlinLogging.logger { }
 
+    private lateinit var displayType: DisplayType
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MainApplication.mainComponent.inject(this)
+        displayType = DisplayType.valueOf(sharedPrefs.getString("grade_display_type", "DATE"))
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?)
@@ -62,22 +69,53 @@ class GradesFragment : Fragment() {
 
         val items = mutableListOf<IFlexible<*>>()
 
-        val subjectGradeMap = mutableMapOf<Subject, MutableList<Grade>>()
-        for (grade in grades) {
-            if (grade.subject != null && !subjectGradeMap.contains(grade.subject)) {
-                subjectGradeMap.put(grade.subject!!, mutableListOf())
-            }
-            subjectGradeMap[grade.subject]?.add(grade)
-        }
+        when (displayType) {
+            DisplayType.SUBJECT -> {
 
-        subjectGradeMap.entries
-                .forEach { entry: MutableMap.MutableEntry<Subject, MutableList<Grade>> ->
-                    val header = GradeHeaderItem(entry.key)
-                    entry.value.sortedBy(Grade::date)
-                            .map { GradeItem(it, header) }
-                            .forEach(header::addSubItem)
-                    items.add(header)
+                val subjectGradeMap = mutableMapOf<Subject, MutableList<Grade>>()
+                for (grade in grades) {
+                    if (grade.subject != null && !subjectGradeMap.contains(grade.subject)) {
+                        subjectGradeMap.put(grade.subject!!, mutableListOf())
+                    }
+                    subjectGradeMap[grade.subject]?.add(grade)
                 }
+
+                subjectGradeMap.entries
+                        .forEach { entry: MutableMap.MutableEntry<Subject, MutableList<Grade>> ->
+                            val header = GradeHeaderItem(entry.key)
+                            entry.value.sortedByDescending(Grade::date)
+                                    .map { GradeItem(it, header) }
+                                    .forEach(header::addSubItem)
+                            items.add(header)
+                        }
+
+            }
+            DisplayType.DATE -> {
+                val sections = TreeMap<DateHeader, List<Grade>>()
+                grades.filter { it.date != null }
+                        .forEach { grade ->
+                            val date = grade.date!!
+                            val header = when (date) {
+                                LocalDate.now() ->
+                                    DateHeader(0, "Dzisiaj")
+                                LocalDate.now().minusDays(1) ->
+                                    DateHeader(1, "Wczoraj")
+                                in LocalDate.now().minusDays(LocalDate.now().dayOfWeek - 1)..LocalDate.now() ->
+                                    DateHeader(2, "Ten tydzień")
+                                in LocalDate.now().minusDays(LocalDate.now().dayOfMonth - 1)..LocalDate.now() ->
+                                    DateHeader(3, "Ten miesiąc")
+                                else -> DateHeader(3 + (LocalDate.now().monthOfYear - date.monthOfYear),
+                                        date.monthNameNominative().capitalize())
+                            }
+                            sections.multiPut(header, grade)
+                        }
+                sections.entries.forEach { (sectionHeader, sectionGrades) ->
+                    val headerItem = HeaderItem(sectionHeader.order, sectionHeader.title)
+                    sectionGrades.sortedByDescending { it.date!! }
+                            .forEach { items += GradeItem(it, headerItem) }
+                }
+            }
+        }
 
         val adapter = FlexibleAdapter<IFlexible<*>>(items)
         adapter.setDisplayHeadersAtStartUp(true)
@@ -124,4 +162,13 @@ class GradesFragment : Fragment() {
         }
         ddb.build().show()
     }
+}
+
+data class DateHeader(val order: Int, val title: String) : Comparable<DateHeader> {
+    override fun compareTo(other: DateHeader) = order.compareTo(other.order)
+}
+
+enum class DisplayType {
+    SUBJECT,
+    DATE
 }

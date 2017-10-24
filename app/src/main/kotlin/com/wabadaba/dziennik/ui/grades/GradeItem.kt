@@ -1,18 +1,18 @@
 package com.wabadaba.dziennik.ui.grades
 
 import android.view.View
-import android.widget.TextView
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.vo.Grade
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
+import eu.davidea.flexibleadapter.items.IHeader
 import eu.davidea.viewholders.FlexibleViewHolder
 import kotlinx.android.synthetic.main.grade_item.view.*
 import java.util.*
 
-class GradeItem(val grade: Grade, header: GradeHeaderItem)
-    : AbstractSectionableItem<GradeItem.ViewHolder, GradeHeaderItem>(header) {
+class GradeItem(val grade: Grade, header: IHeader<*>)
+    : AbstractSectionableItem<GradeItem.ViewHolder, IHeader<*>>(header) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
