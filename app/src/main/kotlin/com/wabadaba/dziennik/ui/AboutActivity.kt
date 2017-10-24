@@ -19,6 +19,6 @@ class AboutActivity : AppCompatActivity() {
 
         val flavor = BuildConfig.FLAVOR
 
-        activity_about_version.text = "wersja $version | $flavor"
+        activity_about_version.text = getString(R.string.app_version_placeholder, version, flavor)
     }
 }

@@ -81,28 +81,28 @@ class AttendancesFragment : Fragment() {
 
     private fun showDialog(attendance: Attendance) {
         val ddb = DetailsDialogBuilder(activity)
-                .withTitle("Szczegóły nieobecności")
+                .withTitle(getString(R.string.absence_details))
 
         val typeName = attendance.type?.name
         if (typeName != null)
-            ddb.addField("Typ", typeName)
+            ddb.addField(getString(R.string.type), typeName)
 
         val subject = attendance.lesson?.subject?.name
         if (subject != null)
-            ddb.addField("Przedmiot", subject)
+            ddb.addField(getString(R.string.subject), subject)
 
         val date = attendance.date
         val lessonNumber = attendance.lessonNumber
         if (date != null && lessonNumber != null)
-            ddb.addField("Data", "Lekcja $lessonNumber, ${date.toString(activity.getString(R.string.date_format_full))}")
+            ddb.addField(getString(R.string.date), "Lekcja $lessonNumber, ${date.toString(activity.getString(R.string.date_format_full))}")
 
         val addedBy = attendance.addedBy
         if (addedBy?.firstName != null && addedBy.lastName != null)
-            ddb.addField("Dodano przez", "${addedBy.firstName} ${addedBy.lastName}")
+            ddb.addField(getString(R.string.added_by), "${addedBy.firstName} ${addedBy.lastName}")
 
         val addDate = attendance.addDate
         if (addDate != null)
-            ddb.addField("Data dodania", addDate.toString(activity.getString(R.string.date_format_full) + " HH:mm:ss"))
+            ddb.addField(getString(R.string.date_added), addDate.toString(activity.getString(R.string.date_format_full) + " HH:mm:ss"))
 
         ddb.build().show()
     }
