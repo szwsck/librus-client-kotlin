@@ -70,18 +70,18 @@ class EventsFragment : Fragment() {
         val dateTimeFormat = activity.getString(R.string.date_format_full) + ' ' + getString(R.string.timeFormat)
 
         val ddb = DetailsDialogBuilder(activity)
-                .withTitle("Szczegóły wpisu")
+                .withTitle(getString(R.string.entry_description))
 
         if (event.subject?.name != null)
-            ddb.addField("Przedmiot", event.subject?.name)
+            ddb.addField(getString(R.string.subject), event.subject?.name)
         if (event.category?.name != null)
-            ddb.addField("Kategoria", event.category?.name)
+            ddb.addField(getString(R.string.category), event.category?.name)
         if (event.content != null)
-            ddb.addField("Opis", event.content)
+            ddb.addField(getString(R.string.description), event.content)
         if (event.addedBy?.fullName() != null)
-            ddb.addField("Dodano przez", event.addedBy?.fullName())
+            ddb.addField(getString(R.string.added_by), event.addedBy?.fullName())
         if (event.addDate != null)
-            ddb.addField("Data dodania", event.addDate?.toString(dateTimeFormat))
+            ddb.addField(getString(R.string.date_added), event.addDate?.toString(dateTimeFormat))
 
         ddb.build().show()
     }

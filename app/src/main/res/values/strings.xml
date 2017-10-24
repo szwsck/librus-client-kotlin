@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Dziennik</string>
+    <string name="app_version_placeholder">wersja %1$s | %2$s</string>
     <string name="username">Nazwa użytkownika</string>
     <string name="password">Hasło</string>
     <string name="add_account">Dodaj konto</string>
@@ -27,6 +28,7 @@
     <string name="grades">Oceny</string>
     <string name="announcements">Ogłoszenia</string>
     <string name="absences">Nieobecności</string>
+    <string name="absence_details">Szczegóły nieobecności</string>
     <string name="agenda">Terminarz</string>
     <string name="agenda_entries">Wpisy w terminarzu</string>
     <string name="lucky_numbers">Szczęśliwe numerki</string>
@@ -35,7 +37,11 @@
     <string name="close">Zamknij</string>
     <string name="no_grades">Brak ocen</string>
     <string name="subject">Przedmiot</string>
+    <string name="entry_description">Opis wpisu</string>
+    <string name="description">Opis</string>
+    <string name="type">Typ</string>
     <string name="date">Data</string>
+    <string name="date_added">Data dodania</string>
     <string name="weight">Waga</string>
     <string name="category">Kategoria</string>
     <string name="grade">Ocena</string>
