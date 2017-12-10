@@ -48,7 +48,7 @@ open class APIClient(private val authInfo: AuthInfo, private val httpClient: RxH
     }
 
     fun refreshAccess(): Single<AuthInfo> {
-        val authEndpoint = "/OAuth/Token"
+        val authEndpoint = "OAuth/Token"
         val auth_token = "MzU6NjM2YWI0MThjY2JlODgyYjE5YTMzZjU3N2U5NGNiNGY="
 
         val body = FormBody.Builder()
@@ -59,7 +59,7 @@ open class APIClient(private val authInfo: AuthInfo, private val httpClient: RxH
         val url = HttpUrl.Builder()
                 .scheme("https")
                 .host(HOST)
-                .addPathSegment(authEndpoint)
+                .addEncodedPathSegments(authEndpoint)
                 .build()
 
         val request = Request.Builder()
