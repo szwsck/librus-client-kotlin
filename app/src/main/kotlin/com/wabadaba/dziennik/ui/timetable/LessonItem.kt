@@ -1,6 +1,7 @@
 package com.wabadaba.dziennik.ui.timetable
 
 import android.graphics.Typeface
+import android.preference.PreferenceManager
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -42,12 +43,16 @@ class LessonItem(header: LessonHeaderItem, timetableLesson: TimetableLesson)
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
 
         val context = holder.itemView.context
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val displayTime = prefs.getBoolean("timetable_display_times", false)
 
         holder.apply {
             number.text = lesson.lessonNumber.toString()
             title.text = lesson.subject?.name
 
-            subtitle.text = lesson.teacher?.fullName()
+            subtitle.text =
+                    if (displayTime) "${lesson.hourFrom.toString("HH:mm")} - ${lesson.hourTo.toString("HH:mm")}"
+                    else lesson.teacher?.fullName()
 
             classroom.text = lesson.entry?.classroom?.symbol
 

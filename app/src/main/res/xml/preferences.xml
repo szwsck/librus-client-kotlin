@@ -12,10 +12,16 @@
             android:key="enable_notifications"
             android:title="@string/show_notifications" />
     </android.support.v7.preference.PreferenceCategory>
+    <android.support.v7.preference.PreferenceCategory android:title="Plan lekcji">
+        <android.support.v14.preference.SwitchPreference
+            android:defaultValue="0"
+            android:key="timetable_display_times"
+            android:title="Pokazuj godziny" />
+    </android.support.v7.preference.PreferenceCategory>
     <android.support.v7.preference.PreferenceCategory android:title="Oceny">
         <!--TODO: Add switch directly in grades view-->
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="DATE"
             android:entries="@array/gradesDisplayTypeEntries"
             android:entryValues="@array/gradesDisplayTypeEntryValues"
             android:key="grade_display_type"

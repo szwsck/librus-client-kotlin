@@ -72,9 +72,10 @@
                     android:layout_height="24dp"
                     android:layout_gravity="bottom"
                     android:layout_weight="0"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:maxLines="1"
-                    android:maxWidth="72dp"
+                    android:maxWidth="108dp"
                     android:textColor="@android:color/black" />
             </LinearLayout>
 

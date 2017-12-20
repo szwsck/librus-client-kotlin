@@ -34,12 +34,12 @@ class GradesFragment : Fragment() {
 
     private val logger = KotlinLogging.logger { }
 
-    private lateinit var displayType: DisplayType
+    private lateinit var displayType: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MainApplication.mainComponent.inject(this)
-        displayType = DisplayType.valueOf(sharedPrefs.getString("grade_display_type", "DATE"))
+        displayType = sharedPrefs.getString("grade_display_type", "DATE")
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?)
@@ -70,7 +70,7 @@ class GradesFragment : Fragment() {
         val items = mutableListOf<IFlexible<*>>()
 
         when (displayType) {
-            DisplayType.SUBJECT -> {
+            "SUBJECT" -> {
 
                 val subjectGradeMap = mutableMapOf<Subject, MutableList<Grade>>()
                 for (grade in grades) {
@@ -90,7 +90,7 @@ class GradesFragment : Fragment() {
                         }
 
             }
-            DisplayType.DATE -> {
+            "DATE" -> {
                 val sections = TreeMap<DateHeader, List<Grade>>()
                 grades.filter { it.date != null }
                         .forEach { grade ->
@@ -166,9 +166,4 @@ class GradesFragment : Fragment() {
 
 data class DateHeader(val order: Int, val title: String) : Comparable<DateHeader> {
     override fun compareTo(other: DateHeader) = order.compareTo(other.order)
-}
-
-enum class DisplayType {
-    SUBJECT,
-    DATE
 }
