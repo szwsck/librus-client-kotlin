@@ -1,5 +1,6 @@
 package com.wabadaba.dziennik.ui.grades
 
+import android.graphics.Color
 import android.view.View
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.vo.Grade
@@ -39,6 +40,11 @@ class GradeItem(val grade: Grade, header: IHeader<*>)
             grade_item_grade.text = grade.grade
             grade_item_title.text = grade.category?.name
             grade_item_subtitle.text = grade.date?.toString("EEEE, d MMMM", Locale("pl"))
+            val rawColor = grade.category?.color?.rawColor
+            val colorInt =
+                    if (rawColor != null) Color.parseColor('#' + rawColor)
+                    else Color.TRANSPARENT
+            grade_item_color.setBackgroundColor(colorInt)
         }
     }
 
