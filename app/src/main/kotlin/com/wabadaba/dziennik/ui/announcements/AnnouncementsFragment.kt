@@ -22,8 +22,8 @@ class AnnouncementsFragment : Fragment() {
 
     private lateinit var viewModel: AnnouncementsViewModel
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
-            = inflater?.inflate(R.layout.fragment_announcements, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_announcements, container, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,9 +65,9 @@ class AnnouncementsFragment : Fragment() {
     }
 
     private fun showDetailsDialog(announcement: Announcement) {
-        val dateTimeFormat = activity.getString(R.string.date_format_full) + ' ' + getString(R.string.timeFormat)
+        val dateTimeFormat = activity?.getString(R.string.date_format_full) + ' ' + getString(R.string.timeFormat)
 
-        val ddb = DetailsDialogBuilder(activity)
+        val ddb = DetailsDialogBuilder(activity as MainActivity)
                 .withTitle("Szczegóły ogłoszenia")
 
         if (announcement.title != null)

@@ -6,12 +6,11 @@ apply plugin: 'kotlin-kapt'
 apply from: rootProject.file("app/codeQuality.gradle")
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion versions.buildTools
+    compileSdkVersion 27
     defaultConfig {
         applicationId "com.wabadaba.dziennik"
         minSdkVersion 21
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 9
         versionName "0.5.0"
         flavorDimensions "versionCode"
@@ -58,13 +57,13 @@ android {
             }
         }
     }
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation group: 'org.slf4j', name: 'slf4j-android', version: versions.slf4j_android
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$versions.kotlin"
 
     // Support library
     implementation "com.android.support:multidex:$versions.androidMultidex"

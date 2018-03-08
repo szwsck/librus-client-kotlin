@@ -1,5 +1,6 @@
 package com.wabadaba.dziennik
 
+import android.annotation.SuppressLint
 import android.support.multidex.MultiDexApplication
 import com.bugsnag.android.Bugsnag
 import com.wabadaba.dziennik.api.UserRepository
@@ -20,6 +21,7 @@ open class MainApplication : MultiDexApplication() {
     @Inject
     lateinit var userRepository: UserRepository
 
+    @SuppressLint("CheckResult")
     override fun onCreate() {
         super.onCreate()
         Bugsnag.init(this)

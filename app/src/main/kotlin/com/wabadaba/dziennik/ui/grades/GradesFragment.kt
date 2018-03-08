@@ -20,6 +20,7 @@ import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_grades.*
 import mu.KotlinLogging
 import org.joda.time.LocalDate
+import org.joda.time.Months
 import java.util.*
 import javax.inject.Inject
 
@@ -42,8 +43,7 @@ class GradesFragment : Fragment() {
         displayType = sharedPrefs.getString("grade_display_type", "DATE")
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?)
-            = inflater?.inflate(R.layout.fragment_grades, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View = inflater.inflate(R.layout.fragment_grades, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -104,8 +104,13 @@ class GradesFragment : Fragment() {
                                     DateHeader(2, "Ten tydzień")
                                 in LocalDate.now().minusDays(LocalDate.now().dayOfMonth - 1)..LocalDate.now() ->
                                     DateHeader(3, "Ten miesiąc")
-                                else -> DateHeader(3 + (LocalDate.now().monthOfYear - date.monthOfYear),
-                                        date.monthNameNominative().capitalize())
+                                else -> {
+                                    val order = 3 + Months.monthsBetween(date, LocalDate.now().withDayOfMonth(1)).months
+                                    val title =
+                                            if (date.year == LocalDate.now().year) date.monthNameNominative().capitalize()
+                                            else "${date.monthNameNominative().capitalize()} ${date.year}"
+                                    DateHeader(order, title)
+                                }
                             }
                             sections.multiPut(header, grade)
                         }
@@ -136,7 +141,7 @@ class GradesFragment : Fragment() {
     }
 
     private fun showDialog(grade: Grade) {
-        val ddb = DetailsDialogBuilder(activity)
+        val ddb = DetailsDialogBuilder(activity as MainActivity)
                 .withTitle(getString(R.string.grade_details))
 
         if (grade.grade != null)

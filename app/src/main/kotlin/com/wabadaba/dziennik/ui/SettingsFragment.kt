@@ -1,5 +1,6 @@
 package com.wabadaba.dziennik.ui
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.v7.preference.ListPreference
 import android.support.v7.preference.PreferenceFragmentCompat
@@ -19,9 +20,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val defaultFragmentPreference: ListPreference = findPreference("defaultFragment") as ListPreference
 
-        val fragmentRepo = FragmentRepository(activity)
+        val fragmentRepo = FragmentRepository(activity as Activity)
 
-        val titles = fragmentRepo.mainFragments.map { context.getString(it.title) }.toTypedArray()
+        val titles = fragmentRepo.mainFragments.map { context?.getString(it.title) }.toTypedArray()
         val ids = fragmentRepo.mainFragments.map { it.fragmentId }.toTypedArray()
 
         defaultFragmentPreference.apply {

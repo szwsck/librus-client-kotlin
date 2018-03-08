@@ -17,6 +17,7 @@ import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.DetailsDialogBuilder
+import com.wabadaba.dziennik.ui.MainActivity
 import com.wabadaba.dziennik.ui.ifNotNull
 import com.wabadaba.dziennik.vo.Lesson
 import com.wabadaba.dziennik.vo.Teacher
@@ -39,8 +40,8 @@ class TimetableFragment : Fragment() {
         MainApplication.mainComponent.inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?)
-            = inflater?.inflate(R.layout.fragment_timetable, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+            inflater.inflate(R.layout.fragment_timetable, container, false)
 
     @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -95,7 +96,7 @@ class TimetableFragment : Fragment() {
     }
 
     private fun showDialog(lesson: Lesson) {
-        val ddb = DetailsDialogBuilder(activity)
+        val ddb = DetailsDialogBuilder(activity as MainActivity)
                 .withTitle(getString(R.string.lesson_details))
 
         val orgSubjectName = lesson.orgSubject?.name

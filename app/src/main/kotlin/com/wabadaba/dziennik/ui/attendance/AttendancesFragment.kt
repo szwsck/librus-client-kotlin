@@ -1,5 +1,6 @@
 package com.wabadaba.dziennik.ui.attendance
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -25,8 +26,7 @@ class AttendancesFragment : Fragment() {
 
     private lateinit var viewModel: AttendancesViewModel
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
-            = inflater?.inflate(R.layout.fragment_attendances, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_attendances, container, false)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +80,7 @@ class AttendancesFragment : Fragment() {
     }
 
     private fun showDialog(attendance: Attendance) {
-        val ddb = DetailsDialogBuilder(activity)
+        val ddb = DetailsDialogBuilder(activity as Activity)
                 .withTitle(getString(R.string.absence_details))
 
         val typeName = attendance.type?.name
@@ -94,7 +94,7 @@ class AttendancesFragment : Fragment() {
         val date = attendance.date
         val lessonNumber = attendance.lessonNumber
         if (date != null && lessonNumber != null)
-            ddb.addField(getString(R.string.date), "Lekcja $lessonNumber, ${date.toString(activity.getString(R.string.date_format_full))}")
+            ddb.addField(getString(R.string.date), "Lekcja $lessonNumber, ${date.toString(context?.getString(R.string.date_format_full))}")
 
         val addedBy = attendance.addedBy
         if (addedBy?.firstName != null && addedBy.lastName != null)
@@ -102,7 +102,7 @@ class AttendancesFragment : Fragment() {
 
         val addDate = attendance.addDate
         if (addDate != null)
-            ddb.addField(getString(R.string.date_added), addDate.toString(activity.getString(R.string.date_format_full) + " HH:mm:ss"))
+            ddb.addField(getString(R.string.date_added), addDate.toString(context?.getString(R.string.date_format_full) + " HH:mm:ss"))
 
         ddb.build().show()
     }

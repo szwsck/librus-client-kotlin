@@ -22,8 +22,7 @@ class EventsFragment : Fragment() {
 
     private lateinit var viewModel: EventsViewModel
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
-            = inflater?.inflate(R.layout.fragment_events, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_events, container, false)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,9 +66,9 @@ class EventsFragment : Fragment() {
     }
 
     private fun showDetailsDialog(event: Event) {
-        val dateTimeFormat = activity.getString(R.string.date_format_full) + ' ' + getString(R.string.timeFormat)
+        val dateTimeFormat = activity?.getString(R.string.date_format_full) + ' ' + getString(R.string.timeFormat)
 
-        val ddb = DetailsDialogBuilder(activity)
+        val ddb = DetailsDialogBuilder(activity as MainActivity)
                 .withTitle(getString(R.string.entry_description))
 
         if (event.subject?.name != null)
