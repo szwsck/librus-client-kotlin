@@ -5,7 +5,7 @@ ext {
             androidMultidex : '1.0.3',
             google_services : '3.1.0',
             play_services   : '11.8.0',
-            kotlin          : '1.1.51',
+            kotlin          : '1.2.30',
             supportTest     : '1.0.1',
             supportLibrary  : '27.0.2',
             constraintLayout: '1.0.2',

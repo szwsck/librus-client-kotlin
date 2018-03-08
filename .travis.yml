@@ -6,10 +6,10 @@ android:
   components:
     - tools
     - platform-tools
-    - build-tools-26.0.2
+    - build-tools-27.0.3
     - android-21
-    - android-26
-    - sys-img-armeabi-v7a-android-21
+    - android-27
+    - sys-img-armeabi-v7a-android-27
     - extra-android-m2repository
     - extra-google-m2repository
     - extra-android-support
