@@ -100,12 +100,12 @@ class GradesFragment : Fragment() {
                                     DateHeader(0, "Dzisiaj")
                                 LocalDate.now().minusDays(1) ->
                                     DateHeader(1, "Wczoraj")
-                                in LocalDate.now().minusDays(LocalDate.now().dayOfWeek - 1)..LocalDate.now() ->
+                                in LocalDate.now().withDayOfWeek(1)..LocalDate.now() ->
                                     DateHeader(2, "Ten tydzień")
-                                in LocalDate.now().minusDays(LocalDate.now().dayOfMonth - 1)..LocalDate.now() ->
+                                in LocalDate.now().withDayOfMonth(1)..LocalDate.now() ->
                                     DateHeader(3, "Ten miesiąc")
                                 else -> {
-                                    val order = 3 + Months.monthsBetween(date, LocalDate.now().withDayOfMonth(1)).months
+                                    val order = 4 + Months.monthsBetween(date.withDayOfMonth(1), LocalDate.now().withDayOfMonth(1)).months
                                     val title =
                                             if (date.year == LocalDate.now().year) date.monthNameNominative().capitalize()
                                             else "${date.monthNameNominative().capitalize()} ${date.year}"
