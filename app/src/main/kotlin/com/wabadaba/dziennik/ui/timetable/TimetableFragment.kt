@@ -15,9 +15,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
-import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.DetailsDialogBuilder
-import com.wabadaba.dziennik.ui.MainActivity
+import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import com.wabadaba.dziennik.ui.ifNotNull
 import com.wabadaba.dziennik.vo.Lesson
 import com.wabadaba.dziennik.vo.Teacher

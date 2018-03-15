@@ -16,7 +16,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
 import com.wabadaba.dziennik.api.*
-import com.wabadaba.dziennik.ui.MainActivity
+import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import com.wabadaba.dziennik.ui.login.LoginActivity
 import com.wabadaba.dziennik.vo.Me
 import com.wabadaba.dziennik.vo.MeEntity

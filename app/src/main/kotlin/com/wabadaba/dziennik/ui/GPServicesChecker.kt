@@ -2,6 +2,7 @@ package com.wabadaba.dziennik.ui
 
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 
 class GPServicesChecker {
     fun check(activity: MainActivity): Boolean {

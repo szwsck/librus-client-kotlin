@@ -20,7 +20,7 @@ ext {
             rxkotlin        : '2.1.0',
             okHttp          : '3.9.0',
             requery         : '1.4.1',
-            dagger          : '2.11',
+            dagger          : '2.13',
             aac_runtime     : '1.0.0',
             aac_compiler    : '1.1.0',
             material_dialogs: '0.9.4.7',

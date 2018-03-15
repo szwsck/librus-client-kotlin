@@ -1,22 +1,34 @@
 package com.wabadaba.dziennik
 
 import android.annotation.SuppressLint
-import android.support.multidex.MultiDexApplication
+import android.content.Context
+import android.support.multidex.MultiDex
 import com.bugsnag.android.Bugsnag
 import com.wabadaba.dziennik.api.UserRepository
 import com.wabadaba.dziennik.api.notification.LibrusGCMRegistrationManager
-import com.wabadaba.dziennik.di.ApplicationModule
+import com.wabadaba.dziennik.di.DaggerAppComponent
 import com.wabadaba.dziennik.di.DaggerMainComponent
 import com.wabadaba.dziennik.di.MainComponent
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 import javax.inject.Inject
 
-open class MainApplication : MultiDexApplication() {
+open class MainApplication : DaggerApplication()  {
     companion object {
         lateinit var mainComponent: MainComponent
     }
 
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return DaggerAppComponent.builder().create(this)
+    }
+
     @Inject
     lateinit var gcmRegistrationManager: LibrusGCMRegistrationManager
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
 
     @Inject
     lateinit var userRepository: UserRepository
@@ -25,13 +37,5 @@ open class MainApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         Bugsnag.init(this)
-        mainComponent = createMainComponent()
-        mainComponent.inject(this)
-        userRepository.currentUser
-                .subscribe(gcmRegistrationManager::register)
     }
-
-    private fun createMainComponent() = DaggerMainComponent.builder()
-            .applicationModule(ApplicationModule(this))
-            .build()
 }

@@ -1,6 +1,5 @@
 package com.wabadaba.dziennik
 
-import com.wabadaba.dziennik.di.ApplicationModule
 import com.wabadaba.dziennik.di.MainComponent
 import it.cosenonjaviste.daggermock.DaggerMockRule
 

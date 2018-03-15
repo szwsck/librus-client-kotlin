@@ -8,7 +8,7 @@ import android.view.View
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.api.*
-import com.wabadaba.dziennik.ui.MainActivity
+import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import com.wabadaba.dziennik.vo.Me
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -1,12 +1,10 @@
-package com.wabadaba.dziennik.ui
+package com.wabadaba.dziennik.ui.mainactivity
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -24,16 +22,17 @@ import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
-import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.api.EntityRepository
 import com.wabadaba.dziennik.api.HttpException
 import com.wabadaba.dziennik.api.User
 import com.wabadaba.dziennik.api.UserRepository
-import com.wabadaba.dziennik.di.ViewModelFactory
+import com.wabadaba.dziennik.base.BaseActivity
+import com.wabadaba.dziennik.ui.FragmentInfo
+import com.wabadaba.dziennik.ui.FragmentRepository
+import com.wabadaba.dziennik.ui.GPServicesChecker
 import com.wabadaba.dziennik.ui.login.LoginActivity
 import com.wabadaba.dziennik.vo.LuckyNumber
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.exceptions.OnErrorNotImplementedException
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.functions.Consumer
@@ -43,12 +42,9 @@ import mu.KotlinLogging
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : BaseActivity(), MainActivityView {
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private lateinit var viewModel: MainViewModel
+    lateinit var presenter : MainActivityPresenter
 
     @Inject
     lateinit var userRepository: UserRepository
@@ -99,31 +95,29 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        presenter.subscribe(this)
 
         title = getString(R.string.app_name)
         setSupportActionBar(toolbar_main)
 
-        MainApplication.mainComponent.inject(this)
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
-
         val servicesAvailable = servicesChecker.check(this)
 
         if (servicesAvailable) {
-            userRepository.allUsers.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { users ->
-                        if (users.isEmpty()) {
-                            logger.info { "No users, redirecting to login" }
-                            redirectToLogin()
-                            finish()
-                        } else {
-                            logger.info { "${users.size} users logged in" }
-                            setupDrawer(users)
-                            RxJavaPlugins.setErrorHandler(errorHandler)
-                            switchFragment(fragmentRepository.currentFragment)
-                            drawer.setSelection(fragmentRepository.currentFragment.drawerId)
-                        }
-                    }
+            presenter.getUsers()
+        }
+    }
+
+    override fun initUsers(users: List<User>) {
+        if (users.isEmpty()) {
+            logger.info { "No users, redirecting to login" }
+            redirectToLogin()
+            finish()
+        } else {
+            logger.info { "${users.size} users logged in" }
+            setupDrawer(users)
+            RxJavaPlugins.setErrorHandler(errorHandler)
+            switchFragment(fragmentRepository.currentFragment)
+            drawer.setSelection(fragmentRepository.currentFragment.drawerId)
         }
     }
 
@@ -200,14 +194,11 @@ class MainActivity : AppCompatActivity() {
                 attachItem(fragmentRepository.settingsFragment.toDrawerItem())
             }
         }
-        entityRepository.luckyNumber.observeOn(AndroidSchedulers.mainThread())
-                .subscribe { luckyNumbers ->
-                    val luckyNumber = luckyNumbers.sortedBy(LuckyNumber::date).reversed().firstOrNull()
-                    addLuckyNumberSection(luckyNumber)
-                }
+        presenter.getLuckyNumber()
     }
 
-    private fun addLuckyNumberSection(luckyNumber: LuckyNumber?) {
+
+    override fun addLuckyNumberSection(luckyNumber: LuckyNumber?) {
         with(drawer) {
             if (luckyNumber?.number != null) {
                 val dividerItem = DividerDrawerItem().withIdentifier(ITEM_DIVIDER)
@@ -273,6 +264,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.unsubscribe()
     }
 
 }

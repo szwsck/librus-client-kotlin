@@ -6,7 +6,6 @@ import com.nhaarman.mockito_kotlin.KStubbing
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.GPServicesChecker
 import org.junit.Before
 import org.junit.Rule

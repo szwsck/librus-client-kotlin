@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
-import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.DetailsDialogBuilder
 import com.wabadaba.dziennik.ui.gone
 import com.wabadaba.dziennik.ui.visible

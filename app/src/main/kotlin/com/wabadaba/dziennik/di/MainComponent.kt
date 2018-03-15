@@ -2,7 +2,7 @@ package com.wabadaba.dziennik.di
 
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.api.notification.LibrusGcmListenerService
-import com.wabadaba.dziennik.ui.MainActivity
+import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import com.wabadaba.dziennik.ui.SettingsFragment
 import com.wabadaba.dziennik.ui.announcements.AnnouncementsFragment
 import com.wabadaba.dziennik.ui.attendance.AttendancesFragment

@@ -1,10 +1,6 @@
-package com.wabadaba.dziennik.di
+package com.wabadaba.dziennik.di.modules
 
-import android.app.Application
-import android.app.NotificationManager
 import android.content.Context
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import com.wabadaba.dziennik.api.*
 import com.wabadaba.dziennik.api.notification.LibrusGCMRegistrationManager
 import com.wabadaba.dziennik.api.notification.NotificationSender
@@ -16,31 +12,9 @@ import dagger.Provides
 import javax.inject.Named
 import javax.inject.Singleton
 
+// Provides network-related classes
 @Module
-class ApplicationModule(private val mainApplication: Application) {
-
-    @Provides
-    @Named("timeout")
-    fun provideTimeout(): Long = 30
-
-    @Provides
-    fun provideContext(): Context = mainApplication
-
-    @Provides
-    fun provideApplication(): Application = mainApplication
-
-    @Provides
-    @Singleton
-    fun provideLoginClient(rxHttpClient: RxHttpClient) = LoginClient(rxHttpClient)
-
-    @Provides
-    @Singleton
-    fun provideSharedPrefs(context: Context): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-
-    @Provides
-    @Singleton
-    fun provideUserRepository(context: Context): UserRepository = UserRepository(context)
-
+class NetworkModule {
     @Provides
     @Singleton
     fun provideEntityRepository(context: Context, userRepository: UserRepository, apiClient: RefreshableAPIClient): EntityRepository
@@ -72,4 +46,8 @@ class ApplicationModule(private val mainApplication: Application) {
 
     @Provides
     fun provideNotificationHelper(context: Context) = NotificationSender(context)
+
+    @Provides
+    @Named("timeout")
+    fun provideTimeout(): Long = 30
 }

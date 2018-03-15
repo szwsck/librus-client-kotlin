@@ -8,7 +8,7 @@ import android.support.v4.app.NotificationCompat
 import com.google.android.gms.gcm.GcmListenerService
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
-import com.wabadaba.dziennik.ui.MainActivity
+import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import javax.inject.Inject
 
 

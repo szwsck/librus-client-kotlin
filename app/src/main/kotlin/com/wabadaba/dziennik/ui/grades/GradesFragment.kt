@@ -11,8 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
-import com.wabadaba.dziennik.di.ViewModelFactory
 import com.wabadaba.dziennik.ui.*
+import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import com.wabadaba.dziennik.vo.Grade
 import com.wabadaba.dziennik.vo.Subject
 import eu.davidea.flexibleadapter.FlexibleAdapter

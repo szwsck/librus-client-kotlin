@@ -6,7 +6,7 @@ import android.support.test.espresso.intent.Intents
 import android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import android.support.test.rule.ActivityTestRule
 import com.wabadaba.dziennik.api.UserRepository
-import com.wabadaba.dziennik.ui.MainActivity
+import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import com.wabadaba.dziennik.ui.login.LoginActivity
 import io.reactivex.Observable
 import org.junit.Rule

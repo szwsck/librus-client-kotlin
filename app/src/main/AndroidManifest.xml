@@ -17,7 +17,7 @@
             android:value="ec5d32d14a94f2ee510a4ce23f8095f7" />
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.mainactivity.MainActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
