@@ -8,7 +8,7 @@ import io.requery.ManyToOne
 import io.requery.OneToMany
 import org.joda.time.LocalDate
 
-@LibrusEntity("Grades")
+//@LibrusEntity("Grades")
 @Entity
 @JsonDeserialize(`as` = GradeEntity::class)
 interface Grade : Identifiable {

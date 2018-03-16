@@ -99,6 +99,11 @@ dependencies {
     // OkHttp
     implementation "com.squareup.okhttp3:okhttp:$versions.okHttp"
 
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
+    implementation "com.squareup.retrofit2:converter-jackson:$versions.retrofit"
+
     // Requery
     implementation "io.requery:requery:$versions.requery"
     implementation "io.requery:requery-android:$versions.requery"
