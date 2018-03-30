@@ -1,5 +1,6 @@
 package com.wabadaba.dziennik.di
 
+import com.wabadaba.dziennik.ui.login.LoginActivity
 import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import com.wabadaba.dziennik.ui.mainactivity.MainActivityFragmentProvider
 import com.wabadaba.dziennik.ui.mainactivity.MainActivityModule
@@ -11,4 +12,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = [MainActivityModule::class, MainActivityFragmentProvider::class])
     abstract fun bindMainActivity() : MainActivity
+
+    @ContributesAndroidInjector(modules = [])
+    abstract fun bindLoginActivity() : LoginActivity
 }

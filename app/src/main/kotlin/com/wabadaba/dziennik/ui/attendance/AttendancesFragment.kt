@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
+import com.wabadaba.dziennik.base.BaseActivity
+import com.wabadaba.dziennik.base.BaseFragment
 import com.wabadaba.dziennik.ui.DetailsDialogBuilder
 import com.wabadaba.dziennik.ui.gone
 import com.wabadaba.dziennik.ui.visible
@@ -19,63 +21,54 @@ import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_attendances.*
 import javax.inject.Inject
 
-class AttendancesFragment : Fragment() {
+class AttendancesFragment : BaseFragment(), AttendanceView {
+    @Inject lateinit var presenter : AttendancePresenter
 
-    @Inject lateinit var viewModelFactory: ViewModelFactory
+    override fun showAttendance(attendance: List<Attendance>) {
+        if (attendance.isEmpty()) {
+            fragment_attendances_recyclerview.gone()
+            fragment_attendances_message.visible()
+        } else {
+            fragment_attendances_recyclerview.visible()
+            fragment_attendances_message.gone()
+        }
 
-    private lateinit var viewModel: AttendancesViewModel
+        val items = mutableListOf<IFlexible<*>>()
+
+        val attendanceMap = attendance.groupBy { it.date }
+                .toSortedMap(Comparator { o1, o2 -> o2?.compareTo(o1) ?: 0 })
+
+        attendanceMap.forEach { entry ->
+            val header = AttendanceHeaderItem(entry.key!!)
+            entry.value.sortedBy { it.lessonNumber }
+                    .map { AttendanceItem(it, header) }
+                    .forEach(header::addSubItem)
+            items.add(header)
+        }
+
+        val adapter = FlexibleAdapter(items)
+        adapter.collapseAll()
+        adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+            val item = adapter.getItem(position)
+            if (item is AttendanceItem) {
+                showDialog(item.attendance)
+                false
+            } else {
+                true
+            }
+        }
+
+        fragment_attendances_recyclerview.layoutManager = LinearLayoutManager(activity)
+        fragment_attendances_recyclerview.itemAnimator = null
+        fragment_attendances_recyclerview.adapter = adapter
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_attendances, container, false)
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        MainApplication.mainComponent.inject(this)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = viewModelFactory.create(AttendancesViewModel::class.java)
-        viewModel.attendances.observe(this, Observer { attendances ->
-            if (attendances == null || attendances.isEmpty()) {
-                fragment_attendances_recyclerview.gone()
-                fragment_attendances_message.visible()
-                return@Observer
-            } else {
-                fragment_attendances_recyclerview.visible()
-                fragment_attendances_message.gone()
-            }
-
-            val items = mutableListOf<IFlexible<*>>()
-
-            val attendanceMap = attendances.groupBy { it.date }
-                    .toSortedMap(Comparator { o1, o2 -> o2?.compareTo(o1) ?: 0 })
-
-            attendanceMap.forEach { entry ->
-                val header = AttendanceHeaderItem(entry.key!!)
-                entry.value.sortedBy { it.lessonNumber }
-                        .map { AttendanceItem(it, header) }
-                        .forEach(header::addSubItem)
-                items.add(header)
-            }
-
-            val adapter = FlexibleAdapter(items)
-            adapter.collapseAll()
-            adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
-                val item = adapter.getItem(position)
-                if (item is AttendanceItem) {
-                    showDialog(item.attendance)
-                    false
-                } else {
-                    true
-                }
-            }
-
-            fragment_attendances_recyclerview.layoutManager = LinearLayoutManager(activity)
-            fragment_attendances_recyclerview.itemAnimator = null
-            fragment_attendances_recyclerview.adapter = adapter
-
-        })
+        presenter.subscribe(this)
+        presenter.getAttendance()
     }
 
     private fun showDialog(attendance: Attendance) {
@@ -104,6 +97,11 @@ class AttendancesFragment : Fragment() {
             ddb.addField(getString(R.string.date_added), addDate.toString(context?.getString(R.string.date_format_full) + " HH:mm:ss"))
 
         ddb.build().show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.unsubscribe()
     }
 }
 

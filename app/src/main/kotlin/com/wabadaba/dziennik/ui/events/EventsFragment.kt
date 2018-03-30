@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
+import com.wabadaba.dziennik.base.BaseFragment
 import com.wabadaba.dziennik.ui.*
 import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import com.wabadaba.dziennik.vo.Event
@@ -17,52 +18,51 @@ import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_events.*
 import javax.inject.Inject
 
-class EventsFragment : Fragment() {
-    @Inject lateinit var viewModelFactory: ViewModelFactory
+class EventsFragment : BaseFragment(), EventsFragmentView {
 
-    private lateinit var viewModel: EventsViewModel
+    @Inject lateinit var presenter : EventsFragmentPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_events, container, false)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MainApplication.mainComponent.inject(this)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = viewModelFactory.create(EventsViewModel::class.java)
-        viewModel.eventData.observe(this, Observer { eventData ->
-            if (eventData != null && eventData.isNotEmpty()) {
-                fragment_events_message.gone()
-                fragment_events_recyclerview.visible()
+        presenter.subscribe(this)
+        presenter.getEvents()
+    }
 
-                val items = mutableListOf<IFlexible<*>>()
+    override fun showEventData(event: EventData) {
+        if (event.isNotEmpty()) {
+            fragment_events_message.gone()
+            fragment_events_recyclerview.visible()
 
-                eventData.entries.forEach { (header, events) ->
-                    val headerItem = HeaderItem(header.order, header.title)
-                    val sectionItems = events.map { EventItem(it, headerItem) }
-                            .sorted()
-                    items.addAll(sectionItems)
-                }
+            val items = mutableListOf<IFlexible<*>>()
 
-                val adapter = FlexibleAdapter(items)
-                adapter.setDisplayHeadersAtStartUp(true)
-                adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
-                    val item = adapter.getItem(position)
-                    if (item is EventItem) showDetailsDialog(item.event)
-                    false
-                }
-
-                fragment_events_recyclerview.layoutManager = LinearLayoutManager(activity)
-                fragment_events_recyclerview.adapter = adapter
-            } else {
-                fragment_events_message.visible()
-                fragment_events_recyclerview.gone()
+            event.entries.forEach { (header, events) ->
+                val headerItem = HeaderItem(header.order, header.title)
+                val sectionItems = events.map { EventItem(it, headerItem) }
+                        .sorted()
+                items.addAll(sectionItems)
             }
-        })
 
+            val adapter = FlexibleAdapter(items)
+            adapter.setDisplayHeadersAtStartUp(true)
+            adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+                val item = adapter.getItem(position)
+                if (item is EventItem) showDetailsDialog(item.event)
+                false
+            }
+
+            fragment_events_recyclerview.layoutManager = LinearLayoutManager(activity)
+            fragment_events_recyclerview.adapter = adapter
+        } else {
+            fragment_events_message.visible()
+            fragment_events_recyclerview.gone()
+        }
     }
 
     private fun showDetailsDialog(event: Event) {
@@ -83,6 +83,11 @@ class EventsFragment : Fragment() {
             ddb.addField(getString(R.string.date_added), event.addDate?.toString(dateTimeFormat))
 
         ddb.build().show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.unsubscribe()
     }
 
 }

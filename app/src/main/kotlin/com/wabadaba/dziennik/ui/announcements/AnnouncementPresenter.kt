@@ -1,23 +1,26 @@
 package com.wabadaba.dziennik.ui.announcements
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import com.wabadaba.dziennik.api.EntityRepository
+import com.wabadaba.dziennik.base.BasePresenter
+import com.wabadaba.dziennik.base.Schedulers
 import com.wabadaba.dziennik.ui.monthNameNominative
 import com.wabadaba.dziennik.ui.multiPut
 import com.wabadaba.dziennik.vo.Announcement
-import io.reactivex.android.schedulers.AndroidSchedulers
 import org.joda.time.LocalDate
 import org.joda.time.Months
 import java.util.*
 
-class AnnouncementsViewModel(entityRepo: EntityRepository) : ViewModel() {
+class AnnouncementData : TreeMap<AnnouncementHeader, List<Announcement>>({ (order1), (order2) -> order1.compareTo(order2) })
 
-    val announcementData = MutableLiveData<AnnouncementData>()
+data class AnnouncementHeader(val order: Int, val title: String)
 
-    init {
-        entityRepo.announcements.observeOn(AndroidSchedulers.mainThread())
-                .subscribe { announcements ->
+class AnnouncementPresenter(val schedulers: Schedulers, val entityRepository: EntityRepository) : BasePresenter<AnnouncementView>() {
+    fun getAnnouncementData() {
+        compositeObservable.add(
+        entityRepository.announcements
+                .observeOn(schedulers.mainThread())
+                .subscribeOn(schedulers.backgroundThread())
+                .subscribe ({ announcements ->
                     val result = AnnouncementData()
                     announcements.filter { it.addDate != null }
                             .forEach { announcement ->
@@ -34,11 +37,8 @@ class AnnouncementsViewModel(entityRepo: EntityRepository) : ViewModel() {
 
                                 result.multiPut(header, announcement)
                             }
-                    announcementData.value = result
-                }
+                    view?.showAnnouncements(result)
+                }, { view?.showErrorDialog(it) })
+        )
     }
 }
-
-class AnnouncementData : TreeMap<AnnouncementHeader, List<Announcement>>({ (order1), (order2) -> order1.compareTo(order2) })
-
-data class AnnouncementHeader(val order: Int, val title: String)

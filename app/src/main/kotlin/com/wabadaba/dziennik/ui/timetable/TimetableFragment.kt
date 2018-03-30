@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
+import com.wabadaba.dziennik.base.BaseFragment
 import com.wabadaba.dziennik.ui.DetailsDialogBuilder
 import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import com.wabadaba.dziennik.ui.ifNotNull
@@ -26,72 +27,17 @@ import kotlinx.android.synthetic.main.fragment_timetable.*
 import org.joda.time.LocalDate
 import javax.inject.Inject
 
-class TimetableFragment : Fragment() {
-
-    @Inject lateinit var viewModelFactory: ViewModelFactory
-
-    private lateinit var viewModel: TimetableViewModel
-
+class TimetableFragment : BaseFragment(), TimetableView {
     private var adapter: FlexibleAdapter<IFlexible<*>> = FlexibleAdapter(null)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        MainApplication.mainComponent.inject(this)
-    }
+    @Inject lateinit var presenter : TimetablePresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
             inflater.inflate(R.layout.fragment_timetable, container, false)
 
-    @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(TimetableViewModel::class.java)
-
-        viewModel.timetableData.observe(this, Observer { timetableData ->
-            if (timetableData != null && !timetableData.empty) {
-                fragment_timetable_recyclerview.visibility = View.VISIBLE
-                fragment_timetable_message.visibility = View.GONE
-
-                val items = mutableListOf<IFlexible<*>>()
-
-                for ((date, schoolDay) in timetableData) {
-                    val header = LessonHeaderItem(date)
-                    schoolDay?.entries
-                            ?.map { (lessonNumber, timetableLesson) ->
-                                if (timetableLesson == null) EmptyLessonItem(header, lessonNumber)
-                                else LessonItem(header, timetableLesson)
-                            }
-                            ?.forEach { header.addSubItem(it) }
-                    header.isExpanded = !date.isBefore(LocalDate.now())
-                    items.add(header)
-                }
-
-                adapter = FlexibleAdapter(items)
-
-                adapter.setDisplayHeadersAtStartUp(true)
-                adapter.expandItemsAtStartUp()
-                adapter.isAutoCollapseOnExpand = false
-                adapter.isAutoScrollOnExpand = false
-
-                adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
-                    val item = adapter.getItem(position)
-                    if (item is LessonItem && !item.lesson.canceled) {
-                        showDialog(item.lesson)
-                        false
-                    } else {
-                        true
-                    }
-                }
-
-                fragment_timetable_recyclerview.layoutManager = LinearLayoutManager(activity)
-                fragment_timetable_recyclerview.adapter = adapter
-            } else {
-                fragment_timetable_recyclerview.visibility = View.GONE
-                fragment_timetable_message.visibility = View.VISIBLE
-                fragment_timetable_message.text = "Brak lekcji"
-            }
-        })
+        presenter.subscribe(this)
+        presenter.getTimetable()
     }
 
     private fun showDialog(lesson: Lesson) {
@@ -134,6 +80,51 @@ class TimetableFragment : Fragment() {
         ddb.build().show()
     }
 
+    override fun showTimetable(timetable: Timetable) {
+        if (!timetable.empty) {
+            fragment_timetable_recyclerview.visibility = View.VISIBLE
+            fragment_timetable_message.visibility = View.GONE
+
+            val items = mutableListOf<IFlexible<*>>()
+
+            for ((date, schoolDay) in timetable) {
+                val header = LessonHeaderItem(date)
+                schoolDay?.entries
+                        ?.map { (lessonNumber, timetableLesson) ->
+                            if (timetableLesson == null) EmptyLessonItem(header, lessonNumber)
+                            else LessonItem(header, timetableLesson)
+                        }
+                        ?.forEach { header.addSubItem(it) }
+                header.isExpanded = !date.isBefore(LocalDate.now())
+                items.add(header)
+            }
+
+            adapter = FlexibleAdapter(items)
+
+            adapter.setDisplayHeadersAtStartUp(true)
+            adapter.expandItemsAtStartUp()
+            adapter.isAutoCollapseOnExpand = false
+            adapter.isAutoScrollOnExpand = false
+
+            adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+                val item = adapter.getItem(position)
+                if (item is LessonItem && !item.lesson.canceled) {
+                    showDialog(item.lesson)
+                    false
+                } else {
+                    true
+                }
+            }
+
+            fragment_timetable_recyclerview.layoutManager = LinearLayoutManager(activity)
+            fragment_timetable_recyclerview.adapter = adapter
+        } else {
+            fragment_timetable_recyclerview.visibility = View.GONE
+            fragment_timetable_message.visibility = View.VISIBLE
+            fragment_timetable_message.text = "Brak lekcji"
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         adapter.ifNotNull { it.notifyItemRangeChanged(0, it.itemCount) }
@@ -150,6 +141,11 @@ class TimetableFragment : Fragment() {
             if (lastName != null) sb.append(lastName)
             sb
         } else null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.unsubscribe()
     }
 }
 

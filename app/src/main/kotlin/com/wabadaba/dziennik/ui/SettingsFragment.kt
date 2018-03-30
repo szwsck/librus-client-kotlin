@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Bundle
 import android.support.v7.preference.ListPreference
 import android.support.v7.preference.PreferenceFragmentCompat
-import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -15,8 +14,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        MainApplication.mainComponent.inject(this)
 
         val defaultFragmentPreference: ListPreference = findPreference("defaultFragment") as ListPreference
 

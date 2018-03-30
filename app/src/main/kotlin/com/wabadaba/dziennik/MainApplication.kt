@@ -7,17 +7,11 @@ import com.bugsnag.android.Bugsnag
 import com.wabadaba.dziennik.api.UserRepository
 import com.wabadaba.dziennik.api.notification.LibrusGCMRegistrationManager
 import com.wabadaba.dziennik.di.DaggerAppComponent
-import com.wabadaba.dziennik.di.DaggerMainComponent
-import com.wabadaba.dziennik.di.MainComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import javax.inject.Inject
 
 open class MainApplication : DaggerApplication()  {
-    companion object {
-        lateinit var mainComponent: MainComponent
-    }
-
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerAppComponent.builder().create(this)
     }

@@ -8,6 +8,7 @@ import android.view.View
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.api.*
+import com.wabadaba.dziennik.base.BaseActivity
 import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import com.wabadaba.dziennik.vo.Me
 import io.reactivex.Completable
@@ -15,7 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     @Inject lateinit var userRepository: UserRepository
 
@@ -27,7 +28,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MainApplication.mainComponent.inject(this)
         setContentView(R.layout.activity_login)
 
         logInButton.setOnClickListener {

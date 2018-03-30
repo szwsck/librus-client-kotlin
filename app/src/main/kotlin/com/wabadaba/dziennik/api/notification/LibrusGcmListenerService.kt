@@ -10,15 +10,20 @@ import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import javax.inject.Inject
+import dagger.android.AndroidInjection
+
+
 
 
 @Suppress("DEPRECATION")
 class LibrusGcmListenerService : GcmListenerService() {
     @Inject lateinit var notificationHelper : NotificationSender
+    override fun onCreate() {
+        AndroidInjection.inject(this)
+        super.onCreate()
+    }
 
     override fun onMessageReceived(p0: String, data: Bundle) {
-        MainApplication.mainComponent.inject(this)
-
         if (checkNotificationsEnabled()) {
             val message = data.getString("message")
             val user = data.getString("userId")

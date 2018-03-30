@@ -1,16 +1,14 @@
 package com.wabadaba.dziennik.ui.grades
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
+import com.wabadaba.dziennik.base.BaseFragment
 import com.wabadaba.dziennik.ui.*
 import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import com.wabadaba.dziennik.vo.Grade
@@ -25,13 +23,10 @@ import java.util.*
 import javax.inject.Inject
 
 
-class GradesFragment : Fragment() {
-
-    @Inject lateinit var viewModelFactory: ViewModelFactory
+class GradesFragment : BaseFragment(), GradeFragmentView {
+    @Inject lateinit var presenter : GradeFragmentPresenter
 
     @Inject lateinit var sharedPrefs: SharedPreferences
-
-    private lateinit var viewModel: GradesViewModel
 
     private val logger = KotlinLogging.logger { }
 
@@ -39,7 +34,6 @@ class GradesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MainApplication.mainComponent.inject(this)
         displayType = sharedPrefs.getString("grade_display_type", "DATE")
     }
 
@@ -47,21 +41,20 @@ class GradesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        presenter.subscribe(this)
+        presenter.getGrades()
+    }
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GradesViewModel::class.java)
-
-        viewModel.grades.observe(this, Observer { grades ->
-            if (grades != null && grades.isNotEmpty()) {
-                fragment_grades_recyclerview.visibility = View.VISIBLE
-                fragment_grades_message.visibility = View.GONE
-                displayGrades(grades)
-            } else {
-                fragment_grades_recyclerview.visibility = View.GONE
-                fragment_grades_message.visibility = View.VISIBLE
-                fragment_grades_message.text = getString(R.string.no_grades)
-            }
-        })
-
+    override fun showGrades(grades: List<Grade>) {
+        if (grades.isNotEmpty()) {
+            fragment_grades_recyclerview.visibility = View.VISIBLE
+            fragment_grades_message.visibility = View.GONE
+            displayGrades(grades)
+        } else {
+            fragment_grades_recyclerview.visibility = View.GONE
+            fragment_grades_message.visibility = View.VISIBLE
+            fragment_grades_message.text = getString(R.string.no_grades)
+        }
     }
 
     private fun displayGrades(grades: List<Grade>) {
@@ -166,6 +159,11 @@ class GradesFragment : Fragment() {
             ddb.addField(getString(R.string.comment), comment.text)
         }
         ddb.build().show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.unsubscribe()
     }
 }
 

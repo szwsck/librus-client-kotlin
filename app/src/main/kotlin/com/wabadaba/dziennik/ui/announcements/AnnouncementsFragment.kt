@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
-import com.wabadaba.dziennik.di.ViewModelFactory
+import com.wabadaba.dziennik.base.BaseFragment
 import com.wabadaba.dziennik.ui.*
 import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import com.wabadaba.dziennik.vo.Announcement
@@ -18,51 +18,46 @@ import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_announcements.*
 import javax.inject.Inject
 
-class AnnouncementsFragment : Fragment() {
-    @Inject lateinit var viewModelFactory: ViewModelFactory
-
-    private lateinit var viewModel: AnnouncementsViewModel
-
+class AnnouncementsFragment : BaseFragment(), AnnouncementView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_announcements, container, false)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        MainApplication.mainComponent.inject(this)
-    }
+    @Inject lateinit var presenter : AnnouncementPresenter
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = viewModelFactory.create(AnnouncementsViewModel::class.java)
-        viewModel.announcementData.observe(this, Observer { announcementData ->
-            if (announcementData != null && announcementData.isNotEmpty()) {
-                fragment_announcements_message.gone()
-                fragment_announcements_recyclerview.visible()
+        presenter.subscribe(this)
+        presenter.getAnnouncementData()
+    }
 
-                val items = mutableListOf<IFlexible<*>>()
+    override fun showAnnouncements(announcementData: AnnouncementData) {
+        if (announcementData.isNotEmpty()) {
+            fragment_announcements_message.gone()
+            fragment_announcements_recyclerview.visible()
 
-                announcementData.entries.forEach { (header, announcements) ->
-                    val headerItem = HeaderItem(header.order, header.title)
-                    val sectionItems = announcements.map { AnnouncementItem(it, headerItem) }
-                            .sorted()
-                    items.addAll(sectionItems)
-                }
+            val items = mutableListOf<IFlexible<*>>()
 
-                val adapter = FlexibleAdapter(items)
-                adapter.setDisplayHeadersAtStartUp(true)
-                adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
-                    val item = adapter.getItem(position)
-                    if (item is AnnouncementItem) showDetailsDialog(item.announcement)
-                    false
-                }
-
-                fragment_announcements_recyclerview.layoutManager = LinearLayoutManager(activity)
-                fragment_announcements_recyclerview.adapter = adapter
-            } else {
-                fragment_announcements_message.visible()
-                fragment_announcements_recyclerview.gone()
+            announcementData.entries.forEach { (header, announcements) ->
+                val headerItem = HeaderItem(header.order, header.title)
+                val sectionItems = announcements.map { AnnouncementItem(it, headerItem) }
+                        .sorted()
+                items.addAll(sectionItems)
             }
-        })
+
+            val adapter = FlexibleAdapter(items)
+            adapter.setDisplayHeadersAtStartUp(true)
+            adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+                val item = adapter.getItem(position)
+                if (item is AnnouncementItem) showDetailsDialog(item.announcement)
+                false
+            }
+
+            fragment_announcements_recyclerview.layoutManager = LinearLayoutManager(activity)
+            fragment_announcements_recyclerview.adapter = adapter
+        } else {
+            fragment_announcements_message.visible()
+            fragment_announcements_recyclerview.gone()
+        }
     }
 
     private fun showDetailsDialog(announcement: Announcement) {
@@ -81,5 +76,10 @@ class AnnouncementsFragment : Fragment() {
             ddb.addField("Data dodania", announcement.addDate?.toString(dateTimeFormat))
 
         ddb.build().show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.unsubscribe()
     }
 }
