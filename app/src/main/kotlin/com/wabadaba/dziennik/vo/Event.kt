@@ -2,7 +2,6 @@ package com.wabadaba.dziennik.vo
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import io.requery.Entity
 import io.requery.Key
 import io.requery.ManyToOne
@@ -10,8 +9,8 @@ import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
 
 @Entity
-@LibrusEntity("HomeWorks")
-@JsonDeserialize(`as` = EventEntity::class)
+//@LibrusEntity("HomeWorks")
+//@JsonDeserialize(`as` = EventEntity::class)
 interface Event : Identifiable {
 
     @get:Key
