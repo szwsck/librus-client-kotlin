@@ -119,10 +119,6 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$versions.dagger"
     kaptTest "com.google.dagger:dagger-compiler:$versions.dagger"
 
-    // Android architecture components
-    implementation "android.arch.lifecycle:runtime:$versions.aac_runtime"
-    implementation "android.arch.lifecycle:extensions:$versions.aac_compiler"
-    kapt "android.arch.lifecycle:compiler:$versions.aac_compiler"
 
     implementation "com.afollestad.material-dialogs:core:$versions.material_dialogs"
     implementation "com.amulyakhare:com.amulyakhare.textdrawable:$versions.textdrawable"
