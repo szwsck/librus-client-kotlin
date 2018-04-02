@@ -12,7 +12,7 @@ interface GradesRetrofitApi {
     @GET("Grades")
     fun getGrades(): Single<List<Grade>>
 
-    @GET("Grades/Category")
+    @GET("Grades/Categories")
     fun getGradesCategories(): Single<List<GradeCategory>>
 
     @GET("Grades/Comments")
