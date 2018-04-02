@@ -1,14 +1,13 @@
 package com.wabadaba.dziennik.vo
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import io.requery.Entity
 import io.requery.Persistable
 import org.joda.time.LocalDate
 
-@LibrusEntity("LuckyNumbers")
+//@LibrusEntity("LuckyNumbers")
 @Entity
-@JsonDeserialize(`as` = LuckyNumberEntity::class)
+//@JsonDeserialize(`as` = LuckyNumberEntity::class)
 interface LuckyNumber : Persistable {
 
     @get:JsonProperty("LuckyNumber")
