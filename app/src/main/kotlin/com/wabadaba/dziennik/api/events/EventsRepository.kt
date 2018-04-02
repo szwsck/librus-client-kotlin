@@ -9,5 +9,5 @@ class EventsRepository(val retrofit: Retrofit) : EventsApi {
     private val api by lazy { retrofit.create(EventsRetrofitApi::class.java) }
 
     override fun getEvents(): Single<List<Event>> = api.getEvents()
-    override fun getEventsCategory(): Single<EventCategory> = api.getEventsCategory()
+    override fun getEventsCategories(): Single<List<EventCategory>> = api.getEventsCategories()
 }

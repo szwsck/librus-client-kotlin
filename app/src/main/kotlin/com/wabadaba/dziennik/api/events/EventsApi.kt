@@ -6,5 +6,5 @@ import io.reactivex.Single
 
 interface EventsApi {
     fun getEvents(): Single<List<Event>>
-    fun getEventsCategory(): Single<EventCategory>
+    fun getEventsCategories(): Single<List<EventCategory>>
 }

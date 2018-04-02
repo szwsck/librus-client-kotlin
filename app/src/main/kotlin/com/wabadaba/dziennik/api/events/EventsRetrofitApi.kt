@@ -12,5 +12,5 @@ interface EventsRetrofitApi {
     fun getEvents(): Single<List<Event>>
 
     @GET("HomeWorks/Categories")
-    fun getEventsCategory(): Single<EventCategory>
+    fun getEventsCategories(): Single<List<EventCategory>>
 }
