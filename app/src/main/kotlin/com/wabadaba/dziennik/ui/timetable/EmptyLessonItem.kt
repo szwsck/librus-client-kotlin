@@ -1,7 +1,7 @@
 package com.wabadaba.dziennik.ui.timetable
 
+import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.TextView
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.ui.disabled
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -13,13 +13,12 @@ import kotlinx.android.synthetic.main.item_empty_lesson.view.*
 class EmptyLessonItem(header: LessonHeaderItem, private val lessonNumber: Int)
     : AbstractSectionableItem<EmptyLessonItem.ViewHolder, LessonHeaderItem>(header) {
 
-
     override fun getLayoutRes(): Int = R.layout.item_empty_lesson
 
-    override fun createViewHolder(view: View, adapter: FlexibleAdapter<out IFlexible<*>>) = ViewHolder(view, adapter)
+    override fun createViewHolder(view: View?, adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?): ViewHolder = ViewHolder(view!!, adapter!!)
 
-    override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.itemView.apply {
+    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int, payloads: MutableList<Any>?) {
+        holder!!.itemView.apply {
             item_empty_lesson_number.disabled().text = lessonNumber.toString()
             item_empty_lesson_message.disabled()
         }

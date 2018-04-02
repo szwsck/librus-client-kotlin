@@ -1,7 +1,7 @@
 package com.wabadaba.dziennik.ui.attendance
 
+import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.TextView
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.vo.Attendance
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -15,11 +15,10 @@ class AttendanceItem(val attendance: Attendance, header: AttendanceHeaderItem)
 
     override fun getLayoutRes() = R.layout.item_attendance
 
-    override fun createViewHolder(view: View, adapter: FlexibleAdapter<out IFlexible<*>>)
-            = ViewHolder(view, adapter)
+    override fun createViewHolder(view: View?, adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?): ViewHolder = ViewHolder(view!!, adapter!!)
 
-    override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.itemView.apply {
+    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int, payloads: MutableList<Any>?) {
+        holder!!.itemView.apply {
             item_attendance_name_short.text = attendance.type?.shortName ?: ""
             item_attendance_title.text = attendance.lesson?.subject?.name ?: ""
             item_attendance_subtitle.text = if (attendance.lessonNumber != null) "lekcja ${attendance.lessonNumber!!}" else ""

@@ -1,7 +1,7 @@
 package com.wabadaba.dziennik.ui.announcements
 
+import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.TextView
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.ui.HeaderItem
 import com.wabadaba.dziennik.ui.fullName
@@ -16,11 +16,10 @@ class AnnouncementItem(val announcement: Announcement, header: HeaderItem) : Abs
 
     override fun getLayoutRes() = R.layout.item_announcement
 
-    override fun createViewHolder(view: View, adapter: FlexibleAdapter<out IFlexible<*>>)
-            = AnnouncementItem.ViewHolder(view, adapter)
+    override fun createViewHolder(view: View?, adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?): ViewHolder = AnnouncementItem.ViewHolder(view!!, adapter!!)
 
-    override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.itemView.apply {
+    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int, payloads: MutableList<Any>?) {
+        holder!!.itemView.apply {
             item_announcement_title.text = announcement.title
             item_announcement_addedBy.text = announcement.addedBy?.fullName()
         }
@@ -46,7 +45,7 @@ class AnnouncementItem(val announcement: Announcement, header: HeaderItem) : Abs
     }
 
     override fun equals(other: Any?): Boolean {
-        if (this == other) return true
+        if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
         other as AnnouncementItem

@@ -1,13 +1,10 @@
 package com.wabadaba.dziennik.ui.announcements
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.base.BaseFragment
 import com.wabadaba.dziennik.ui.*
@@ -46,7 +43,7 @@ class AnnouncementsFragment : BaseFragment(), AnnouncementView {
 
             val adapter = FlexibleAdapter(items)
             adapter.setDisplayHeadersAtStartUp(true)
-            adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+            adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { _, position ->
                 val item = adapter.getItem(position)
                 if (item is AnnouncementItem) showDetailsDialog(item.announcement)
                 false

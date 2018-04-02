@@ -1,13 +1,10 @@
 package com.wabadaba.dziennik.ui.events
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.base.BaseFragment
 import com.wabadaba.dziennik.ui.*
@@ -24,10 +21,6 @@ class EventsFragment : BaseFragment(), EventsFragmentView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_events, container, false)
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -51,7 +44,7 @@ class EventsFragment : BaseFragment(), EventsFragmentView {
 
             val adapter = FlexibleAdapter(items)
             adapter.setDisplayHeadersAtStartUp(true)
-            adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+            adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { _, position ->
                 val item = adapter.getItem(position)
                 if (item is EventItem) showDetailsDialog(item.event)
                 false

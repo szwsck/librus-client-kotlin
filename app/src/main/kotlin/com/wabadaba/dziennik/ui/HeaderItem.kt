@@ -1,11 +1,11 @@
 package com.wabadaba.dziennik.ui
 
 import android.graphics.Typeface
+import android.support.v7.widget.RecyclerView
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.view.View
-import android.widget.TextView
 import com.wabadaba.dziennik.R
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractHeaderItem
@@ -17,11 +17,10 @@ class HeaderItem(val order: Int = 0, val title: String) : AbstractHeaderItem<Hea
 
     override fun getLayoutRes() = R.layout.item_header
 
-    override fun createViewHolder(view: View, adapter: FlexibleAdapter<out IFlexible<*>>)
-            = ViewHolder(view, adapter)
+    override fun createViewHolder(view: View?, adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?): ViewHolder = ViewHolder(view!!, adapter!!)
 
-    override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.itemView.item_header_title.text = SpannableStringBuilder()
+    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int, payloads: MutableList<Any>?) {
+        holder!!.itemView.item_header_title.text = SpannableStringBuilder()
                 .append(title, StyleSpan(Typeface.BOLD), Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
     }
 

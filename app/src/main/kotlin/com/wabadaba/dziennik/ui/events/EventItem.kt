@@ -1,7 +1,7 @@
 package com.wabadaba.dziennik.ui.events
 
+import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.TextView
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.ui.HeaderItem
 import com.wabadaba.dziennik.vo.Event
@@ -16,12 +16,11 @@ class EventItem(val event: Event, header: HeaderItem) : AbstractSectionableItem<
 
     override fun getLayoutRes() = R.layout.item_event
 
-    override fun createViewHolder(view: View, adapter: FlexibleAdapter<out IFlexible<*>>)
-            = ViewHolder(view, adapter)
+    override fun createViewHolder(view: View?, adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?): ViewHolder = ViewHolder(view!!, adapter!!)
 
-    override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
+    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int, payloads: MutableList<Any>?) {
         val date = event.date!!
-        holder.itemView.apply {
+        holder!!.itemView.apply {
             item_event_title.text = event.category?.name
             item_event_subtitle.text =
                     when (date) {

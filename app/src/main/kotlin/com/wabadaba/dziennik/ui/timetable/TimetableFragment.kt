@@ -1,11 +1,7 @@
 package com.wabadaba.dziennik.ui.timetable
 
-import android.annotation.SuppressLint
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Typeface
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -13,12 +9,11 @@ import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.base.BaseFragment
 import com.wabadaba.dziennik.ui.DetailsDialogBuilder
-import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import com.wabadaba.dziennik.ui.ifNotNull
+import com.wabadaba.dziennik.ui.mainactivity.MainActivity
 import com.wabadaba.dziennik.vo.Lesson
 import com.wabadaba.dziennik.vo.Teacher
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -106,7 +101,7 @@ class TimetableFragment : BaseFragment(), TimetableView {
             adapter.isAutoCollapseOnExpand = false
             adapter.isAutoScrollOnExpand = false
 
-            adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+            adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { _, position ->
                 val item = adapter.getItem(position)
                 if (item is LessonItem && !item.lesson.canceled) {
                     showDialog(item.lesson)

@@ -1,6 +1,7 @@
 package com.wabadaba.dziennik.ui.grades
 
 import android.graphics.Color
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.vo.Grade
@@ -26,17 +27,14 @@ class GradeItem(val grade: Grade, header: IHeader<*>)
         return true
     }
 
-    override fun hashCode(): Int {
-        return grade.hashCode()
-    }
-
-    override fun createViewHolder(view: View, adapter: FlexibleAdapter<out IFlexible<*>>)
-            = ViewHolder(view, adapter)
+    override fun hashCode(): Int = grade.hashCode()
 
     override fun getLayoutRes(): Int = R.layout.grade_item
 
-    override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.itemView.apply {
+    override fun createViewHolder(view: View?, adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?): ViewHolder = ViewHolder(view!!, adapter!!)
+
+    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int, payloads: MutableList<Any>?) {
+        holder?.itemView?.apply {
             grade_item_grade.text = grade.grade
             grade_item_title.text = grade.category?.name
             grade_item_subtitle.text = grade.date?.toString("EEEE, d MMMM", Locale("pl"))
@@ -47,6 +45,7 @@ class GradeItem(val grade: Grade, header: IHeader<*>)
             grade_item_color.setBackgroundColor(colorInt)
         }
     }
+
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter)
 

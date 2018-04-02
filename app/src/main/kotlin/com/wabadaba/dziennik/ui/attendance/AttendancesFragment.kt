@@ -1,16 +1,12 @@
 package com.wabadaba.dziennik.ui.attendance
 
 import android.app.Activity
-import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
-import com.wabadaba.dziennik.base.BaseActivity
 import com.wabadaba.dziennik.base.BaseFragment
 import com.wabadaba.dziennik.ui.DetailsDialogBuilder
 import com.wabadaba.dziennik.ui.gone
@@ -42,13 +38,13 @@ class AttendancesFragment : BaseFragment(), AttendanceView {
             val header = AttendanceHeaderItem(entry.key!!)
             entry.value.sortedBy { it.lessonNumber }
                     .map { AttendanceItem(it, header) }
-                    .forEach(header::addSubItem)
+                    .map(header::addSubItem)
             items.add(header)
         }
 
         val adapter = FlexibleAdapter(items)
         adapter.collapseAll()
-        adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+        adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { _, position ->
             val item = adapter.getItem(position)
             if (item is AttendanceItem) {
                 showDialog(item.attendance)

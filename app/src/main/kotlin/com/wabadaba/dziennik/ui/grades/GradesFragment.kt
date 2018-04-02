@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.wabadaba.dziennik.MainApplication
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.base.BaseFragment
 import com.wabadaba.dziennik.ui.*
@@ -78,7 +77,7 @@ class GradesFragment : BaseFragment(), GradeFragmentView {
                             val header = GradeHeaderItem(entry.key)
                             entry.value.sortedByDescending(Grade::date)
                                     .map { GradeItem(it, header) }
-                                    .forEach(header::addSubItem)
+                                    .map(header::addSubItem)
                             items.add(header)
                         }
 
@@ -119,7 +118,7 @@ class GradesFragment : BaseFragment(), GradeFragmentView {
         adapter.setDisplayHeadersAtStartUp(true)
         adapter.collapseAll()
 
-        adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { position ->
+        adapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { _, position ->
             val item = adapter.getItem(position)
             if (item is GradeItem) {
                 showDialog(item.grade)

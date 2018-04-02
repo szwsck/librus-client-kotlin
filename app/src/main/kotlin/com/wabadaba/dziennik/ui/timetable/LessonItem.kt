@@ -2,6 +2,7 @@ package com.wabadaba.dziennik.ui.timetable
 
 import android.graphics.Typeface
 import android.preference.PreferenceManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -32,17 +33,14 @@ class LessonItem(header: LessonHeaderItem, timetableLesson: TimetableLesson)
         return true
     }
 
-    override fun hashCode(): Int {
-        return lesson.hashCode()
-    }
+    override fun hashCode(): Int = lesson.hashCode()
 
     override fun getLayoutRes(): Int = R.layout.item_lesson
 
-    override fun createViewHolder(view: View, adapter: FlexibleAdapter<out IFlexible<*>>) = ViewHolder(view, adapter)
+    override fun createViewHolder(view: View?, adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?): ViewHolder = ViewHolder(view!!, adapter!!)
 
-    override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-
-        val context = holder.itemView.context
+    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int, payloads: MutableList<Any>?) {
+        val context = holder!!.itemView.context
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val displayTime = prefs.getBoolean("timetable_display_times", false)
 

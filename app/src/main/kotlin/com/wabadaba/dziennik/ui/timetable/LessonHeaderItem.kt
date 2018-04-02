@@ -1,6 +1,7 @@
 package com.wabadaba.dziennik.ui.timetable
 
 import android.graphics.Typeface
+import android.support.v7.widget.RecyclerView
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
@@ -32,12 +33,12 @@ class LessonHeaderItem(val date: LocalDate)
 
     override fun hashCode() = date.hashCode()
 
-    override fun createViewHolder(view: View, adapter: FlexibleAdapter<out IFlexible<*>>) = ViewHolder(view, adapter)
-
     override fun getLayoutRes() = R.layout.item_lesson_header
 
-    override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>?, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        with(holder.itemView) {
+    override fun createViewHolder(view: View?, adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?): ViewHolder = ViewHolder(view!!, adapter!!)
+
+    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int, payloads: MutableList<Any>?) {
+        with(holder!!.itemView) {
             item_lesson_header_title.text = getDateText()
             item_lesson_header_summary.text = getSummaryText()
             if (isExpanded) {

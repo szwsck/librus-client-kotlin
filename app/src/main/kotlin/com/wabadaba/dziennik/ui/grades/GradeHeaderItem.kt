@@ -1,11 +1,11 @@
 package com.wabadaba.dziennik.ui.grades
 
 import android.graphics.Typeface
+import android.support.v7.widget.RecyclerView
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.view.View
-import android.widget.TextView
 import com.wabadaba.dziennik.R
 import com.wabadaba.dziennik.vo.Subject
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -34,11 +34,11 @@ class GradeHeaderItem(val subject: Subject)
 
     override fun getLayoutRes() = R.layout.grade_header_item
 
-    override fun createViewHolder(view: View, adapter: FlexibleAdapter<out IFlexible<*>>)
-            = ViewHolder(view, adapter)
+    override fun createViewHolder(view: View?, adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?): ViewHolder =
+            ViewHolder(view!!, adapter!!)
 
-    override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any?>?) {
-        holder.itemView.apply {
+    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int, payloads: MutableList<Any>?) {
+        holder!!.itemView.apply {
             grade_header_item_title.text = subject.name
             if (isExpanded) {
                 grade_header_item_subtitle.text =
