@@ -1,13 +1,12 @@
 package com.wabadaba.dziennik.vo
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import io.requery.Entity
 import io.requery.Key
 import io.requery.ManyToOne
 
-@LibrusEntity("Grades/Categories")
+//@LibrusEntity("Grades/Categories")
 @Entity
-@JsonDeserialize(`as` = GradeCategoryEntity::class)
+//@JsonDeserialize(`as` = GradeCategoryEntity::class)
 interface GradeCategory : Identifiable {
 
     @get:Key
